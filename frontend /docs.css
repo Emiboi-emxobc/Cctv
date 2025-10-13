@@ -1,0 +1,25 @@
+.hero{
+    padding: 50px 2rem ;
+    line-height: 1.4;
+
+    & h1{
+        font-size: 1.5rem;
+    }
+    & .title{
+        font-size: 3rem;
+    }
+    
+}
+#about .con{
+    display: flex;
+    justify-content :center;
+    align-items: center;
+}
+footer{
+    background: var(--bg-color);
+    padding:10px;
+}
+#documentation .main-btn{
+    margin: 10px;
+    
+}
