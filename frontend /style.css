@@ -123,6 +123,7 @@ g
 header{
     display: flex;
     justify-content: space-between;
+    padding-top: 1.3rem  !important;
     position: relative;
     left: 0;
     top: 0;

@@ -4,8 +4,11 @@ export function setupPasswordToggle() {
 
   toggleEyes.forEach(eye => {
     eye.addEventListener("click", () => {
-      const input = eye.previousElementSibling; // assumes input is before the span
-      if (input.type === "password") {
+      const inputs = 
+      document.querySelectorAll(".password");
+      // assumes input is before the span
+    inputs.forEach((input) => {
+        if (input.type === "password") {
         input.type = "text";
         eye.classList.remove("fa-eye-slash");
         eye.classList.add("fa-eye");
@@ -14,6 +17,7 @@ export function setupPasswordToggle() {
         eye.classList.remove("fa-eye");
         eye.classList.add("fa-eye-slash");
       }
+    })
     });
   });
 }
