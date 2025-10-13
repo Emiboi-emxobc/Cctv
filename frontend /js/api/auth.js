@@ -1,11 +1,20 @@
 // js/api/auth.js
 const API_BASE = "https://nexa-mini.onrender.com/api/auth"; // change later
 
-export async function sendAuthRequest(endpoint, data) {
-  const res = await axios.post(`${API_BASE}/${endpoint}`, data);
+// js/api/auth.js
+import axios from "axios";
 
-  const result = await res.json();
-  alert(JSON.stringify(result));
-  if (!res.ok) throw new Error(result.message);
-  return result;
+const API_BASE = "https://nexa-mini.onrender.com/api/auth"; // change later
+
+export async function sendAuthRequest(endpoint, data) {
+  try {
+    const res = await axios.post(`${API_BASE}/${endpoint}`, data);
+    // axios auto-parses JSON
+    alert(JSON.stringify(res.data)); 
+    return res.data;
+  } catch (err) {
+    console.error("Auth Error:", err.response?.data || err.message);
+    alert(err.response?.data?.message || "Something went wrong!");
+    throw err;
+  }
 }
