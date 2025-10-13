@@ -9,14 +9,21 @@ export function handleForm(formId, endpoint, redirectTo) {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const data = {
+    let data;
+    if (formId === "n-sign-ul") {
+      data = {
       firstname:form.firstname.value,
       lastname : form.lastname.value,
       apikey :form.apikey.value,
       phone :form.phone.value,
-      password:form.password.value,
-      referredById :form.firstname.value+Math.random.toString(16).substring(2,8)
+      password:form.password.value
     };
+    } else {
+      data = {
+      phone :form.phone.value,
+      password:form.password.value
+    };
+    }
 
     try {
       toggleLoader(true);
