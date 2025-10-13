@@ -1,12 +1,13 @@
 .hero{
-    padding: 50px 2rem ;
+    padding:  1.2rem ;
     line-height: 1.4;
+    padding-top: 3rem;
 
     & h1{
         font-size: 1.5rem;
     }
     & .title{
-        font-size: 3rem;
+        font-size: 2rem;
     }
     
 }
