@@ -1,5 +1,6 @@
 // js/pageSwitch.js
 export function setupPageSwitch() {
+  
   const viewButtons = document.querySelectorAll(".view-page");
   const pages = document.querySelectorAll(".page");
 
