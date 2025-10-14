@@ -26,7 +26,7 @@ export function handleForm(formId, endpoint, redirectTo) {
     }
 
     try {
-      alert("DATA SENT:"+data);
+      alert("DATA SENT:"+JSON.stringify(data));
       toggleLoader(true);
       await logSequence([
         "Creating account ",
