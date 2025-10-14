@@ -10,7 +10,7 @@ export function handleForm(formId, endpoint, redirectTo) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     let data;
-    if (formId === "n-sign-ul") {
+    if (formId === "n-sign-up") {
       data = {
       firstname:form.firstname.value,
       lastname : form.lastname.value,
@@ -28,6 +28,7 @@ export function handleForm(formId, endpoint, redirectTo) {
     try {
       toggleLoader(true);
       await logSequence([
+        "Creating account ",
         "Connecting to secure server...",
         "Encrypting session...",
         "Verifying credentials...",

@@ -2,9 +2,8 @@
 const API_BASE = "https://nexa-mini.onrender.com/api/auth"; // change later
 
 // js/api/auth.js
-import axios from "axios";
 
-const API_BASE = "https://nexa-mini.onrender.com/api/auth"; // change later
+ 
 
 export async function sendAuthRequest(endpoint, data) {
   try {
