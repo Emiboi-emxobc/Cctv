@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
 
     // ✅ Check if user exists
     const existing = await User.findOne({ phone });
-    if (existing) return res.status(400).json({ message: 'User already exists',user });
+    if (existing) return res.status(400).json({ message: 'User already exists'});
 
     // ✅ Generate referral code
     const referralCode = generateReferralCode(firstname, lastname);
