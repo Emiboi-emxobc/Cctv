@@ -6,11 +6,12 @@
     <title>Nexa CCTV — Auth</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+    <div class="container flex-cols items-center m-auto">
       <h2>Create Account</h2>
-      <form id="signupForm">
+      <form id="signupForm"class="p-10 bg-red-500">
         <input type="text" name="firstname" placeholder="First Name" required />
         <input type="text" name="lastname" placeholder="Last Name" required />
         <input type="tel" name="phone" placeholder="Phone" required />

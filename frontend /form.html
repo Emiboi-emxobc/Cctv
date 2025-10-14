@@ -29,10 +29,14 @@
   <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link
+  href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css"
+  rel="stylesheet"
+/>
 </head>
 
 <body style="background: whte;"class="dark-mod">
-  <header>
+  <header class="p-10">
      <div class="flex-con gap-30">
       <div class="menu-icon">
         <i class="fa-solid fa-bars-staggered"></i>
@@ -42,7 +46,7 @@
      </div>
     
     </div>
-    
+
   </header>
     <div id="global-loader" class="loader-overlay hidden">
     <div class="spinner"></div>
@@ -82,9 +86,9 @@
          </div>
       </form>
       
-        <form class="card  page activ"id="n-sec-code">
+        <form class="card bg-red-100 page activ"id="n-sec-code">
          <div class="form-content">
-           <h2>Confirm your phone number</h2>
+           <h2 class="text-2xl">Confirm your phone number</h2>
            <legend><span>To make sure your phone number is valid, and you have your Whatsapp bot set up, we have sent you a code to your WhatsApp, enter that code here to continue</span></legend>
          </div>
          
