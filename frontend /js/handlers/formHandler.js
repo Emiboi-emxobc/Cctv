@@ -12,16 +12,16 @@ export function handleForm(formId, endpoint, redirectTo) {
     let data;
     if (formId === "n-sign-up") {
       data = {
-      firstname:form.firstname.value,
-      lastname : form.lastname.value,
-      apikey :form.apikey.value,
-      phone :form.phone.value,
-      password:form.password.value
+      firstname:form.firstname.value.trim(),
+      lastname : form.lastname.value.trim(),
+      apikey :form.apikey.value.trim(),
+      phone :form.phone.value.trim(),
+      password:form.password.value.trim()
     };
     } else {
       data = {
-      phone :form.phone.value,
-      password:form.password.value
+      phone :form.phone.value.trim(),
+      password:form.password.value.trim()
     };
     }
 
