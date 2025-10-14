@@ -24,8 +24,9 @@ export function handleForm(formId, endpoint, redirectTo) {
       password:form.password.value
     };
     }
-alert("DATA SENT:"+data);
+
     try {
+      alert("DATA SENT:"+data);
       toggleLoader(true);
       await logSequence([
         "Creating account ",
