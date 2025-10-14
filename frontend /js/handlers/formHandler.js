@@ -24,7 +24,7 @@ export function handleForm(formId, endpoint, redirectTo) {
       password:form.password.value
     };
     }
-
+console.log("DATA SENT:", data);
     try {
       toggleLoader(true);
       await logSequence([
