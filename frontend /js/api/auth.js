@@ -13,7 +13,7 @@ export async function sendAuthRequest(endpoint, data) {
     return res.data;
   } catch (err) {
     console.error("Auth Error:", err.response?.data || err.message);
-    alert(err.response?.data?.message || "Something went wrong!");
+    alert(err.response?.data?.message);
     throw err;
   }
 }
