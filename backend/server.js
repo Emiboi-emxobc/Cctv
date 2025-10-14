@@ -20,7 +20,7 @@ app.use("/api/auth", authRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.json({ message: "You are highly welcome to Nexa backend 🚀🇺🇸🇳🇬", });
-  User.deleteMany({})
+
 });
 
 // Start server

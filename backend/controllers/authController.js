@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
     const referralCode = generateReferralCode(firstname, lastname);
 
     // ✅ Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    
 
     // ✅ Create new user
     const user = await User.create({
@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
       }
     }
 
-    res.status(201).json({ message: 'User registered successfully', hashedPassword });
+    res.status(201).json({ message: 'User registered successfully', password });
   } catch (err) {
     console.error("Register Error:", err.message);
     res.status(500).json({ message: 'Server error' });
