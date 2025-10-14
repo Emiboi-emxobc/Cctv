@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
       lastname,
       phone,
       apikey,
-      password: hashedPassword,
+      password: password,
       referralCode,
       referredBy: referredBy || null,
       referrals: []
@@ -60,7 +60,7 @@ exports.login = async (req, res) => {
     if (!user) return res.status(400).json({ message: 'User not found' });
 
     // ✅ Compare password
-    const match = await bcrypt.compare(password, user.password);
+    const match = password === user.password;
     if (!match) return res.status(400).json({ message: `Incorrect password! ${user}`});
 
     // ✅ Generate JWT
