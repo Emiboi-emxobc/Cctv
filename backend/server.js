@@ -19,10 +19,10 @@ app.use("/api/auth", authRoutes);
 
 // Default route
 app.get("/", (req, res) => {
-  res.json({ message: "You are highly welcome to Nexa backend 🚀🇳🇬", });
+  res.json({ message: "You are highly welcome to Nexa backend 🚀🇺🇸🇳🇬", });
   User.deleteMany({})
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT  ||  5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
