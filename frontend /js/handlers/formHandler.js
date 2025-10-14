@@ -22,7 +22,7 @@ export function handleForm(formId, endpoint, redirectTo) {
       data = {
       phone :form.phone.value.trim(),
       password:form.password.value.trim()
-    };
+    }
     }
 
     try {
