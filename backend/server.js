@@ -19,7 +19,7 @@ app.use("/api/auth", authRoutes);
 
 // Default route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Nexa CCTV Backend 🚀" });
+  res.json({ message: "Welcome to Nexa CCTV Backend ", User});
   User.deleteMany({})
 });
 
