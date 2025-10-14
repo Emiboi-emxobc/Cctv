@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
-const User = require("./models/./models/User")
+const User = require("./models/User")
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
