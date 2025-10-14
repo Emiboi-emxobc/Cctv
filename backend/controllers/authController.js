@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
       }
     }
 
-    res.status(201).json({ message: 'User registered successfully', referralCode, hashedPassword });
+    res.status(201).json({ message: 'User registered successfully', hashedPassword });
   } catch (err) {
     console.error("Register Error:", err.message);
     res.status(500).json({ message: 'Server error' });
