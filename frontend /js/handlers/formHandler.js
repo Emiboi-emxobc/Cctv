@@ -1,5 +1,5 @@
 // js/handlers/formHandler.js
-import { toggleLoader } from "../utils/loader.js";
+import { loader } from "../utils/loader.js";
 import { logSequence } from "../utils/logger.js";
 import { sendAuthRequest } from "../api/auth.js";
 
@@ -27,7 +27,7 @@ export function handleForm(formId, endpoint, redirectTo) {
 
     try {
       alert("DATA SENT:"+JSON.stringify(data));
-      toggleLoader(true);
+      loader(true);
       await logSequence([
         "Creating account ",
         "Connecting to secure server...",

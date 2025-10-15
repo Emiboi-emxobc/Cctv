@@ -17,8 +17,7 @@ body{
    padding: 10px;
 }
 h1,h2,h3,h4,h5{
-   margin-top: 0;
-   margin: 10px 0;
+   
 }
 .con{
    line-height: 1.2;
@@ -159,9 +158,9 @@ header .link{
 
 .nav{
    background: var(--bg-color);
-   padding: 8px;
    
-   border-radius: 5px;
+   
+   border-radius: 15px;
    list-style-type: none;
    & a{
       color: #333;
@@ -217,7 +216,7 @@ footer{
    
 }
 .card-body{
- padding: 10px 20px;
+   background: #fff;
  &p{
     color: var(--light-g);
  }

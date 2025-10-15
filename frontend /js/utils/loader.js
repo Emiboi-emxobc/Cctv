@@ -1,5 +1,5 @@
 // js/utils/loader.js
-export function toggleLoader(show = true) {
+export function loader(show = true) {
   let loader = document.getElementById("global-loader");
   if (!loader) {
     loader = document.createElement("div");

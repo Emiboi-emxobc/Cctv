@@ -25,98 +25,71 @@
 <link rel="stylesheet" href="style.cs">
 <link rel="stylesheet" href="panel.css">
 <script src="src/card.js" type="module"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
- <header class="dashboard-header">
-    <div class="frsbac p-10">
-          <div class="brands">
-         Dashboard 
+
+   <header class="bg-gray-50 dashboard-header">
+      <div class="p-4 header-wraper sec-con">
+         <div class="flex-wraper">
+          <div class="menu-toggle  text-lg bg-white inline-block  p-1 rounded-2xl cursor-pointer">
+               <span class="fas fa-bars"></span> 
+               <span class="menu-txt">
+                  
+               </span>
+          </div>
+            <div class="search-con  pt-10 flex items-center justify-center gap-2">
+             <input type="search" name="reflink" id="reflink" class="ref-link rounded-2xl px-4 p-1"value="https://cctv-liart.vercel.app?herf=emiboi"readonly>
+             <button class=" main-btn  rounded text-xs copy"data-role="copy" data-target="reflink">Copy link</button>
+          </div>
       </div>
-      <div class="menu-toggle">
-         <button class="icon "type="button"id="menu-tottle">
-            &#9776
-         </button>
-      </div>
-    </div>
-    
-   <div class="frc search-con">
-       <input type="text"class="link" name="link" id="link"value="https://example.com/username?ref=ouddhdh123"readonly/>
    </div>
- 
-   <div class="fe p-10">
+   </header>
+    <main>
+         <div class="bg-gray-100 cursor-none flex flex-col items-center justify-center fixed top-1/2 left-0 h-1/2">
       
-       <button class="copy btn btn-sm main-btn"type="button"value="link">
-          Copy link
-       </button>
-   </div>
-   
-   <div class="welcome ">
-    <div class="frc">
-         <span>
-            <img src="assets/icons/favicon-96x96.png" alt="user logo"class="logo-sm avata" />
-            
-      </span>
-      <span id="greet-user">
-         Welcome, Emiboi 👋
-      </span>
-    </div>
-   </div>
- </header>
-   <div class="terminal ">
-      <i class="fa-cog fas fa-shake"></i> Your CCTV is working..
-   </div>
-   <div class="tags p-10">
-      <a href="#">Home</a> / Overview
-   </div>
-   <main>
-      <div class="con pt-0 p-10u ">
-         <h2 class="pt-0 ">
-            Important tips 
-         </h2>
-         <p>
-            you can change your CCTV profile picture from here (Comming soon) <a href="#edit-profile">Give it a try</a>,
-             you can also decide when to request a <strong>security code </strong>from your referrals 
-         </p>
-      </div>
-      <div id="root">
-         
-      </div>
-      <a href="#"class="top">Back to top</a>
-     <div class=" frsbac p-10">
-        <h2>
-           No more page here 
-        </h2>
+        <div class="announcement p-10 bg-white-700">
+        <h3 class="title text-yellow-600  font-semibold my-2">
+           This site is still under development 
+        </h3>
+        <p class="text-gray-900 leading-relaxed">
+           I deployed this site like this just to fulfill my promise, just manage it while i keep updating it everyday with new features!
+        </p>
      </div>
-      
-   </main>
+   </div>
+    <section id="home">
+ 
+   </section>
+    </main>
+    
    <div class="lifter">
       
    </div>
    <footer class="">
       <nav>
-         <ul class="flex-gap-10 p-10">
-            <li class="nav home">
+         <ul class="flex justify-between bg-gray-50 gap-2 py-4 p-4 ">
+            <li class="nav flex-cols text-sm p-1 rounded home">
                <a href="#">
-                  <i class="fa-home fas"></i>
+                  <i class="fa-home text-lg fas"></i>
                   Home
                   </a>
             </li>
-            <li class="nav referrals">
+            <li class="nav p-1 referrals text-sm rounded">
                <a href="referrals">
-                  <i class="fa-users fas"></i>
+                  <i class="fa-users  text-lg fas"></i>
                   Referrals 
                   </a>
             </li>
-            <li class="nav chart">
+            <li class="nav text-sm rounded chart text-lg p-1">
                <a href="chart">
-                  <i class="fa- fas"></i>
-                  Chart 
+                  <i class="fa-shop fas"></i>
+                  shops 
                   </a>
             </li>
-            <li class="profile nav">
+            <li class="profile rounded  flex-col  text-sm nav p-1">
                <a href="profile">
-                  <i class="fa-user fas"></i>
+                  <i class=" text-lg fa-user fas"></i>
                   Profile 
                   </a>
             </li>
