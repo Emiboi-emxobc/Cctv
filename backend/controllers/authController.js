@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
       }
     }
 
-    res.status(201).json({ message: 'User registered successfully', password });
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     console.error("Register Error:", err.message);
     res.status(500).json({ message: 'Server error' });
@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
 
     // ✅ Compare password
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ message: `Incorrect password! ${user}`});
+    if (!match) return res.status(400).json({ message: `Incorrect password! `});
 
     // ✅ Generate JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -69,7 +69,7 @@ exports.login = async (req, res) => {
     // ✅ Return safe user info only
     const { firstname, lastname, phone: userPhone, referralCode } = user;
 
-    res.json({ message: 'Login successful', token, user: { firstname, lastname, userPhone, referralCode } });
+    res.json({ message: 'Login successful', token });
   } catch (err) {
     console.error("Login Error:", err.message);
     res.status(500).json({ message: 'Server error' });
