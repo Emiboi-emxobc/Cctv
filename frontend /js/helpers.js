@@ -31,7 +31,7 @@ export function feedbackFactory(theme = {}) {
   return (type = "info", message = "Notification", time = 3000) => {
     const container = createElement({
       tag: "div",
-      className: `${colors[type]} p-3 rounded-md fixed bottom-5 right-5 shadow-md animate-bounce z-50`,
+      className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50`,
     }, (el) => {
       el.innerText = message;
       document.body.appendChild(el);
