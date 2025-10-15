@@ -2,7 +2,7 @@ import { handleForm } from "./handlers/formHandler.js";
 import { setupPasswordToggle } from "./togglePassword.js";
 import { setupPageSwitch } from "./pageSwitch.js";
 import { renderDashboard } from "./dashboard.js";
-
+import {copyText} from './helpers.js';
 document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem('token'); 
   if (!isLoggedIn) {
@@ -15,16 +15,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupPasswordToggle();
   setupPageSwitch();
-  
-  
-// Simulate auto-login after signup or get from localStorage
-  // dashboard.js
-  // or however you track login
-  
 
+  const copyBtns = document.querySelectorAll(".copy");
 
-// login.js
+  copyBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const targetEl = document.getElementById(targetId);
 
+      if (!targetEl) {
+        copyText(""); // fallback
+        return;
+      }
+
+      // Get text from input, textarea, or element
+      const text = targetEl.value || targetEl.textContent || "";
+      copyText(text);
   
-
+  });
+});
 });
