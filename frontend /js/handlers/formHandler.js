@@ -1,5 +1,6 @@
 // js/handlers/formHandler.js
 import { loader } from "../utils/loader.js";
+import {showFeedback} from './helpers.js';
 import { logSequence } from "../utils/logger.js";
 import { sendAuthRequest } from "../api/auth.js";
 
@@ -26,7 +27,7 @@ export function handleForm(formId, endpoint, redirectTo) {
     }
 
     try {
-      alert("DATA SENT:"+JSON.stringify(data));
+      
       loader(true);
       await logSequence([
         "Creating account ",
@@ -41,6 +42,7 @@ export function handleForm(formId, endpoint, redirectTo) {
       const result = await sendAuthRequest(endpoint, data);
 
       await logSequence(["✅ Access granted", "Redirecting..."]);
+      showFeedback("success", `logging in as ${firstname}`)
       localStorage.setItem("token", result.token);
       window.location.href = redirectTo;
     } catch (err) {

@@ -40,5 +40,5 @@ export function feedbackFactory(theme = {}) {
     return container;
   };
 } 
-const showFeedback = feedbackFactory();
+export const showFeedback = feedbackFactory();
 
