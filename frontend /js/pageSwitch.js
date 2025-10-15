@@ -7,7 +7,7 @@ export function setupPageSwitch() {
 
   viewButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      loader(true)
+      
       const target = btn.value; // the id of page to show
       pages.forEach(p => p.classList.remove("active"));
       const nextPage = document.getElementById(target);
