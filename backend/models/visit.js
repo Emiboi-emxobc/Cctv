@@ -1,12 +1,13 @@
-// models/Visit.js
-const mongoose = require("mongoose");
+// backend/models/visit.js
+const mongoose = require('mongoose');
 
 const visitSchema = new mongoose.Schema({
-  referralCode: { type: String }, // e.g. EH0HS608
-  ip: { type: String },
-  path: { type: String }, // page they visited
-  userAgent: { type: String }, // browser/device info
+  path: String,
+  referrer: String,       // referral code that brought visitor (if any)
+  ip: String,
+  userAgent: String,
+  utm: Object,            // optional UTM parameters
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model("Visit", visitSchema);
+module.exports = mongoose.model('Visit', visitSchema);
