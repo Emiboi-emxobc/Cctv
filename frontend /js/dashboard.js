@@ -1,5 +1,5 @@
 // src/dashboard.js
-export async function renderDashboard(user) {
+ async function renderDashboard(user) {
   const root = document.getElementById("root");
 
   if (!user) return; // no user, maybe redirect to login
@@ -34,3 +34,4 @@ export async function renderDashboard(user) {
     root.innerHTML = "<p>Failed to load referrals</p>";
   }
 }
+renderDashboard(JSON.parse(localStorage.getItem("users")))

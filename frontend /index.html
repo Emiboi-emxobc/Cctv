@@ -31,19 +31,7 @@
   <title>Nexa Documentation</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="docs.css">
-  <script>
-  const params = new URLSearchParams(window.location.search);
-  const referralCode = params.get("herf");
 
-  fetch("https://your-domain/api/visits", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      referralCode: referralCode || "direct",
-      path: window.location.pathname
-    })
-  });
-</script>
 </head>
 
 <body>
