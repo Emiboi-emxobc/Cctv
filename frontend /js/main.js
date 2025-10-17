@@ -9,14 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ Redirect logic
   const onPanel = window.location.pathname.includes("panel.html");
-  if (token && !onPanel) {
+ // if (token && !onPanel) {
     // If logged in but on index.html, go straight to panel
-    window.location.href = 'panel.html';
-  } else if (!token && onPanel) {
+ //   window.location.href = 'panel.html';
+//  } else if (!token && onPanel) {
     // If not logged in but trying to access panel, redirect to login
-    window.location.href = 'index.html';
-  }
-
+  //  window.location.href = 'index.html';
+//  }
+alert()
   // 🧩 Attach form handlers
   handleForm("n-sign-up", "register", "panel.html");
   handleForm("n-sign-in", "login", "panel.html");
