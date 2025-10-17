@@ -1,5 +1,4 @@
 // js/handlers/formHandler.js
-
 import { loader, toggleLoader } from "../utils/loader.js";
 import { feedbackFactory } from "../utils/helpers.js";
 import { logSequence } from "../utils/logger.js";
@@ -8,8 +7,8 @@ import { sendAuthRequest } from "../api/auth.js";
 /**
  * Handles form submissions for login or signup
  * @param {string} formId - The ID of the form element
- * @param {string} endpoint - API endpoint (e.g., "/api/auth/login")
- * @param {string} redirectTo - URL to redirect to after success
+ * @param {string} endpoint - API endpoint (e.g., "login" or "register")
+ * @param {string} redirectTo - URL to redirect after success
  */
 export function handleForm(formId, endpoint, redirectTo) {
   const form = document.getElementById(formId);
@@ -20,7 +19,6 @@ export function handleForm(formId, endpoint, redirectTo) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // ⛏️ Gather input data dynamically
     let data;
     if (formId === "n-sign-up") {
       data = {
@@ -53,13 +51,20 @@ export function handleForm(formId, endpoint, redirectTo) {
       await logSequence(["✅ Access granted", "Redirecting..."]);
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
 
-      // 🧠 Store token and redirect
+      // 🧠 Save token and user info
       localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify({
+        firstname: result.firstname,
+        lastname: result.lastname,
+        phone: result.phone,
+        apikey: result.apikey || null
+      }));
+
       window.location.href = redirectTo;
 
     } catch (err) {
       console.error("❌ Auth error:", err);
-      showFeedback("danger", err.message || "Connection failed!");
+      showFeedback("danger", err.response?.data?.message || "Connection failed!");
       logSequence(["Error: Unable to connect"]);
     } finally {
       toggleLoader(false);
