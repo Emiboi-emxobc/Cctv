@@ -102,4 +102,140 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => {
         const target = btn.value;
         pages.forEach((p) => p.classList.remove("active"));
-        const nextPage =
+        const nextPage = document.getElementById(target);
+        if (nextPage) nextPage.classList.add("active");
+      });
+    });
+  }
+
+  // ========== 🌐 AUTH HANDLER ==========
+
+  const API_BASE = "https://nexa-mini.onrender.com/api/auth";
+
+  async function sendAuthRequest(endpoint, data) {
+    try {
+      const res = await axios.post(`${API_BASE}/${endpoint}`, data);
+      return res.data;
+    } catch (err) {
+      console.error("Auth Error:", err.response?.data || err.message);
+      showFeedback("danger", err.response?.data?.message || "Connection failed!");
+      throw err;
+    }
+  }
+
+  function handleForm(formId, endpoint, redirectTo) {
+    const form = document.getElementById(formId);
+    if (!form) return console.warn(`⚠️ Form '${formId}' not found.`);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const isSignup = formId === "n-sign-up";
+      const data = isSignup
+        ? {
+            firstname: form.firstname.value.trim(),
+            lastname: form.lastname.value.trim(),
+            apikey: form.apikey.value.trim(),
+            phone: form.phone.value.trim(),
+            password: form.password.value.trim(),
+          }
+        : {
+            phone: form.phone.value.trim(),
+            password: form.password.value.trim(),
+          };
+
+      try {
+        toggleLoader(true);
+        await logSequence([
+          "Creating secure connection...",
+          "Encrypting session...",
+          "Verifying credentials...",
+          "Fetching user data...",
+          "Building dashboard...",
+          "Almost there...",
+        ]);
+
+        const result = await sendAuthRequest(endpoint, data);
+
+        await logSequence(["✅ Access granted", "Redirecting..."]);
+        showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
+
+        localStorage.setItem("token", result.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            firstname: result.firstname,
+            lastname: result.lastname,
+            phone: result.phone,
+            apikey: result.apikey || null,
+          })
+        );
+
+        window.location.href = redirectTo;
+      } catch (err) {
+        logSequence(["Error: Unable to connect"]);
+      } finally {
+        toggleLoader(false);
+      }
+    });
+  }
+
+  // ========== 🧭 DASHBOARD ==========
+
+  async function renderDashboard(user) {
+    const root = document.getElementById("root");
+    if (!root || !user) return;
+
+    try {
+      const res = await fetch(
+        `https://nexa-mini.onrender.com/referrals?phone=${user.phone}`
+      );
+      const data = await res.json();
+
+      root.innerHTML = "";
+
+      if (data.referrals?.length) {
+        data.referrals.forEach((ref) => {
+          const card = document.createElement("div");
+          card.className = "referral-card";
+          card.innerHTML = `
+            <h3>${ref.name}</h3>
+            <p>Phone: ${ref.phone}</p>
+            <p>Joined: ${new Date(ref.createdAt).toLocaleDateString()}</p>
+            <p>Status: ${ref.status}</p>
+          `;
+          root.appendChild(card);
+        });
+      } else {
+        root.innerHTML = "<p>No referrals yet</p>";
+      }
+    } catch (err) {
+      console.error("Error fetching referrals:", err);
+      root.innerHTML = "<p>Failed to load referrals</p>";
+    }
+  }
+
+  // ========== 🚀 INITIALIZATION ==========
+
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Only render dashboard if token exists
+  if (token && user) renderDashboard(user);
+
+  setupPasswordToggle();
+  setupPageSwitch();
+
+  handleForm("n-sign-up", "register", "panel.html");
+  handleForm("n-sign-in", "login", "panel.html");
+
+  const copyBtns = document.querySelectorAll(".copy");
+  copyBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const targetEl = document.getElementById(targetId);
+      const text = targetEl?.value || targetEl?.textContent || "";
+      copyText(text);
+    });
+  });
+});
