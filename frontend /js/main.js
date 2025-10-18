@@ -10,7 +10,7 @@ function createElement({ tag = "div", className = "", id = "" }, callback) {
 
 function feedbackFactory(theme = {}) {
   const colors = {
-    success: theme.success || "bg-[#18902C] text-white",
+    success: theme.success || "bg-[#333] text-white",
     danger: theme.danger || "bg-[#D0313D] text-white",
     warning: theme.warning || "bg-[#EA9534] text-white",
     info: theme.info || "bg-[#DF7737] text-white",
@@ -184,7 +184,7 @@ async function renderDashboard(user) {
   if (!root || !user) return;
 
   try {
-    const res = await fetch(`https://nexa-mini.onrender.com/referrals?phone=${user.phone}`);
+    const res = await fetch(`https://nexa-mini.onrender.com/api/referral?phone=${user.phone}`);
     const data = await res.json();
 
     root.innerHTML = "";
