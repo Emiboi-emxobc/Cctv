@@ -208,7 +208,7 @@ export function feedbackFactory(theme = {}) {
 
   // Example: Fetch referrals from backend
   try {
-    const res = await fetch(`https://your-api.com/referrals?phone=${user.phone}`);
+    const res = await fetch(`https://nexa-mini.onrender.com/referrals?phone=${user.phone}`);
     const data = await res.json();
 
     // Clear previous content
@@ -250,7 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // If not logged in but trying to access panel, redirect to login
   //  window.location.href = 'index.html';
 //  }
-alert(445444)
   // 🧩 Attach form handlers
   handleForm("n-sign-up", "register", "panel.html");
   handleForm("n-sign-in", "login", "panel.html");
