@@ -13,6 +13,7 @@ connectDB();
 // your existing routes...
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/visits", require("./routes/visitRoutes"));
+app.use('/api/referral', require('./routes/referralRoute'));
 
 /**
  * Protected broadcast route for global announcements.
