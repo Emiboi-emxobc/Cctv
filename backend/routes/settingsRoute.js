@@ -9,11 +9,11 @@ router.get('/', async (req, res) => {
     let s = await Settings.findOne();
     if (!s) {
       s = await Settings.create({
-        siteTitle: 'Nexa',
-        siteDescription: 'Quality education accessible',
+        siteName: 'Nexa',
+        description: 'Quality education accessible',
         bannerText: 'Welcome to Nexa',
-        buttonText: 'Get Started',
-        premiumPrices: { weekly: 500, monthly: 1500, yearly: 10000 }
+        platforms:["Instagram","Facebook"],
+        premiumPrices: { weekly: 2000, monthly: 6000, yearly: 50000 }
       });
     }
     res.json({ success:true, settings: s });

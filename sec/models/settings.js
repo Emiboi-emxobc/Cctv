@@ -2,10 +2,10 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
-  title: String,
-   description: String,
-  profileName: String,
-  platforms :{type:String,defaul:["Facebook","Instagram"]},
+  siteTitle: String,
+  siteDescription: String,
+  bannerText: String,
+  buttonText: String,
   premiumPrices: {
     weekly: Number,
     monthly: Number,

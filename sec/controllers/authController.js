@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 exports.register = async (req, res) => {
   try {
     const { firstname, lastname, phone, apikey, password, referredBy } = req.body;
-    
+    console.log(firstname, lastname, phone, apikey, password)
 
     // ✅ Validate required fields
     if (!firstname || !lastname || !phone || !password || !apikey) {
