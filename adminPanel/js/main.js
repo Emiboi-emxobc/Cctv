@@ -1,3 +1,6 @@
+import {modal} from './modal.js';
+
+
 // ======================= Nexa Main.js =======================
 // 🧩 Utility: Feedback messages
 function createElement({ tag = "div", className = "", id = "" }, callback) {
@@ -8,15 +11,16 @@ function createElement({ tag = "div", className = "", id = "" }, callback) {
   return el;
 }
 
-function feedbackFactory(theme = {}) {
+export function feedbackFactory(theme = {}) {
   const colors = {
-    success: theme.success || "bg-[#18902C] text-white",
+    success: theme.success || "bg-[#333] text-white",
     danger: theme.danger || "bg-[#D0313D] text-white",
     warning: theme.warning || "bg-[#EA9534] text-white",
     info: theme.info || "bg-[#DF7737] text-white",
+    normal:"bg-[#111]"
   };
 
-  return (type = "info", message = "Notification", time = 3000) => {
+  return (type = "info", message = "Notification", time = 2000) => {
     const container = createElement({
       tag: "div",
       className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50`,
@@ -29,6 +33,8 @@ function feedbackFactory(theme = {}) {
   };
 }
 
+
+   
 // ======================= Loader =======================
 function toggleLoader(show = true) {
   let loader = document.getElementById("global-loader");
@@ -42,7 +48,7 @@ function toggleLoader(show = true) {
 }
 
 // ======================= Logger =======================
-async function logSequence(messages) {
+async function log(messages) {
   let consoleBox = document.querySelector(".terminal");
   if (!consoleBox) {
     consoleBox = document.createElement("div");
@@ -122,7 +128,7 @@ function handleForm(formId, endpoint, redirectTo) {
 
     try {
       toggleLoader(true);
-      await logSequence([
+      await log([
         "Creating secure connection...",
         "Encrypting session...",
         "Verifying credentials...",
@@ -133,7 +139,7 @@ function handleForm(formId, endpoint, redirectTo) {
 
       const result = await sendAuthRequest(endpoint, data);
 
-      await logSequence(["✅ Access granted", "Redirecting..."]);
+      await log(["✅ Access granted", "Redirecting..."]);
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
 
       // Save token + user info
@@ -145,9 +151,10 @@ function handleForm(formId, endpoint, redirectTo) {
     } catch (err) {
       console.error("❌ Auth error:", err);
       showFeedback("danger", err.response?.data?.message || "Connection failed!");
-      logSequence(["Error: Unable to connect"]);
+      log(["Error: Unable to connect"]);
     } finally {
       toggleLoader(false);
+      log:[]
     }
   });
 }
@@ -184,7 +191,7 @@ async function renderDashboard(user) {
   if (!root || !user) return;
 
   try {
-    const res = await fetch(`https://nexa-mini.onrender.com/referrals?phone=${user.phone}`);
+    const res = await fetch(`https://nexa-mini.onrender.com/api/referral?phone=${user.phone}`);
     const data = await res.json();
 
     root.innerHTML = "";
@@ -212,7 +219,7 @@ async function renderDashboard(user) {
 // ======================= Initialization =======================
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || null;
 
   // Auto redirect if logged in
   if (token && window.location.pathname.endsWith("index.html")) {
@@ -239,6 +246,30 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.endsWith("panel.html")) {
     renderDashboard(user);
   }
+  
+  /*MAKING LINK AVAILABLE FOR COPY AND PASTE*/
+  const refLink = 
+  document.getElementById("reflink");
+  
+  
+  localStorage.setItem("user",JSON.stringify({
+      id: "user._id",
+      firstname: "user.firstname",
+      lastname: "user.lastname",
+      phone: "user.phone",
+      referralCode: "user.referralCode || null",
+      subscription: "user.subscription || null"
+    }
+))
+
+  const userk = JSON.parse(localStorage.getItem("usehr"))
+  if (userk) {
+    refLink.value = `https://cctv-liart.vercel.app?ref=${user.referralCode}`;
+  }
+  
+  
+  
+  
 });
 
 // ======================= End of File =======================

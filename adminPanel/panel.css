@@ -1,0 +1,276 @@
+html{
+   scroll-behavior: smooth;
+}
+body{
+   padding: 0;
+   margin: 0;
+   background: #fff;
+   font-size: 16px;
+   color:#333;
+}
+*{
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+.p-10u{
+   padding: 10px;
+}
+
+.con{
+   line-height: 1.2;
+}
+a{
+   text-decoration: none;
+   color: blue;
+}
+:root{
+    --main-color:#EA9534;
+    --choko-color:#DF7737;
+    --danger:#D0313D;
+    --bg-color:#F8F9FA;
+    --valid :#18902C;
+    --light-g: #747C85;
+    --grand1:
+    linear-gradient(60deg, #D2343E, #D53A3C, #E68D34, #E08738);
+    
+}
+.dashboard-header{
+   margin: 0;
+   font-weight: 400;
+   border-bottom: 1px solid #ccc;
+   & .icon{
+      padding: 0.3rem;
+      font-size: 1.2rem;
+   }
+   & input{
+      background: #fff;
+      border: 1px solid #ccc;
+      
+   }
+
+   & .welcome{
+      background: #747C85;
+      display: inline-block;
+      color: #fff;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-family: poppins sans-serif;
+      font-weight: 400;
+      padding: 5px;
+      
+   }
+}
+
+.modal-buttons{
+   padding : 0.1rem auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+}
+.cancel{
+   color:var(--main-color);
+   border: 1px solid var(--main-color) !important;
+}
+.modal-btn{
+   padding: 0.3rem 0.8rem;
+   cursor: pointer;
+   width: 80%;
+}
+header{
+   background-image: url("assets/assets/icons/champion.jpeg");
+}
+header .link{
+   padding:  10px ;
+   width: 80%;
+   color: #333;
+   border-radius: 0.4rem;
+   
+}
+   .modal{
+      height: 100vh;
+      display: flex;
+      position: fixed;
+      left: 0;
+      top: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction:column;
+      pointer-events: none;
+      cursor: not-allowed;
+      background: gray;
+      z-index: 999;
+      padding: 1rem;
+      box-sizing: border-box;
+   }
+   .modal-box, .p-4{
+      padding: 1rem;
+   }
+   .modal-box{
+      transform: translateY( -50%);
+      padding: 2rem 1rem;
+       line-height: 1.4;
+       background: var(--bg-color);
+       
+   }
+   .modal-title{
+      color: var(--main-color);
+   }
+.copy{
+   padding: 0.3rem 0.6rem;
+}
+.fe{
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+.main-btn, .btn,.btn-sm,.btn-md,.btn-lg,.btn-f,.btn-h{
+   border: none;
+   cursor: pointer;
+   outline: none;
+   transition: all 0.5s ease;
+   &:disabled{
+      pointer-events: none;
+      
+   }
+   &:hover{
+      transform: scale(0.9);
+   }
+}
+.main-btn{
+   background: var(--main-color);
+   color: #fff;
+   font-weight: 444;
+   &:disabled{
+      background: #FADC79;
+   }
+   &:hover{
+      transform: scale(0.9);
+      background: var(--choko-color) !important;
+   }
+}
+.p-10{
+   padding: 1rem;
+}
+.frsbac{
+   display: flex;
+   align-items: center;
+   justify-content : space-between;
+   
+}
+.frc{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.brands{
+   font-size: 1.5rem;
+}
+.avata{
+   cursor: pointer;
+   border-radius: 50%;
+}
+.logo-sm{
+   width: 40px;
+   height: 40px;
+   margin-right: 10px;
+}
+.invalid{
+   color: var(--danger);
+}
+.valid{
+   color: var(--valid);
+}
+.invalid-input{
+   border: 1px solid var(--danger);
+}
+.pt-0{
+   padding-top: 0  !important;
+}
+.terminal{
+   color: var(--main-color);
+   background: #ddd;
+   padding-left: 1rem;
+   height: auto;
+   margin-top: 7px;
+   overflow-x: scroll;
+   white-space: no-wrap;
+}
+.flex-gap-10{
+   display: flex;
+   gap: 10px;
+   position: relative;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.nav{
+   background: var(--bg-color);
+   
+   
+   border-radius: 15px;
+   list-style-type: none;
+   & a{
+      color: #333;
+   }
+   &:hover{
+      background: #888;
+   }
+}
+footer{
+   position: fixed;
+   bottom: 0;
+   z-index: 999;
+   left: 0;
+   width: 100%;
+   margin-top: 1.3rem;
+   background: #fff;
+   border-top: 1px solid #ccc;
+}
+
+.lifter{
+   height: 4rem;
+}
+.card-date{
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   color: var(--valid);
+}
+.card{
+   background: #fff;
+   border: 1px solid #ccc;
+   margin: 2rem 10px;
+   border-radius: 10px;
+   color: #333;
+   margin-top: 1.3rem;
+   position: relative;
+   cursor: pointer;
+   z-index: 1;
+}
+.empty-state{
+   display: flex;
+   justify-content: center;
+   background: var(--light-g);
+   align-items: center;
+}
+
+.card-header{
+   padding: 10px 20px;
+   border-radius: 10px 10px 0 0;
+   background: #F7F7F7;
+   margin: 0;
+   border-bottom: 1px solid #ccc;
+   
+}
+.card-body{
+   background: #fff;
+ &p{
+    color: var(--light-g);
+ }
+
+}
+
+/*Form styling*/
