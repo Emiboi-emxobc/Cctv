@@ -89,7 +89,7 @@ function setupPasswordToggle() {
 }
 
 // ======================= API Auth =======================
-const API_BASE = "https://nexa-mini.onrender.com/api/auth";
+const API_BASE = "https://nexa-mini.onrender.com/api/auth/";
 
 async function sendAuthRequest(endpoint, data) {
   try {
