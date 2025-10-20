@@ -1,5 +1,10 @@
 import {modal} from './modal.js';
-
+(async () => {
+  const { default: axios } = await import("https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js");
+  
+  const res = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
+  console.log(res.data);
+})();
 
 // ======================= Nexa Main.js =======================
 // 🧩 Utility: Feedback messages
@@ -267,7 +272,42 @@ document.addEventListener("DOMContentLoaded", () => {
     refLink.value = `https://cctv-liart.vercel.app?ref=${user.referralCode}`;
   }
   
-  
+
+
+
+
+
+// CHANGE THIS TO YOUR SERVER URL
+const BASE_URL = "http://localhost:5000/api/student";
+
+// Sample test students
+const testUsers = [
+  { username: "Adaeze", password: "1234", platform: "web", referralCode: "REF1234" },
+  { username: "Emmanuel", password: "abcd", platform: "mobile", referralCode: "REF1234" },
+  { username: "Chinelo", password: "pass567", platform: "web", referralCode: "REF5678" }
+];
+
+async function signupUser(user) {
+  try {
+    const res = await axios.post(`${BASE_URL}/signup`, user);
+    console.log(`[SUCCESS] ${user.username} signed up`);
+    console.log("Server response:", res.data);
+  } catch (err) {
+    if (err.response) {
+      console.error(`[ERROR] ${user.username} signup failed:`, err.response.data);
+    } else {
+      console.error(`[ERROR] ${user.username} signup failed:`, err.message);
+    }
+  }
+}
+
+async function testReferrals() {
+  for (const user of testUsers) {
+    await signupUser(user);
+  }
+}
+
+testReferrals();  
   
   
 });

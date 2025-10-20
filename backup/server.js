@@ -27,7 +27,6 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api/visit", visitRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/admin", adminRoute);
-
 app.use("/api/referral", referralRoute); // old route maintained
 
 /**

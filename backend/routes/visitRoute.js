@@ -1,27 +1,50 @@
-// backend/routes/visitRoute.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Visit = require('../models/visit');
+const Visit = require("../models/Visit");
+const Child = require("../models/Child"); // Admins/students with referralCode
+const { sendWhatsApp } = require("../utils/whatsapp");
 
 // POST /api/visit/log
-router.post('/log', async (req, res) => {
+router.post("/log", async (req, res) => {
   try {
-    const { path, referrer, utm } = req.body;
+    const { path, referrer, utm, userAgent } = req.body;
     const ip = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const userAgent = req.headers['user-agent'] || '';
-    const v = await Visit.create({ path, referrer, ip, userAgent, utm });
-    res.json({ success: true, visit: v });
+
+    // Create visit
+    const visit = await Visit.create({
+      path,
+      referrer,
+      ip,
+      userAgent,
+      utm: utm ? JSON.stringify(utm) : ""
+    });
+
+    // If there is a referral code, notify the admin
+    if (referrer && referrer !== "direct") {
+      const admin = await Child.findOne({ referralCode: referrer });
+      if (admin && admin.apikey && admin.phone) {
+        const msg = `
+👀 New visitor detected!
+Path: ${path}
+IP: ${ip}
+User Agent: ${userAgent}
+Referral Code: ${referrer}
+        `;
+        sendWhatsApp(admin.phone, msg, admin.apikey);
+      }
+    }
+
+    res.json({ success: true, visit });
   } catch (err) {
-    console.error('Visit log error:', err.message);
-    res.status(500).json({ success: false, message: 'Failed to log visit' });
+    console.error("Visit tracking error:", err.message);
+    res.status(500).json({ success: false, message: "Failed to log visit" });
   }
 });
 
 // GET /api/visit/stats
-router.get('/stats', async (req, res) => {
+router.get("/stats", async (req, res) => {
   try {
     const total = await Visit.countDocuments();
-    // top referrers
     const topRef = await Visit.aggregate([
       { $match: { referrer: { $exists: true, $ne: null, $ne: "" } } },
       { $group: { _id: "$referrer", count: { $sum: 1 } } },
@@ -30,7 +53,8 @@ router.get('/stats', async (req, res) => {
     ]);
     res.json({ success: true, total, topRef });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to get stats' });
+    console.error("Stats error:", err.message);
+    res.status(500).json({ success: false, message: "Failed to get stats" });
   }
 });
 
