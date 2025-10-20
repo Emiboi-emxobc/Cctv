@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="StudyForge logo">
+  <defs>
+    <linearGradient id="sfG" x1="0" x2="1">
+      <stop offset="0%" stop-color="#FF8A00"/>
+      <stop offset="100%" stop-color="#FFB86B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- anvil-like book -->
+  <g transform="translate(12,12)">
+    <path d="M0 48c24-10 48-10 72 0 24-10 48-10 72 0v18c-24 6-48 6-72 0-24 6-48 6-72 0V48z" fill="#222"/>
+    <path d="M8 36c20-8 40-8 60 0 20-8 40-8 60 0v8c-20-4-40-4-60 0-20-4-40-4-60 0v-8z" fill="url(#sfG)" opacity="0.95"/>
+  </g>
+
+  <g transform="translate(140,70)">
+    <text x="0" y="-18" font-family="Poppins, system-ui, Arial" font-size="36" font-weight="800" fill="#111">Study</text>
+    <text x="10" y="12" font-family="Poppins, system-ui, Arial" font-size="18" font-weight="700" fill="#444">Forge</text>
+  </g>
+</svg>

