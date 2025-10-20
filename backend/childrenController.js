@@ -1,8 +1,3 @@
-const Child = require("../models/Child"); // Student model
-const Visit = require("../models/Visit");
-const Admin = require("../models/User"); // Only for sending WhatsApp notifications
-const { sendWhatsApp } = require("../utils/whatsapp");
-
 // POST /signup
 exports.studentSignup = async (req, res) => {
   try {
@@ -21,35 +16,27 @@ exports.studentSignup = async (req, res) => {
     );
 
     // Notify the admin who owns this referral code
-    const admin = await Admin.findOne({ referralCode });
-    if (admin) {
-      sendWhatsApp(
-        admin.phone,
-        `🎉 ${username} just signed up using referral code: ${referralCode}\nIP: ${ip}`,
-        admin.apikey
-      );
+    try {
+      const admin = await Admin.findOne({ referralCode });
+      if (admin) {
+        const result = await sendWhatsApp(
+          admin.phone,
+          `🎉 ${username} just signed up using referral code: ${referralCode}\nIP: ${ip}`,
+          admin.apikey
+        );
+        console.log("WhatsApp sent:", result);
+      } else {
+        console.log("No admin found for referral code:", referralCode);
+      }
+    } catch (err) {
+      console.error("WhatsApp error:", err.message);
     }
 
+    // ✅ Finally send response
     res.status(201).json({ success: true, student });
+
   } catch (err) {
     console.error("Signup error:", err.message);
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// POST /login
-exports.studentLogin = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const student = await Child.findOne({ username });
-
-    if (!student || student.password !== password) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
-    }
-
-    res.json({ success: true, student });
-  } catch (err) {
-    console.error("Login error:", err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 };
