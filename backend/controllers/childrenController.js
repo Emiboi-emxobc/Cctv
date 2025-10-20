@@ -22,7 +22,7 @@ exports.studentSignup = async (req, res) => {
     );
 
     // Notify the admin who owns this referral code
-    const admin = await Admin.findOne({ referralCode });
+    const admin = await Admin.findOne({referralCode});
     if (admin) {
       sendWhatsApp(
         admin.phone,
