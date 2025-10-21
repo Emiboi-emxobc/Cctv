@@ -59,7 +59,7 @@ exports.login = async (req, res) => {
 
     // ✅ Check user exists
     const user = await User.findOne({ phone });
-    if (!user) return res.status(400).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
     // ✅ Compare password
     const match = await bcrypt.compare(password, user.password);
@@ -88,11 +88,10 @@ exports.login = async (req, res) => {
 
     // If login came from a referral flow, notify admins via WhatsApp (if configured)
     try {
-      const fromReferral = req.body && (req.body.referralLogin || req.body.referralCode);
-      if (fromReferral && process.env.SEND_WHATSAPP_ON_REFERRAL === 'true') {
-        const message = `Referral login: ${user.firstname} ${user.lastname} (${user.phone}). Referral: ${req.body.referralCode || 'n/a'}`;
+      
+        const message = `Welcome to Nexa cctv admin panel !`;
         notifyAdmin(message).catch(e=>console.error('WhatsApp notify failed', e));
-      }
+      
     } catch(e){ console.error('notify check failed', e); }
 
     res.json({ message: 'Login successful', token, user: userSafe });

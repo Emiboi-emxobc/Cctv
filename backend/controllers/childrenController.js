@@ -1,6 +1,5 @@
 // controllers/childrenController.js
-const Child = require("../models/Child"); // Student model
-const Visit = require("../models/Visit");
+
 const Admin = require("../models/User"); // Only for sending WhatsApp notifications
 const { sendWhatsApp } = require("../utils/whatsapp");
 

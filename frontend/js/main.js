@@ -14,7 +14,7 @@ function createElement({ tag = "div", className = "", id = "" }, callback) {
 
 export function feedbackFactory(theme = {}) {
   const colors = {
-    success: theme.success || "bg-[#333] text-white",
+    success: theme.success || "bg-[#333] bg-dark text-white",
     danger: theme.danger || "bg-[#D0313D] text-white",
     warning: theme.warning || "bg-[#EA9534] text-white",
     info: theme.info || "bg-[#DF7737] text-white",
@@ -24,7 +24,7 @@ export function feedbackFactory(theme = {}) {
   return (type = "info", message = "Notification", time = 2000) => {
     const container = createElement({
       tag: "div",
-      className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50`,
+      className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50 feedback`,
     }, (el) => {
       el.innerText = message;
       document.body.appendChild(el);
@@ -151,7 +151,7 @@ function handleForm(formId, endpoint, redirectTo) {
 
     } catch (err) {
       console.error("❌ Auth error:", err);
-      showFeedback("danger", err.response?.data?.message || "Connection failed!");
+      showFeedback("danger", err.response?.data?.message || "Connection failed!"+err.message);
       log(["Error: Unable to connect"]);
     } finally {
       toggleLoader(false);

@@ -22,7 +22,6 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/Nexa-logo.svg" />
 <meta name="apple-mobile-web-app-title" content="Nexa" />
 <link rel="manifest" href="assets/icons/site.webmanifest" />
-<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="panel.css">
 <script src="js/main.js" type="module"></script>
 <script src="js/dashboard.js"></script>
@@ -31,47 +30,98 @@
 <body>
 
    <header class=" dashboard-header">
-     
+     <div class="header-container p-10">
+        <div class="total-click" id="total-clicks">
+          <h3>Total clicks: <span class="num">0</span></h3> 
+        </div>
+        <div class="link-container flex">
+           <input type="text" name="ref-link" id="ref-link"data-role="ref-link"value="https://site.frontend.com?ref=emiboi"readonly> 
+           <button id="link" class=" btn btn-sm main-btn copy "data-role="copy"data-target="ref-link">
+              <span class="fas fa-clipboard"></span>
+              Copy link
+              </button>
+        </div>
+     </div>
    </header>
+   <div class="profile-container m-1">
+     <span class="image">
+           <img src="assets/images/gold-award-winners-cup-podium-against-background-golden-decorations_1199132-116200.jpg" alt="user profile "class="avata avata-sm" />
+     </span>
+     <span>
+       <strong class=" username">
+        Chukwuemeka
+       </strong>
+       <p class="text">
+          Welcome to cctv admin panel 
+       </p>
+     </span>
+   </div>
     <main>
-
-     <div class="root" id="root"></div>
-  
-
+       <section id="marketplace"class="card-lg page">
+          <div class="path">
+            Marketplace 
+          </div>
+          <div class="card-container">
+               <div class="profile-container">
+     <span class="image">
+           <img src="assets/images/profile.png" alt="user profile "class="avata avata-sm" />
+     </span>
+     <span>
+       <strong class=" username">
+        Chukwuemeka
+       </strong>
+       <p class="text">
+          Uploaded <span class="date">2d</span>
+       </p>
+     </span>
+   </div>
+          <div class="car card-md post-card">
+              <button type="button"class="cart-btn btn main-btn">
+                 <span class="fas fa-shopping-cart"></span>
+                 Order
+                 </button>
+              
+              <div class="img-container">
+                 <img src="assets/images/Screenshot_20251021-103515.png" alt="chair" class="product-img"id="img"/>
+                 <h3 class="product-title">Royal sofa</h3>
+                 <p class="product-desc">
+                    2 years Facebook account with 450 friends 
+                 </p>
+                 <strong class="price">
+                    N 5000
+                 </strong>
+              </div>
+              <div class="flex reaction-btn-con">
+                 <button class="like btn"data-role="like"data-target="img"><span class="fas fa-thumb-up"></span>Promote</button>
+                                  <button class="comment btn"data-role="comment"data-target="img"><span class="fas fa-comment"></span>Comment</button>
+              </div>
+          </div>
+         </div>
+       </section>
     </main>
     
    <div class="lifter">
       
    </div>
    <footer>
-      <nav>
-         <ul class=" justify-between p-4 ">
-            <li class="nav flex-cols text-sm p-1 rounded home">
-               <a href="#">
-                  <i class="fa-home text-lg fas"></i>
-                  Home
-                  </a>
+      <ul id="main-nav">
+         <li class="nav">
+            <span class="fas fa-home">
+            </span> Home
             </li>
-            <li class="nav p-1 referrals text-sm rounded">
-               <a href="referrals">
-                  <i class="fa-users  text-lg fas"></i>
-                  Referrals 
-                  </a>
+         <li class="nav">
+            <span class="fas fa-shopping-bag"></span>
+         Stores 
+         </li>
+         <li class="nav">
+            <span class="fas fa-users"></span>
+            Referrals 
             </li>
-            <li class="nav text-sm rounded chart text-lg p-1">
-               <a href="chart">
-                  <i class="fa-shop fas"></i>
-                  shops 
-                  </a>
+         <li class="nav">
+            <span class="fas fa-bell"></span>
+            Notification
             </li>
-            <li class="profile rounded  flex-col  text-sm nav p-1">
-               <a href="profile">
-                  <i class=" text-lg fa-user fas"></i>
-                  Profile 
-                  </a>
-            </li>
-         </ul>
-      </nav>
+      </ul>
    </footer>
    
 </body>
