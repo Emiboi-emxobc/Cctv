@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
-
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -147,6 +148,34 @@ app.post("/admin/register", async (req, res) => {
   }
 });
 
+
+
+
+
+
+app.post('/admin/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'username & password required' });
+
+    const admin = await Admin.findOne({ username });
+    if (!admin) return res.status(404).json({ error: 'Admin not found' });
+
+    const match = await bcrypt.compare(password, admin.password);
+    if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+
+    const token = jwt.sign({ id: admin._id, username: admin.username }, JWT_SECRET, { expiresIn: '7d' });
+
+    res.json({
+      success: true,
+      token,
+      admin: { username: admin.username, name: admin.name, phone: admin.phone }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
 // Admin: manage whitelisted domains
 app.post("/admin/whitelist", async (req, res) => {
   try {
