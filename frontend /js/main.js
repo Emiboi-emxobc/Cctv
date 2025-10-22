@@ -151,7 +151,7 @@ function handleForm(formId, endpoint, redirectTo) {
       // Save token + user info
     document.getElementById("ref-link").value = result.referralLink || "Please upgrade your account";
 localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user || data || result.admin));
+      
       window.location.href = redirectTo;
     } catch (err) {
       console.error("❌ Auth error:", err);
