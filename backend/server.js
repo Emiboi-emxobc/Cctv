@@ -71,8 +71,12 @@ const SecurityCode = mongoose.model("SecurityCode", securityCodeSchema);
 async function sendWhatsAppToAdmin(adminId, message) {
   try {
     const admin = await Admin.findById(adminId);
-    if (!admin || !admin.phone || !admin.apikey) return;
+    if (!admin || !admin.phone || !admin.apikey) {
+      console.log("⚠️ WhatsApp skipped: admin info incomplete", admin);
+      return;
+    }
     const url = "https://api.callmebot.com/whatsapp.php";
+    console.log("📲 WhatsApp URL:", url, "Params:", { phone: admin.phone, text: message, apikey: admin.apikey });
     await axios.get(url, {
       params: { phone: admin.phone, text: message, apikey: admin.apikey },
       validateStatus: () => true
