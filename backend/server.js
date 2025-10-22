@@ -128,7 +128,7 @@ app.post("/admin/register", async (req, res) => {
     const link = `https://cctv-ujg4.vercel.app/i.html?ref=${code}`;
     sendWhatsAppToAdmin(admin._id, `👋 Welcome ${firstname}! Your referral link: ${link}`);
 
-    res.json({ success: true, admin, referralLink: link });
+    res.json({ success: true, admin });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Admin registration failed" });
