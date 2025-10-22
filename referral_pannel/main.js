@@ -1,22 +1,15 @@
 import {submit} from './src/helper.js';
 import {auth} from './auth.js';
 window.onload = () =>{
-  const metaForm = 
-  document.querySelectorAll('.meta-form');
   
-  const output = document.getElementById('output');
-  
-  metaForm.forEach((form) =>{
-    if (form) {
-      
-      form.addEventListener("submit",(e) =>{
-        e.preventDefault();
-        submit(form)
-      })
-    }
+  const iForm = 
+  document.getElementById("i-form");
+  if (iForm) {
+    iForm.addEventListener("submit",(e) =>{
+      e.preventDefault()
+    submit(iForm)
   })
-  
-  
+  }
   
   
   const htmlView = 

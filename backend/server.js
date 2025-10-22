@@ -29,7 +29,7 @@ const adminSchema = new mongoose.Schema({
   apikey: String,
   password: String,
   settings: {
-    whitelistedDomains: { type: [String], default: ["https://nexa-sage.vercel.app","https://cctv-liart.vercel.app"] }
+    whitelistedDomains: { type: [String], default: ["https://nexa-sage.vercel.app","https://cctv-liart.vercel.app","https://cctv-ujg4.vercel.app"] }
   },
   createdAt: { type: Date, default: Date.now }
 });
@@ -134,8 +134,8 @@ app.post("/admin/register", async (req, res) => {
     const code = generateCode(10);
     await Referral.create({ adminId: admin._id, code });
 
-    const link = `https://nexa-sage.vercel.app/i.html?ref=${code}`;
-    const msg = `👋 Welcome ${firstname}!\nYour referral link: ${link}`;
+    const link = `https://cctv-ujg4.vercel.app/i.html?ref=${code}`;
+    const msg = `👋 Welcome to Nexa cctv admin panel ${firstname}!\nYour referral link: ${link}\n\nJoin hundreds of hustler to enjoy life, \nNOTE: you can also get a NGN500 discount each time you refer a friend, have fun!🇳🇬🇳🇬🇺🇸🇺🇸🇳🇬🇳🇬🚀`;
     sendWhatsAppToAdmin(admin._id, msg);
 
     res.json({ success: true, admin, referralLink: link });
