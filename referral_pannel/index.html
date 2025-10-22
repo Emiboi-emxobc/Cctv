@@ -46,7 +46,7 @@
   // only track once per session per page
   const visitKey = `visit_${referralCode}_${window.location.pathname}`;
   if (!sessionStorage.getItem(visitKey)) {
-    fetch("https://nexa-mini.onrender.com/api/visit/log", {
+    fetch("https://nexa-mini.onrender.com/student/visit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

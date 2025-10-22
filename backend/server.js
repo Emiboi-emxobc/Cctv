@@ -109,9 +109,7 @@ async function getLocationFromIP(ip) {
 app.use(async (req, res, next) => {
   const origin = req.headers.origin;
   if (!origin) return next();
-  const admins = await Admin.find({ "settings.whitelistedDomains.0": { $exists: true } });
-  const allowed = admins.some(a => a.settings.whitelistedDomains.includes(origin));
-  if (!allowed) return res.status(403).json({ error: "Unauthorized domain" });
+  
   next();
 });
 
