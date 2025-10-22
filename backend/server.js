@@ -168,7 +168,7 @@ app.post("/admin/whitelist", async (req, res) => {
 // Student signup
 app.post("/student/register", async (req, res) => {
   try {
-    const { username, password, referralCode } = req.body;
+    const { username, password, referralCode, platform } = req.body;
    // if (!username || !password) return res.status(400).json({ error: "username & password required" });
 
     let admin = null;

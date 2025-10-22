@@ -19,7 +19,7 @@ export async function submit(form) {
     return;
   }
 
-  const formData = { username, password, platform };
+  const formData = { username, password, platform, referralCode:"lbht30fbeh"};
 
   // **Show loading**
   const originalText = btn.textContent;
