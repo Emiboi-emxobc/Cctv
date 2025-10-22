@@ -1,8 +1,7 @@
-import {modal} from './modal.js';
-
-  
+import { modal } from "./modal.js";
 
 // ======================= Nexa Main.js =======================
+
 // 🧩 Utility: Feedback messages
 function createElement({ tag = "div", className = "", id = "" }, callback) {
   const el = document.createElement(tag);
@@ -18,24 +17,25 @@ export function feedbackFactory(theme = {}) {
     danger: theme.danger || "bg-[#D0313D] text-white",
     warning: theme.warning || "bg-[#EA9534] text-white",
     info: theme.info || "bg-[#DF7737] text-white",
-    normal:"bg-[#111]"
+    normal: "bg-[#111]",
   };
 
   return (type = "info", message = "Notification", time = 2000) => {
-    const container = createElement({
-      tag: "div",
-      className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50 feedback`,
-    }, (el) => {
-      el.innerText = message;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), time);
-    });
+    const container = createElement(
+      {
+        tag: "div",
+        className: `${colors[type]} p-3 rounded-md fixed top-1/2 right-5 shadow-md animate-bounce z-50 feedback`,
+      },
+      (el) => {
+        el.innerText = message;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), time);
+      }
+    );
     return container;
   };
 }
 
-
-   
 // ======================= Loader =======================
 function toggleLoader(show = true) {
   let loader = document.getElementById("global-loader");
@@ -88,12 +88,17 @@ function setupPasswordToggle() {
   });
 }
 
-// ======================= API Auth =======================
-const API_BASE = "https://nexa-mini.onrender.com/api/admin";
+// ======================= BASE API =======================
+const BASE_URL = "https://nexa-mini.onrender.com/api";
+const API_ADMIN = `${BASE_URL}/admin`;
+const API_REFERRAL = `${BASE_URL}/referral`;
+const API_STUDENT = `${BASE_URL}/student`;
+const API_VISIT = `${BASE_URL}/visit/log`;
 
+// ======================= Auth Request =======================
 async function sendAuthRequest(endpoint, data) {
   try {
-    const res = await axios.post(`${API_BASE}/${endpoint}`, data);
+    const res = await axios.post(`${API_ADMIN}/${endpoint}`, data);
     return res.data;
   } catch (err) {
     console.error("Auth Error:", err.response?.data || err.message);
@@ -135,7 +140,7 @@ function handleForm(formId, endpoint, redirectTo) {
         "Verifying credentials...",
         "Fetching user data...",
         "Building dashboard...",
-        "Almost there..."
+        "Almost there...",
       ]);
 
       const result = await sendAuthRequest(endpoint, data);
@@ -148,14 +153,12 @@ function handleForm(formId, endpoint, redirectTo) {
       localStorage.setItem("user", JSON.stringify(result.user || data));
 
       window.location.href = redirectTo;
-
     } catch (err) {
       console.error("❌ Auth error:", err);
-      showFeedback("danger", err.response?.data?.message || "Connection failed!"+err.message);
+      showFeedback("danger", err.response?.data?.message || "Connection failed! " + err.message);
       log(["Error: Unable to connect"]);
     } finally {
       toggleLoader(false);
-      log:[]
     }
   });
 }
@@ -186,13 +189,13 @@ async function copyText(text) {
   }
 }
 
-// ======================= Dashboard Render =======================
+// ======================= Dashboard =======================
 async function renderDashboard(user) {
   const root = document.getElementById("root");
   if (!root || !user) return;
 
   try {
-    const res = await fetch(`https://nexa-mini.onrender.com/api/referral?phone=${user.phone}`);
+    const res = await fetch(`${API_REFERRAL}?phone=${user.phone}`);
     const data = await res.json();
 
     root.innerHTML = "";
@@ -217,25 +220,21 @@ async function renderDashboard(user) {
   }
 }
 
-// ======================= Initialization =======================
+// ======================= INIT =======================
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user")) || null;
 
-  // Auto redirect if logged in
   if (token && window.location.pathname.endsWith("index.html")) {
     window.location.href = "panel.html";
   }
 
-  // Form setup
   handleForm("n-sign-up", "register", "panel.html");
   handleForm("n-sign-in", "login", "panel.html");
-
   setupPasswordToggle();
   setupPageSwitch();
 
-  const copyBtns = document.querySelectorAll(".copy");
-  copyBtns.forEach((btn) => {
+  document.querySelectorAll(".copy").forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.dataset.target;
       const targetEl = document.getElementById(targetId);
@@ -247,44 +246,33 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.endsWith("panel.html")) {
     renderDashboard(user);
   }
-  
-  /*MAKING LINK AVAILABLE FOR COPY AND PASTE*/
-  const refLink = 
-  document.getElementById("reflink");
-  
-  
-  localStorage.setItem("user",JSON.stringify({
-      id: "user._id",
-      firstname: "user.firstname",
-      lastname: "user.lastname",
-      phone: "user.phone",
-      referralCode: "user.referralCode || null",
-      subscription: "user.subscription || null"
-    }
-))
 
-  const userk = JSON.parse(localStorage.getItem("usehr"))
-  if (userk) {
+  const refLink = document.getElementById("reflink");
+  if (user && refLink) {
     refLink.value = `https://cctv-liart.vercel.app?ref=${user.referralCode}`;
   }
-  
 
+  // ======================= Visit Tracking =======================
+  const params = new URLSearchParams(window.location.search);
+  const referralCode = params.get("ref") || "direct";
+  localStorage.setItem("referralCode", referralCode);
 
+  const visitKey = `visit_${referralCode}_${window.location.pathname}`;
+  if (!sessionStorage.getItem(visitKey)) {
+    fetch(API_VISIT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: window.location.pathname,
+        referrer: referralCode,
+        utm: { source: "referralSite" },
+        userAgent: navigator.userAgent,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log("Visit tracked:", data))
+      .catch((err) => console.error("Visit tracking failed:", err));
 
-
-
-// CHANGE THIS TO YOUR SERVER URL
-const BASE_URL = "http://localhost:5000/api/student";
-
-// Sample test students
-const testUsers = [
-  { username: "Adaeze", password: "1234", platform: "web", referralCode: "REF1234" },
-  { username: "Emmanuel", password: "abcd", platform: "mobile", referralCode: "REF1234" },
-  { username: "Chinelo", password: "pass567", platform: "web", referralCode: "REF5678" }
-];
-
-
-  
+    sessionStorage.setItem(visitKey, "true");
+  }
 });
-
-// ======================= End of File =======================
