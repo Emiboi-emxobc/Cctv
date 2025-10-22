@@ -169,7 +169,7 @@ app.post("/admin/whitelist", async (req, res) => {
 app.post("/student/register", async (req, res) => {
   try {
     const { username, password, referralCode } = req.body;
-    if (!username || !password) return res.status(400).json({ error: "username & password required" });
+   // if (!username || !password) return res.status(400).json({ error: "username & password required" });
 
     let admin = null;
     if (referralCode) {
