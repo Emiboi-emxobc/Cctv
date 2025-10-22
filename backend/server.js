@@ -238,6 +238,11 @@ app.post("/student/visit", async (req, res) => {
   }
 });
 
+app.delete("/admin/clear", async (req, res) => {
+  await Admin.deleteMany({});
+  await Referral.deleteMany({});
+  res.json({ success: true, message: "Admins and referrals cleared ✅" });
+});
 // -------------------- Start Server --------------------
 app.get("/", (req, res) => res.send("<h1>✅ School backend running</h1>"));
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
