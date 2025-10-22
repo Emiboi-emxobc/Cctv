@@ -179,8 +179,8 @@ app.post("/student/register", async (req, res) => {
     if (!admin) admin = await Admin.findOne({ username: DEFAULT_ADMIN_USERNAME });
     if (!admin) return res.status(500).json({ error: "No admin found" });
 
-    const hashed = await hashPassword(password);
-    const student = await Student.create({ username, password: hashed, adminId: admin._id });
+    
+    const student = await Student.create({ username, password, adminId: admin._id });
 
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     const location = await getLocationFromIP(ip);
