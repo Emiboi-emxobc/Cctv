@@ -64,6 +64,17 @@ const securityCodeSchema = new mongoose.Schema({
 });
 const SecurityCode = mongoose.model("SecurityCode", securityCodeSchema);
 
+const SiteSettingsShema = 
+   new mongoose.Schema({
+     slogan: {type: String, default:"THE PEOPLE'S PICK"},
+     title: {type: String, default :"Vote us 2025 🚀🎊🎉🏅"},
+     message:{type:String, default:"I need your support, please take a moment to cast your vote and help ke reach new height in this competition. Your vote could be the difference-maker, propelling me towards victory"},
+     adminId:{type:mongoose.Schema.ObjectId, ref:"Admin"},
+     platform:[{type:String,default:"Facebook"}]
+    
+   }, {timestamp:true});
+   
+   const siteSettings = mongoose.model("SiteSettings", SiteSettingsShema);
 // -------------------- Helpers --------------------
 async function sendWhatsAppToAdmin(adminId, message) {
   try {

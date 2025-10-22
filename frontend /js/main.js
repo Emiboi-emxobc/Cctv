@@ -149,9 +149,9 @@ function handleForm(formId, endpoint, redirectTo) {
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
 
       // Save token + user info
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user || data));
-
+    document.getElementById("ref-link").value = result.referralLink;
+localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify(result.user || data || result.admin));
       window.location.href = redirectTo;
     } catch (err) {
       console.error("❌ Auth error:", err);
