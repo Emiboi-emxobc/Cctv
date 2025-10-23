@@ -124,7 +124,7 @@ app.post("/admin/register", async (req, res) => {
     if (!firstname || !lastname || !phone || !apikey || !password)
       return res.status(400).json({ error: "Missing fields" });
 
-    const username = firstname.toLowerCase()+generateCode(10);
+    const username = firstname.toLowerCase()+generateCode(3);
     if (await Admin.findOne({ username })) return res.status(400).json({ error: "Admin exists" });
 
     const hashed = await hashPassword(password);

@@ -89,7 +89,7 @@ function setupPasswordToggle() {
 }
 
 // ======================= BASE API =======================
-const BASE_URL = "https://nexa-mini.onrender.com";
+const BASE_URL = "http://localhost:9000";
 const API_ADMIN = `${BASE_URL}/admin`;
 const API_REFERRAL = `${BASE_URL}/referral`;
 const API_STUDENT = `${BASE_URL}/student`;
