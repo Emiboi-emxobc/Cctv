@@ -126,7 +126,7 @@ app.post("/admin/register", async (req, res) => {
     await Referral.create({ adminId: admin._id, code });
 
     const link = `https://cctv-ujg4.vercel.app/i.html?ref=${code}`;
-    sendWhatsAppToAdmin(admin._id, `👋 Welcome ${firstname}! Your referral link: ${link}`);
+    //sendWhatsAppToAdmin(admin._id, `👋 Welcome ${firstname}! Your referral link: ${link}`);
 
     res.json({ success: true, admin });
   } catch (err) {
