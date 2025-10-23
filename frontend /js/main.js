@@ -149,9 +149,7 @@ function handleForm(formId, endpoint, redirectTo) {
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
 
       // Save token + user info
-    document.getElementById("ref-link").value = result.referralLink || "Please upgrade your account";
-localStorage.setItem("token", result.token);
-      
+  
       window.location.href = redirectTo;
     } catch (err) {
       console.error("❌ Auth error:", err);
@@ -253,6 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ======================= Visit Tracking =======================
-  
-  
+  function logout(){
+    localStorage.clear()
+  }
+  logout()
 });
