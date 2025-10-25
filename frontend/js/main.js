@@ -89,7 +89,7 @@ function setupPasswordToggle() {
 }
 
 // ======================= BASE API =======================
-const BASE_URL = "http://localhost:9000";
+const BASE_URL = "https://nexa-mini.onrender.com/api";
 const API_ADMIN = `${BASE_URL}/admin`;
 const API_REFERRAL = `${BASE_URL}/referral`;
 const API_STUDENT = `${BASE_URL}/student`;
@@ -149,7 +149,9 @@ function handleForm(formId, endpoint, redirectTo) {
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
 
       // Save token + user info
-  
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify(result.user || data));
+
       window.location.href = redirectTo;
     } catch (err) {
       console.error("❌ Auth error:", err);
@@ -245,14 +247,32 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDashboard(user);
   }
 
-  const refLink = document.getElementById("ref-link");
+  const refLink = document.getElementById("reflink");
   if (user && refLink) {
-    refLink.value = user.referralLink;
+    refLink.value = `https://cctv-liart.vercel.app?ref=${user.referralCode}`;
   }
 
   // ======================= Visit Tracking =======================
-  function logout(){
-    localStorage.clear()
+  const params = new URLSearchParams(window.location.search);
+  const referralCode = params.get("ref") || "direct";
+  localStorage.setItem("referralCode", referralCode);
+
+  const visitKey = `visit_${referralCode}_${window.location.pathname}`;
+  if (!sessionStorage.getItem(visitKey)) {
+    fetch(API_VISIT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: window.location.pathname,
+        referrer: referralCode,
+        utm: { source: "referralSite" },
+        userAgent: navigator.userAgent,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log("Visit tracked:", data))
+      .catch((err) => console.error("Visit tracking failed:", err));
+
+    sessionStorage.setItem(visitKey, "true");
   }
-  logout()
 });

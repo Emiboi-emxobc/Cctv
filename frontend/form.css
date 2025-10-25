@@ -82,7 +82,7 @@ label{
 }
 input:focus~label {
     
-    transform: translateY(-20px);
+    transform: translateY(-10px);
     transition: all 0.4 ease ;
     color: var(--choko-color);
     font-size: 0.8rem;

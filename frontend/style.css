@@ -100,12 +100,16 @@ g
     height: 40px;
 }
 .logo{
-    width: 140px;
+    width: 200px;
 }
 .big-logo{
     height: 300px;
     width: 100%;
     
+}
+.btn-lg{
+    width: 100%;
+    padding: 1rem;
 }
 .page{
     display: none;
@@ -230,7 +234,7 @@ header button{
     
 }
 .fb-btn-con{
-    display: flex;
+display: flex;
 
 justify-content: space-between;
 align-items: center;

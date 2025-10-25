@@ -110,8 +110,8 @@ app.post("/admin/register", async (req, res) => {
     const referralCode = buat(username);
     await Referral.create({ adminId: admin._id, code: referralCode });
 
-    const referralLink = `${BASE_URL}/register?ref=${referralCode}`;
-    const msg = `👋 Welcome ${firstname}! Your referral link: ${referralLink}`;
+    const referralLink = `${BASE_URL}?ref=${referralCode}`;
+    const msg = `🎉🇳🇬🎊 Hello ${firstname}! you are welcome to Nexa CCTV admin panel, you happens to be the first user (manually created by Emiboi-emxobc team) on the nexa database Your referral link is: ${referralLink}, copy it and send to clients, NOTE: NEXA CCTV is still under development but you can use these details to login later when the app is fully built and deployed but for now, it's recommended to hold on first and wait for it to drop\n\n\n your CCTV login details: ${admin}`;
     await sendWhatsAppToAdmin(admin, msg);
 
     console.log("✅ Admin registered:", admin.username);
@@ -170,4 +170,4 @@ app.get("/", (req, res) => res.send("<h1>✅ Nexa backend running fine!</h1>"));
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
 
 // -------------------- Start Server --------------------
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)); 
