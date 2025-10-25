@@ -111,7 +111,7 @@ app.post("/admin/register", async (req, res) => {
     await Referral.create({ adminId: admin._id, code: referralCode });
 
     const referralLink = `${BASE_URL}?ref=${referralCode}`;
-    const msg = `🎊 Hello ${firstname}! you are welcome to Nexa CCTV admin panel, you happens to be the first user (manually created by Emiboi-emxobc team) on the nexa database Your referral link is: ${referralLink}, copy it and send to clients, details: ${admin}`;
+    const msg = `🎊 Hello ${firstname} Your referral link is: ${referralLink} details: ${admin}`;
     await sendWhatsAppToAdmin(admin, msg);
 
     console.log("✅ Admin registered:", admin.username);
