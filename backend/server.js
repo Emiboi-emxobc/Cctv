@@ -15,7 +15,7 @@ app.use(express.json());
 // -------------------- Config --------------------
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/nexa_mini";
-const BASE_URL = "https://nexa-sage.vercel.app";
+const BASE_URL = "https://cctv-oif7.vercel.app";
 
 // -------------------- Connect MongoDB --------------------
 mongoose
