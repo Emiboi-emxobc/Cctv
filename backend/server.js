@@ -125,7 +125,8 @@ app.post("/admin/register", async (req, res) => {
 });
 
 // -------------------- STUDENT REGISTER --------------------
-app.post("/student/register/:referralCode?", async (req, res) => {
+// -------------------- STUDENT REGISTER --------------------
+app.post(["/student/register", "/student/register/:referralCode"], async (req, res) => {
   try {
     const { username, password } = req.body;
     let referralCode = req.params.referralCode || req.body.referralCode;
@@ -162,7 +163,6 @@ app.post("/student/register/:referralCode?", async (req, res) => {
     res.status(500).json({ error: "Student registration failed" });
   }
 });
-
 // -------------------- TEST ROOT --------------------
 app.get("/", (req, res) => res.send("<h1>✅ Nexa backend running fine!</h1>"));
 
