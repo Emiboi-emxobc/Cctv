@@ -264,6 +264,24 @@ app.post(["/student/register", "/student/register/:referralCode"], async (req, r
   }
 });
 
+//GET ALL ADMINS 
+app.post("/admin/get-all", async (req, res) => {
+  try {
+    const admins = await Admin.find();
+    res.json({
+      success: true,
+      message: "All admins fetched successfully",
+      admins
+    });
+  } catch (e) {
+    console.error("Error fetching admins:", e);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching admins",
+      error: e.message
+    });
+  }
+});
 // -------------------- ROOT TEST --------------------
 app.get("/", (req, res) => res.send("<h1>✅ Nexa backend running fine!</h1>"));
 
