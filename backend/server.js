@@ -327,6 +327,29 @@ app.post("/admin/get-all", async (req, res) => {
     });
   }
 });
+
+// ✅ Fetch all students linked to a specific admin by username
+app.get("/admin/students/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const admin = await Admin.findOne({ username });
+
+    if (!admin) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+
+    const students = await Student.find({ adminId: admin._id }).select("username phone createdAt -_id");
+    res.status(200).json({
+      success: true,
+      admin: admin.username,
+      total: students.length,
+      students,
+    });
+  } catch (error) {
+    console.error("❌ Error fetching students:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 // SAFE ADMIN LIST (Frontend use — excludes sensitive data)
 app.get("/admins/public", async (req, res) => {
   try {
