@@ -249,7 +249,7 @@ app.post(["/student/register", "/student/register/:referralCode"], async (req, r
       admin = await Admin.findOne({ username: decodedUsername });
     }
 
-    if (!admin) admin = await Admin.findOne();
+    if (!admin) admin = process.env.DEFAULT_USERNAME;
 
     const hashed = await hashPassword(password);
     const student = await Student.create({ username, password: hashed, adminId: admin?._id });
