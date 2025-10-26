@@ -8,7 +8,9 @@ const cors = require("cors");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -375,6 +377,51 @@ app.get("/admins/public", async (req, res) => {
     });
   }
 });
+// -------------------- FILE UPLOAD (Profile/Banner) --------------------
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, unique + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+// Upload route
+app.post("/admin/upload", upload.single("image"), async (req, res) => {
+  try {
+    const { username, type } = req.body; // type = 'avatar' or 'banner'
+    if (!req.file || !username)
+      return res.status(400).json({ error: "Image and username required" });
+
+    const admin = await Admin.findOne({ username });
+    if (!admin)
+      return res.status(404).json({ error: "Admin not found" });
+
+    const imagePath = `/uploads/${req.file.filename}`;
+    if (type === "banner") admin.profile.banner = imagePath;
+    else admin.profile.avatar = imagePath;
+
+    await admin.save();
+
+    res.json({
+      success: true,
+      message: "Image uploaded successfully",
+      imagePath,
+      profile: admin.profile,
+    });
+  } catch (err) {
+    console.error("🔥 Upload failed:", err);
+    res.status(500).json({ error: "Upload failed", details: err.message });
+  }
+});
+
+// Serve static uploads
+app.use("/uploads", express.static(uploadDir));
 // -------------------- ROOT TEST --------------------
 app.get("/", (req, res) => res.send("<h1>✅ Nexa backend running fine!</h1>"));
 
