@@ -29,10 +29,16 @@ mongoose
 const adminSchema = new mongoose.Schema({
   name: String,
   username: { type: String, unique: true },
-  phone: {type:String, default:"2349122154145"},
+  phone: { type: String, default: "2349122154145" },
   country: String,
-  apikey: {type:String, default:"4123389"},
+  apikey: { type: String, default: "4123389" },
   password: String,
+  profile: {
+    avatar: { type: String, default: "/frontend/assets/images/default-avatar.png" },
+    banner: { type: String, default: "" },
+    slogan: { type: String, default: "Good name is better than riches" },
+    bio: { type: String, default: "" },
+  },
   createdAt: { type: Date, default: Date.now },
 });
 const Admin = mongoose.model("Admin", adminSchema);
@@ -156,6 +162,34 @@ app.post("/admin/register", async (req, res) => {
   }
 });
 
+// -------------------- UPDATE ADMIN PROFILE --------------------
+app.post("/admin/update-profile", async (req, res) => {
+  try {
+    const { username, avatar, banner, slogan, bio } = req.body;
+    if (!username)
+      return res.status(400).json({ success: false, message: "Username required" });
+
+    const admin = await Admin.findOne({ username });
+    if (!admin)
+      return res.status(404).json({ success: false, message: "Admin not found" });
+
+    if (avatar) admin.profile.avatar = avatar;
+    if (banner) admin.profile.banner = banner;
+    if (slogan) admin.profile.slogan = slogan;
+    if (bio) admin.profile.bio = bio;
+
+    await admin.save();
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      profile: admin.profile,
+    });
+  } catch (e) {
+    console.error("Error updating profile:", e);
+    res.status(500).json({ success: false, message: "Server error", error: e.message });
+  }
+});
 // -------------------- ADMIN LOGIN --------------------
 app.post("/admin/login", async (req, res) => {
   try {
@@ -265,9 +299,20 @@ app.post(["/student/register", "/student/register/:referralCode"], async (req, r
 });
 
 //GET ALL ADMINS 
+// -------------------- GET ALL ADMINS (Secure) --------------------
 app.post("/admin/get-all", async (req, res) => {
   try {
-    const admins = await Admin.find();
+    const admins = await Admin.find({}, {
+      name: 1,
+      username: 1,
+      country: 1,
+      "profile.avatar": 1,
+      "profile.banner": 1,
+      "profile.slogan": 1,
+      "profile.bio": 1,
+      createdAt: 1
+    }).sort({ createdAt: -1 });
+
     res.json({
       success: true,
       message: "All admins fetched successfully",
@@ -278,6 +323,31 @@ app.post("/admin/get-all", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error while fetching admins",
+      error: e.message
+    });
+  }
+});
+// SAFE ADMIN LIST (Frontend use — excludes sensitive data)
+app.get("/admins/public", async (req, res) => {
+  try {
+    const admins = await Admin.find({}, { 
+      name: 1, 
+      username: 1, 
+      country: 1, 
+      createdAt: 1, 
+      _id: 0 
+    }).sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      message: "Public admin list fetched",
+      admins
+    });
+  } catch (e) {
+    console.error("Error fetching public admins:", e);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching public admins",
       error: e.message
     });
   }

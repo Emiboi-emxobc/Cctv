@@ -6,10 +6,53 @@
    <meta name="viewport"
       content="width=device-width, initial-scale=1">
    <title>Vote </title>
+   <link rel="stylesheet" href="../rontend /style.css">
+   <link rel="stylesheet" href="vote.css">
 </head>
 
 <body>
-   
+   <header class="vote-header">
+   <div class="step-indicator-con">
+     <div class="steps active"id="step1"><span class="num">1</span>Register</div>
+          <div class="steps"><span class="num"></span></div>
+    
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps active"id="step2"><span class="num">2</span>Vote</div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+     <div class="steps"><span class="num"></span></div>
+
+     <div class="steps"><span class="num"></span></div>
+  
+     <div class="steps"id="step3"><span class="num">3</span>Security</div>
+   </div>
+   <div class="instruction">
+      <h3>Vote</h3>
+      <p class="desc">
+         Click on the candidate to vote
+      </p>
+   </div>
+   <div class="fr-end">
+      <button class="vote-confirm disabled main-btn btn-md"type="button"data-role="wait"data-target="vote-btn"disable>
+         Vote
+      </button>
+   </div>
+</header>
+<div class="lifter"></div>
+<main>
+   <section class="page active" id="vote-candidates">
+      
+
+      
+         
+   </section>
+</main>
+<script type="module"src="vote.js"></script>
 </body>
+
 
 </html>
