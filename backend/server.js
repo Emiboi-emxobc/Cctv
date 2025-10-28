@@ -192,6 +192,16 @@ app.get("/admin/students", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch students" });
   }
 });
+// ----------------- GET ALL ADMINS (Public Access) -----------------
+app.get("/admins/public", async (req, res) => {
+  try {
+    const admins = await Admin.find().select("-password -__v");
+    res.json({ success: true, admins });
+  } catch (err) {
+    console.error("❌ Failed to fetch admins:", err);
+    res.status(500).json({ success: false, error: "Failed to fetch admins" });
+  }
+});
 
 // =================== SERVER ===================
 const PORT = process.env.PORT || 5000;
