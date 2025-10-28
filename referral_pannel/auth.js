@@ -16,12 +16,12 @@ export function auth(title, description, callback) {
    form.id = 'auth-code',
    form.className = "auth-code",
    
-   form.innerHTML = `      <h2 class="title">
+   form.innerHTML = `     <h2 class="title">
       ${title || "  Confirm your account"} 
       </h2>
       
       <p class="desc">
-         ${description || "For the security of your account, We've sent you a confirmation code via <span>Whatsapp.</span> Enter that code here to confirm your account "} 
+      For the security of your account, We've sent you a confirmation code via <span>Whatsapp.</span> Enter that code here to confirm your account 
       </p>
     
       
@@ -33,8 +33,8 @@ export function auth(title, description, callback) {
         <div id="output"></div>
         <div class="btn-con">
           <button type="submit"class="btn  pri-btn">Continue</button>
-           <button type="button"class="btn sec-btn view"onclick="${showFeedback("danger","You need to wait and try again in the next 10 minutes")}">Try another way</button>
-        </div>
+           <button type="button"class="btn sec-btn view">Try another way</button>
+        </div> 
       `
       document.body.appendChild(form)
 }

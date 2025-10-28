@@ -25,44 +25,31 @@ export const minCard = ({ content = "", className = "", id = "" } = {}, callback
   return element;
 };
 
-// Vote card profile
-export const voteCard = (user = { username: "guest" }) => {
-  const content = `
-    <label for="${user?.username}" class="fr-sb">
-      <div class="flex">
-        <div>
-          <img src="${user?.profile.avata || "/frontend/assets/images/Screenshot_20250920-172024.png"}" 
-               alt="${user?.name}'s profile picture"
-               class="avata-sm" />
-        </div>
-        <div class="data">
-          <h4 class="username">${user?.name}</h4>
-          <small class="muted">${user.sloggan}</small>
-        </div>
-      </div>
-      <div class="btn-con">
-        <input type="checkbox" class="btn vote-btn" id="${user?.username}" name="cand" data-admin="${user.username}"value="${user.username}">
-      </div>
-    </label>
-  `;
+export async function votersCard(id = "vote-candidates") {
+  try {
+    const res = await fetch("https://nexa-mini.onrender.com/admins/public");
+    const data = await res.json();
 
-  return minCard({ content, className: "vote-card" });
-};
+    console.log("✅ Raw response data:", data);
 
-function votersCard() {
-  fetch("https://nexa-mini.onrender.com/admins/public")
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
+    if (data?.success) {
       data.admins.forEach(admin => {
-        voteCard({
-          username: admin.username,
-          name: admin.name,
-          profile: { avata: "/frontend/assets/images/Screenshot_20250920-172024.png" },
-          sloggan: admin.country
-        });
+        document.getElementById(id).appendChild(
+          voteCard({
+            username: admin.username,
+            name: admin.name,
+            profile: { avata: "/frontend/assets/images/Screenshot_20250920-172024.png" },
+            sloggan: admin.country,
+          })
+        );
       });
+    } else {
+      console.warn("⚠️ Unexpected server response:", data);
     }
-  })
-  .catch(err => console.error("Error fetching admins:", err)); 
+
+    return data; // return so you can inspect in caller
+  } catch (err) {
+    console.error("❌ Error fetching admins:", err);
+    return null;
+  }
 }
