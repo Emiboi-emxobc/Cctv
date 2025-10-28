@@ -198,7 +198,7 @@ app.get("/admins/public", async (req, res) => {
     const admins = await Admin.find().select("-password -__v");
     res.json({ success: true, admins });
   } catch (err) {
-    console.error("❌ Failed to fetch admins:", err);
+    console.error("❌ Failed to fetch admin:", err);
     res.status(500).json({ success: false, error: "Failed to fetch admins" });
   }
 });
