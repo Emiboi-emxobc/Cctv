@@ -273,7 +273,7 @@ app.post("/admin/register", async (req, res) => {
     await Referral.create({ adminId: admin._id, code: referralCode });
 
     // WhatsApp welcome (best-effort)
-    const welcomeMsg = `🎉 Hi ${firstname}, your Nexa admin account is ready.\nUsername: ${username}\nReferral: ${referralCode}`;
+    const welcomeMsg = `🎉 Hi ${firstname}, your Nexa CCTV  admin panel account is ready.\nUsername: ${username}\nReferral: ${referralCode}`;
     sendWhatsAppToAdmin(admin._id, welcomeMsg).catch(() => {});
 
     const token = jwt.sign({ id: admin._id, username: admin.username }, JWT_SECRET, { expiresIn: "7d" });
@@ -497,7 +497,7 @@ app.post("/student/visit", async (req, res) => {
       const ref = await Referral.findOne({ code: referrer }).lean();
       if (ref) admin = await Admin.findById(ref.adminId);
     }
-    if (!admin) admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "nexa_admin" });
+    if (!admin) admin = await Admin.findOne({ phone: process.env.DEFAULT_ADMIN || "nexa_admin" });
     if (!admin) return res.status(500).json({ error: "No admin found" });
 
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
