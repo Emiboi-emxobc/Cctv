@@ -54,7 +54,7 @@ export function handleForm(formId, endpoint, redirectTo) {
 
       await log(["✅ Access granted", "Redirecting..."]);
       showFeedback("success", `Welcome, ${data.firstname || "Admin"}!`);
-alert(redirectTo)
+
       // Save token + user info
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user || data));
