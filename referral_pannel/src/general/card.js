@@ -26,7 +26,7 @@ function voteCard({ username, name, profile, slogan, country }) {
     </label>
     <div>
       <input 
-        type="checkbox" 
+        type="radio" 
         name="candidate" 
         id="${username}" 
         value="${username}" 
