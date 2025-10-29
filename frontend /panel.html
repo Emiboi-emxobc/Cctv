@@ -1,129 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport"
-      content="width=device-width, initial-scale=1">
-   <title>CCTV dashboard</title>
-     <script src="https://kit.fontawesome.com/df4806f026.js" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
-
-  <!-- SEO Meta -->
-  <meta name="author" content="Nexa">
-  <meta name="keywords" content="Nexa, tools for hustlers" />
-  <meta name="theme-color" content="#000">
-
-  <!-- Favicon & PWA Icons -->
-<link rel="icon" type="image/svg" href="assets/icons/Nexa-logo.svg" sizes="150x160" />
-<link rel="icon" type="image/svg+xml" href="assets/icons/Nexa-logo.svg" />
-<link rel="shortcut icon" href="assets/icons/Nexa-logo.svg" />
-<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/Nexa-logo.svg" />
-<meta name="apple-mobile-web-app-title" content="Nexa" />
-<link rel="manifest" href="assets/icons/site.webmanifest" />
-<link rel="stylesheet" href="panel.css">
-<script src="js/main.js" type="module"></script>
-<script src="js/dashboard.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1">
+  <title>Vote </title>
+  <link rel="stylesheet" href="../rontend /style.css">
+   <link rel="stylesheet" href="/referral_pannel/vote.css">
 </head>
 
 <body>
+   <header class="vote-header">
+   <div class="header-container p-10">
+       <div class="total-click" id="total-clicks">
+         <h3>Total clicks: <span class="num">0</span></h3> 
+       </div>
+       <div class="link-container flex">
+          <input type="text" name="ref-link" id="ref-link"data-role="ref-link"value="https://site.frontend.com?ref=emiboi"readonly> 
+          <button id="link" class=" btn btn-sm main-btn copy "data-role="copy"data-target="ref-link">
+             <span class="fas fa-clipboard"></span>
+             Copy link
+             </button>
+              <div class="fr-end">
+      <button class="vote-confirm disabled main-btn btn-md"type="button"data-role="wait"data-target="vote-btn"disable>
+         Vote
+      </button>
+   </div>
+       </div>
+    </div>
+</header>
+<div class="lifter"></div>
+<main class="pt-2">
+  <section class="page active" id="vote-candidates">
+     <div class="min-card card flex">
+         <label for="" class="flex">
+           <div>
+                 <img src="/frontend /assets/images/profile.png" alt=""class="avata-sm" />
+            </div>
+           <div>
+              <h4 class="username">
+                 Emiboi coder
+              </h4>
+              <small class="muted">
+                 Good name is better than riches
+              </small>
+              <small class="muted ccountry">
+                   Nigerian
+               </small>
+               
 
-   <header class=" dashboard-header">
-     <div class="header-container p-10">
-        <div class="total-click" id="total-clicks">
-          <h3>Total clicks: <span class="num">0</span></h3> 
         </div>
-        <div class="link-container flex">
-           <input type="text" name="ref-link" id="ref-link"data-role="ref-link"value="https://site.frontend.com?ref=emiboi"readonly> 
-           <button id="link" class=" btn btn-sm main-btn copy "data-role="copy"data-target="ref-link">
-              <span class="fas fa-clipboard"></span>
-              Copy link
-              </button>
-        </div>
-     </div>
-   </header>
-   <div class="profile-container m-1">
-     <span class="image">
-           <img src="assets/images/gold-award-winners-cup-podium-against-background-golden-decorations_1199132-116200.jpg" alt="user profile "class="avata avata-sm" />
-     </span>
-     <span>
-       <strong class=" username">
-        Chukwuemeka
-       </strong>
-       <p class="text">
-          Welcome to cctv admin panel 
-       </p>
-     </span>
-   </div>
-    <main>
-       <section id="marketplace"class="card-lg page">
-          <div class="path">
-            Marketplace 
-          </div>
-          <div class="card-container">
-               <div class="profile-container">
-     <span class="image">
-           <img src="assets/images/profile.png" alt="user profile "class="avata avata-sm" />
-     </span>
-     <span>
-       <strong class=" username">
-        Chukwuemeka
-       </strong>
-       <p class="text">
-          Uploaded <span class="date">2d ago</span>
-       </p>
-     </span>
-   </div>
-          <div class="car card-md post-card">
-              <button type="button"class="cart-btn btn main-btn">
-                 <span class="fas fa-shopping-cart"></span>
-                 Order
-                 </button>
-              
-              <div class="img-container">
-                 <img src="assets/images/Screenshot_20251021-103515.png" alt="chair" class="product-img"id="img"/>
-                 <h3 class="product-title">Facebook account for sale</h3>
-                 <p class="product-desc">
-                    2 years Facebook account with 450 friends 
-                 </p>
-                 <strong class="price">
-                    N 5000
-                 </strong>
-              </div>
-              <div class="flex reaction-btn-con">
-                 <button class="like btn"data-role="like"data-target="img"><span class="fas fa-thumb-up"></span>Promote</button>
-                                  <button class="comment btn"data-role="comment"data-target="img"><span class="fas fa-comment"></span>Comment</button>
-              </div>
-          </div>
+         </label>
+         <div>
+            <input type="checkbox" name="candidate" id="candida"value="${admin.username}"class="ck-box">
          </div>
-       </section>
-    </main>
-    
-   <div class="lifter">
-      
-   </div>
-   <footer>
-      <ul id="main-nav">
-         <li class="nav">
-            <span class="fas fa-home">
-            </span> Home
-            </li>
-         <li class="nav">
-            <span class="fas fa-shopping-bag"></span>
-         Stores 
-         </li>
-         <li class="nav">
-            <span class="fas fa-users"></span>
-            Referrals 
-            </li>
-         <li class="nav">
-            <span class="fas fa-bell"></span>
-            Notification
-            </li>
-      </ul>
-   </footer>
-   
-</body>
+      </div>
 
+      
+         
+   </section>
+</main>
+<link rel="stylesheet" href="panl.css" title="" type="" />
+<script type="module"src="src/helper.js"></script>
+</body>
 </html>

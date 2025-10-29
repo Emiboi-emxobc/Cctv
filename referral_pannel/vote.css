@@ -24,6 +24,7 @@ header{
    position: fixed;
    top: 0;
    left: 0;
+   
    width: 100%;
    
 }
@@ -95,18 +96,13 @@ border-radius: 50%;
 h4{
    margin: 0.2rem 0;
 }
-.avata-sm{
-   width: 60px;
-   border-radius: 50%;
-   overflow: hidden;
-   background: #ddd;
-   padding: 0.21rem;
-}
+
 .avata-sm {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
   border-radius: 50%;
+  padding: 5px;
   border: 2px solid #fff; /* optional, gives a clean edge */
   background-color: #f5f5f5; /* fallback if image fails */
   display: block;
@@ -151,6 +147,7 @@ h4{
 .fr-end{
    display: flex;
    justify-content: flex-end;
+   align-items: flex-end;
    & .main-btn{
       padding: 0.6rem 1rem;
       border: none;
@@ -159,6 +156,7 @@ h4{
    }
    
 }
+
 btn-md{
    width: 100px;
    
