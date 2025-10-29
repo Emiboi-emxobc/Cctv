@@ -93,13 +93,28 @@ border-radius: 50%;
    margin-top: 2rem;
 }
 h4{
-   margin: 0.4rem;
+   margin: 0.2rem 0;
 }
 .avata-sm{
    width: 60px;
    border-radius: 50%;
+   overflow: hidden;
    background: #ddd;
    padding: 0.21rem;
+}
+.avata-sm {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff; /* optional, gives a clean edge */
+  background-color: #f5f5f5; /* fallback if image fails */
+  display: block;
+}
+.con-auto{
+   width: auto;
+   height: auto;
+   display: flex;
 }
 .card{
    background: #fff;
@@ -115,7 +130,7 @@ h4{
    box-shadow: 0 0 0 #000;
    padding: 1rem;
 }
-.vote-btn{
+.ck-box{
    width: 2rem;
    height: 2rem;
 }
@@ -153,4 +168,7 @@ button{
    &:disabled{
       pointer-events: none;
    }
+}
+.country{
+   color:var(--main-color);
 }

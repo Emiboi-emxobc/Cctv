@@ -1,12 +1,10 @@
-// ✅ NEXA Mini Backend — Production-Ready Edition
-
+// server.js
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
 const streamifier = require("streamifier");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { v2: cloudinary } = require("cloudinary");
@@ -15,29 +13,35 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// =================== MONGO CONNECTION ===================
+// ------------- CONFIG -------------
+const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || "nexa_secret_key";
+
+// ------------- MONGO -------------
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
-// =================== CLOUDINARY CONFIG ===================
+// ------------- CLOUDINARY -------------
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET,
+  cloud_name: process.env.CLOUDINARY_NAME || "",
+  api_key: process.env.CLOUDINARY_KEY || "",
+  api_secret: process.env.CLOUDINARY_SECRET || "",
 });
 
-// =================== MULTER SETUP ===================
+// ------------- MULTER -------------
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// =================== MODELS ===================
+// ------------- MODELS -------------
 const AdminSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   password: String,
-  avatar: String,
+  avatar: String, // secure_url
+  avatarPublicId: String, // cloudinary public_id for deletion
   banner: String,
+  bannerPublicId: String,
   slogan: String,
   bio: String,
   phone: String,
@@ -53,10 +57,7 @@ const StudentSchema = new mongoose.Schema({
 });
 const Student = mongoose.model("Student", StudentSchema);
 
-// =================== HELPERS ===================
-const JWT_SECRET = process.env.JWT_SECRET || "nexa_secret_key";
-
-// Middleware: verify token
+// ------------- HELPERS -------------
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader)
@@ -72,64 +73,99 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// =================== ROUTES ===================
-
-// Default route
+// ------------- ROUTES -------------
+// Root
 app.get("/", (req, res) => res.send("<h1>✅ Nexa backend live</h1>"));
 
-// ----------------- ADMIN REGISTER -----------------
+// Admin register
+// Admin register (auto-generate username)
 app.post("/admin/register", async (req, res) => {
   try {
-    const { username, password, phone } = req.body;
-    if (!username || !password)
-      return res.status(400).json({ error: "Username & password required" });
+    const { firstname, lastname, phone, password, apikey } = req.body;
+    if (!firstname || !lastname || !phone || !password) {
+      return res.status(400).json({ success: false, error: "All fields required" });
+    }
+
+    // check if phone already registered
+    const existing = await Admin.findOne({ phone });
+    if (existing) {
+      return res.status(400).json({ success: false, error: "Phone number already registered" });
+    }
+
+    // Generate unique username automatically
+    const base = `${firstname.toLowerCase()}_${lastname.toLowerCase()}`.replace(/\s+/g, "");
+    const random = Math.floor(1000 + Math.random() * 9000);
+    const username = `${base}_${random}`;
 
     const hashed = await bcrypt.hash(password, 10);
-    const admin = await Admin.create({ username, password: hashed, phone });
+    const defaultAvatar =
+      process.env.DEFAULT_AVATAR_URL ||
+      "https://res.cloudinary.com/demo/image/upload/v1690000000/default_avatar.png";
+
+    const admin = await Admin.create({
+      username,
+      phone,
+      password: hashed,
+      avatar: defaultAvatar,
+      banner: "",
+      slogan: "",
+      bio: "",
+      referralCode: apikey || `${username}_${random}`,
+    });
 
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.json({ success: true, message: "Admin registered", token });
+    res.json({
+      success: true,
+      message: "Admin registered successfully",
+      token,
+      admin: {
+        username: admin.username,
+        phone: admin.phone,
+        avatar: admin.avatar,
+        referralCode: admin.referralCode,
+      },
+    });
   } catch (err) {
-    console.error("Admin register error:", err);
-    res.status(500).json({ error: "Registration failed" });
+    console.error("❌ Admin register error:", err);
+    res.status(500).json({ success: false, error: "Registration failed" });
   }
 });
-
-// ----------------- ADMIN LOGIN -----------------
+// Admin login
 app.post("/admin/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(404).json({ error: "User not found" });
+    if (!admin) return res.status(404).json({ success: false, error: "User not found" });
 
     const valid = await bcrypt.compare(password, admin.password);
-    if (!valid) return res.status(401).json({ error: "Invalid password" });
+    if (!valid) return res.status(401).json({ success: false, error: "Invalid password" });
 
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "7d" });
-    res.json({ success: true, message: "Login successful", token });
+    res.json({ success: true, message: "Login successful", token, admin: { username: admin.username, avatar: admin.avatar, banner: admin.banner } });
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).json({ error: "Login failed" });
+    res.status(500).json({ success: false, error: "Login failed" });
   }
 });
 
-// ----------------- ADMIN PROFILE -----------------
+// Admin profile
 app.get("/admin/profile", verifyToken, async (req, res) => {
   try {
     const admin = await Admin.findById(req.userId).select("-password");
     res.json({ success: true, profile: admin });
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch profile" });
+    console.error("Profile fetch error:", err);
+    res.status(500).json({ success: false, error: "Failed to fetch profile" });
   }
 });
 
-// ----------------- ADMIN UPDATE PROFILE -----------------
+// Admin update (slogan, bio)
 app.post("/admin/update", verifyToken, async (req, res) => {
   try {
     const { slogan, bio } = req.body;
     const admin = await Admin.findById(req.userId);
-    if (!admin) return res.status(404).json({ error: "Admin not found" });
+    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
 
     if (slogan) admin.slogan = slogan;
     if (bio) admin.bio = bio;
@@ -137,37 +173,82 @@ app.post("/admin/update", verifyToken, async (req, res) => {
 
     res.json({ success: true, message: "Profile updated", profile: admin });
   } catch (err) {
-    res.status(500).json({ error: "Update failed" });
+    console.error("Update failed:", err);
+    res.status(500).json({ success: false, error: "Update failed" });
   }
 });
 
-// ----------------- CLOUDINARY UPLOAD -----------------
+// ----------------- CLOUDINARY UPLOAD (improved) -----------------
 app.post("/admin/upload-cloud", verifyToken, upload.single("image"), async (req, res) => {
   try {
-    const { type } = req.body;
+    const { type } = req.body; // expected 'avatar' or 'banner'
+    if (!req.file) return res.status(400).json({ success: false, error: "No image provided" });
+
     const admin = await Admin.findById(req.userId);
-    if (!admin) return res.status(404).json({ error: "Admin not found" });
+    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
+
+    // Upload stream with meaningful public_id
+    const publicIdBase = `${admin.username}_${type}_${Date.now()}`;
+    const folder = process.env.CLOUDINARY_FOLDER || "nexa_mini";
 
     const result = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { folder: "nexa_mini" },
-        (error, result) => (result ? resolve(result) : reject(error))
+      const upload = cloudinary.uploader.upload_stream(
+        {
+          folder,
+          public_id: publicIdBase,
+          transformation: [
+            { width: 800, height: 800, crop: "limit" }, // safety
+          ],
+        },
+        (err, result) => (err ? reject(err) : resolve(result))
       );
-      streamifier.createReadStream(req.file.buffer).pipe(stream);
+      streamifier.createReadStream(req.file.buffer).pipe(upload);
     });
 
-    if (type === "avatar") admin.avatar = result.secure_url;
-    else if (type === "banner") admin.banner = result.secure_url;
+    // If there was a previous image, attempt to delete it (best effort)
+    try {
+      if (type === "avatar" && admin.avatarPublicId) {
+        await cloudinary.uploader.destroy(admin.avatarPublicId).catch(() => {});
+      }
+      if (type === "banner" && admin.bannerPublicId) {
+        await cloudinary.uploader.destroy(admin.bannerPublicId).catch(() => {});
+      }
+    } catch (delErr) {
+      // don't fail the request if delete fails
+      console.warn("Old image deletion warning:", delErr);
+    }
+
+    // Save new url + public_id
+    if (type === "avatar") {
+      admin.avatar = result.secure_url;
+      admin.avatarPublicId = result.public_id;
+    } else if (type === "banner") {
+      admin.banner = result.secure_url;
+      admin.bannerPublicId = result.public_id;
+    } else {
+      // Unknown type: still return url but don't save
+      return res.json({ success: true, message: "Uploaded", imageUrl: result.secure_url, raw: result });
+    }
 
     await admin.save();
-    res.json({ success: true, message: "Image uploaded", imageUrl: result.secure_url });
+
+    res.json({
+      success: true,
+      message: `${type} uploaded successfully`,
+      imageUrl: result.secure_url,
+      admin: {
+        username: admin.username,
+        avatar: admin.avatar,
+        banner: admin.banner,
+      },
+    });
   } catch (err) {
-    console.error("Upload failed:", err);
-    res.status(500).json({ error: "Upload failed" });
+    console.error("❌ Upload failed:", err);
+    res.status(500).json({ success: false, error: "Upload failed" });
   }
 });
 
-// ----------------- STUDENT REGISTER -----------------
+// Student register
 app.post("/student/register", async (req, res) => {
   try {
     const { username, referrer } = req.body;
@@ -178,24 +259,28 @@ app.post("/student/register", async (req, res) => {
     });
     res.json({ success: true, message: "Student registered", student });
   } catch (err) {
-    res.status(500).json({ error: "Student registration failed" });
+    console.error("Student register failed:", err);
+    res.status(500).json({ success: false, error: "Student registration failed" });
   }
 });
 
-// ----------------- GET STUDENTS BY ADMIN -----------------
+// Get students by admin
 app.get("/admin/students", verifyToken, async (req, res) => {
   try {
     const admin = await Admin.findById(req.userId);
+    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
     const students = await Student.find({ referrer: admin.username });
     res.json({ success: true, students });
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch students" });
+    console.error("Fetch students failed:", err);
+    res.status(500).json({ success: false, error: "Failed to fetch students" });
   }
 });
-// ----------------- GET ALL ADMINS (Public Access) -----------------
+
+// Public: get all admins (lean for performance)
 app.get("/admins/public", async (req, res) => {
   try {
-    const admins = await Admin.find().select("-password -__v");
+    const admins = await Admin.find().select("-password -__v").lean();
     res.json({ success: true, admins });
   } catch (err) {
     console.error("❌ Failed to fetch admin:", err);
@@ -203,6 +288,5 @@ app.get("/admins/public", async (req, res) => {
   }
 });
 
-// =================== SERVER ===================
-const PORT = process.env.PORT || 5000;
+// Start
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
