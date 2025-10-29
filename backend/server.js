@@ -550,7 +550,7 @@ app.get("/admin/students", verifyToken, async (req, res) => {
 });
 
 /**
- * Public endpoint for listing all admins (used by frontend vote cards)
+ * Public endpoint for listing all admins (u sed by frontend vote cards)
  */
 app.get("/admins/public", async (req, res) => {
   try {

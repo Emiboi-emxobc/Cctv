@@ -12,6 +12,19 @@
 html{
    scroll-behavior: smooth;
 }
+.p-1{
+   padding: 1rem;
+}
+.px-1{
+   padding: 0 1rem;
+}
+.frc{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+}
+
 body{
    background: #ccc;
    padding: 0;
@@ -39,6 +52,14 @@ border-radius: 50%;
    padding: 0;
    margin: 0;
 }
+}
+#ref-link{
+   width: 100%;
+   border-radius: 20px 20px 0 20px;
+   text-align: center;
+   border: none;
+   background: #ddd;
+   padding: 1rem;
 }
 .steps, .instruction{
    display: flex;
@@ -90,7 +111,7 @@ border-radius: 50%;
    background-position: center;
    object-fit: cover;
    background-repeat: repeat;
-   padding-top: 2rem;
+   padding-top: 3rem;
    margin-top: 2rem;
 }
 h4{
@@ -121,6 +142,13 @@ h4{
    }
    
 }
+li.nav{
+   list-style-type: none;
+   cursor: pointer;
+   padding: 0.6rem;
+   font-size: 0.7rem;
+   
+}
 .min-card{
    margin: 5px ;
    box-shadow: 0 0 0 #000;
@@ -136,10 +164,40 @@ h4{
    gap: 10px;
 }
 .lifter{
-   height: 150px;
+   height:120px;
 }
 .vote-confirm{
     
+}
+footer{
+   position: fixed;
+   bottom: 0;
+   z-index: 999;
+   left: 0;
+   width: 100%;
+   margin-top: 1.3rem;
+   background: #fff;
+   border-top: 1px solid #ccc;
+}
+
+.lifter{
+   height: 5rem;
+   background: #fff;
+}
+.card-date{
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   color: var(--valid);
+}
+#main-nav{
+   display:flex;
+   justify-content: space-evenly;
+   padding: 0.3rem;
+   
+}
+.nav{
+   background: #ccc;
 }
 .main-btn{
    background: var(--main-color);

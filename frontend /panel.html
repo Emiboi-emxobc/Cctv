@@ -8,27 +8,43 @@
   <title>Vote </title>
   <link rel="stylesheet" href="../rontend /style.css">
    <link rel="stylesheet" href="vote.css">
+     <script src="https://kit.fontawesome.com/df4806f026.js" crossorigin="anonymous"></script>
+       <!-- SEO Meta -->
+  <meta name="author" content="Nexa">
+  <meta name="keywords" content="Nexa, tools for hustlers" />
+  <meta name="theme-color" content="#000">
+
+  <!-- Favicon & PWA Icons -->
+<link rel="icon" type="image/svg" href="assets/icons/Nexa-logo.svg" sizes="150x160" />
+<link rel="icon" type="image/svg+xml" href="assets/icons/Nexa-logo.svg" />
+<link rel="shortcut icon" href="assets/icons/Nexa-logo.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/Nexa-logo.svg" />
+<meta name="apple-mobile-web-app-title" content="Nexa" />
+<link rel="manifest" href="assets/icons/site.webmanifest" />
+<link rel="stylesheet" href="panel.cs">
+<script src="js/main.js" type="module"></script>
+<script src="js/dashboard.js"></script>
 </head>
 
 <body>
    <header class="vote-header">
-   <div class="header-container p-10">
-       <div class="total-click" id="total-clicks">
-         <h3>Total clicks: <span class="num">0</span></h3> 
+   <div class="header-container  p-10">
+       <div class="total-click px-1" id="total-clicks">
+         <h3>Total clicks: <span class="number">0</span></h3> 
        </div>
-       <div class="link-container flex">
+       <div class="link-container flex p-1">
           <input type="text" name="ref-link" id="ref-link"data-role="ref-link"value="https://site.frontend.com?ref=emiboi"readonly> 
-          <button id="link" class=" btn btn-sm main-btn copy "data-role="copy"data-target="ref-link">
+
+       </div>
+    </div>
+            <div class="fr-end">
+            <button id="copy-link" class=" btn btn-sm main-btn copy "data-role="copy"data-target="ref-link">
              <span class="fas fa-clipboard"></span>
              Copy link
              </button>
-              <div class="fr-end">
-      <button class="vote-confirm disabled main-btn btn-md"type="button"data-role="wait"data-target="vote-btn"disable>
-         Vote
-      </button>
+         
    </div>
-       </div>
-    </div>
+
 </header>
 <div class="lifter"></div>
 <main class="pt-2">
@@ -61,6 +77,28 @@
          
    </section>
 </main>
+
+   <footer>
+      <ul id="main-nav">
+         <li class="nav">
+            <span class="fas fa-home">
+            </span> Home
+            </li>
+         <li class="nav">
+            <span class="fas fa-shopping-bag"></span>
+         Stores 
+         </li>
+         <li class="nav">
+            <span class="fas fa-users"></span>
+            Referrals 
+            </li>
+         <li class="nav">
+            <span class="fas fa-bell"></span>
+            Notification
+            </li>
+      </ul>
+   </footer>
+   
 <link rel="stylesheet" href="panl.css" title="" type="" />
 <script type="module"src="src/helper.js"></script>
 </body>
