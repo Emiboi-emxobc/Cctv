@@ -1,0 +1,403 @@
+
+/* Loader */
+#global-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#global-loader.hidden {
+  display: none;
+}
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #fff;
+  border-top: 5px solid orange;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Terminal log box */
+.terminal {
+  background: #111;
+  color: #0f0;
+  font-family: monospace;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+body {
+    font-size: 15px;
+    background: var(--bg-color);
+    padding: 0  !important;
+    overflow-x: hidden;
+    font-family: poppins, sans-serif;
+    font-style: normal;
+    margin: 0 !important;
+    
+}
+g
+.view-sign-up{
+    padding: 0.6rem !important;
+}
+.gap-30{
+    gap: 10px;
+}
+*{
+    box-sizing: border-box  !important;
+   margin-top: 0; 
+   padding: 0;
+    
+}
+:root{
+    --main-color:#EA9534;
+    --choko-color:#DF7737;
+    --danger:#D0313D;
+    --bg-color:#EAEAEE;
+    --valid :#18902C;
+    --grand1:
+    linear-gradient(60deg, #D2343E, #D53A3C, #E68D34, #E08738);
+    
+}
+
+.fr-ac{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.txt-sm{
+  font-size: 0.4rem;
+  color:var(--main-color);
+}
+.profile-pcs{
+    border-radius:50%;
+    padding: 4px;
+    background: #ccc;
+}
+.m-10{
+    margin: 10px;
+}
+.pt-10{
+    padding-top: 10px;
+}
+.pt-0{
+    padding-top: 0;
+}
+.prof-sm{
+    width: 40px;
+    height: 40px;
+}
+.logo{
+    width: 200px;
+}
+.big-logo{
+    height: 300px;
+    width: 100%;
+    
+}
+.btn-lg{
+    width: 100%;
+    padding: 1rem;
+}
+
+.fcac{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.px-20{
+    padding: 0 20px;
+}
+
+/*header{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.3rem  !important;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    align-items : center;
+    padding: 10px;
+    background: #fff;
+}*/card
+
+header .flex-con{
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    width: 35%;
+}
+header .flex-con .logo{
+    margin: 10px;
+}
+h2{
+    margin: 10px 0;
+}
+.btn{
+    font-family: poppins , sans-serif;
+    outline:none;
+    font-weight: bold;
+    position: relative;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    
+}
+.pt-20{
+    padding-top: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+.copyright{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
+    font-size: 1.1rem;
+    align-items: center;
+    background: #ccc;
+}
+
+/*. Buttons */
+.main-btn{
+    background: var(--choko-color);
+    color:#fff;
+   font-weight: 400; 
+}
+.md-btn{
+    width: 50%;
+    transform: translateX(50%);
+    padding: 0.7rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+
+.scale{
+    transition: transform 0.3s ease;
+}
+.scale:hover{
+    transform: scale(0.9);
+}
+
+header button{
+    padding:0.4rem;
+    border-radius: 8px;
+}
+
+
+.active{
+    display: block;
+}
+
+
+.fb-con{
+    background: rgba(255, 255, 255, 0.85);
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+    height: 100vh;
+    width:100%;
+    
+    display: flex;
+    justify-content :center;
+    align-items :center;
+    
+}
+
+.fb-msg{
+    background: #fff;
+    opacity: 1;
+    padding: 20px;
+    
+}
+.fb-btn-con{
+display: flex;
+
+justify-content: space-between;
+align-items: center;
+& button{
+    width: 100%;
+    margin: 5px 0;
+    
+}
+    
+    
+}
+.menu-icon{
+    font-size :20px;
+}
+.card{
+    background: #fff;
+    margin: 5px;
+    padding: 2rem 1.6rem;
+    line-height: 1.6;
+    box-shadow: 0 0 5px #fff;
+    max-width: 400px;
+    z-index: 1;
+    position: relative;
+    border-radius: 10px;
+    
+    
+}
+
+section{
+    max-width: 400px;
+}
+
+.card .copy-text{
+    color: #333;
+    background: #ccc;
+}
+
+.tags{
+    background:#BFBEC0;
+    color:#333 ;
+    padding: 2px;
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    
+    left: 10px;
+    font-size: 0.8rem;
+}
+.brands{
+    
+}
+.p-10{
+    padding: 10px;
+}
+
+.copy-text{
+    margin:4px;
+    padding: 0;
+    background: var(--bg-color);
+    
+}
+
+
+.highlight{
+    color: #BFBEC0;
+}
+
+
+/*Form*/
+
+
+
+.pl-20{
+    padding-left: 20px;
+}
+.bd-btn{
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    background: transparent;
+}
+
+.enter{
+    padding: 6px 3px;
+}
+.eye{
+    position: absolute;
+    right: 20px;
+    top: 0px;
+
+}
+.flex{
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+
+.terminal{
+    font-size: 0.8rem;
+    color: var(--valid);
+    margin: 20px 10px;
+
+    
+    
+}
+
+
+  .loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+  }
+
+  .hidden {
+    display: none;
+    pointer-events: none
+  }
+  
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #ccc;
+    border-top-color: #f97316;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* 🔁 Button loader */
+  
+
+  .btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn .spinner-mini {
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+
+.error{
+    color: var(--danger);
+}
+main{
+    padding: 10px;
+}

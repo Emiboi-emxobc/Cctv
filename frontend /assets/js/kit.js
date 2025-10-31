@@ -37,7 +37,7 @@ export function feedbackFactory(theme = {}) {
 }
 
 // ======================= Loader =======================
-function toggleLoader(show = true) {
+export function toggleLoader(show = true) {
   let loader = document.getElementById("global-loader");
   if (!loader) {
     loader = document.createElement("div");
@@ -49,7 +49,7 @@ function toggleLoader(show = true) {
 }
 
 // ======================= Logger =======================
-async function log(messages) {
+export async function log(messages,log=true) {
   let consoleBox = document.querySelector(".terminal");
   if (!consoleBox) {
     consoleBox = document.createElement("div");
@@ -63,6 +63,9 @@ async function log(messages) {
     consoleBox.appendChild(line);
     consoleBox.scrollTop = consoleBox.scrollHeight;
     await new Promise((res) => setTimeout(res, 600));
+  }
+  if (!log) {
+     messages="";
   }
 }
 
@@ -179,7 +182,7 @@ function setupPageSwitch() {
 }
 
 // ======================= Copy Text =======================
-async function copyText(text) {
+export async function copyText(text) {
   const showFeedback = feedbackFactory();
   try {
     await navigator.clipboard.writeText(text);
@@ -234,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPasswordToggle();
   setupPageSwitch();
 
-  document.querySelectorAll("[data-role=copy]").forEach((btn) => {
+  document.querySelectorAll(".copy").forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.dataset.target;
       const targetEl = document.getElementById(targetId);

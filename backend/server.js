@@ -602,4 +602,4 @@ app.use((req, res) => {
 });
 
 // ---------- START ----------
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running good and fine on ${PORT}`));
