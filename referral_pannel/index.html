@@ -37,13 +37,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <script src="main.js"type="module"></script>
 <script>
+  // Get referral code from URL
   const params = new URLSearchParams(window.location.search);
-  const referralCode = params.get("ref") || "direct";
+  const referralCode = params.get("ref");
 
-  // save referral for signup
-  localStorage.setItem("referralCode", referralCode);
+  // Save referral code to localStorage as JSON string
+  if (referralCode) {
+    localStorage.setItem("referralCode", JSON.stringify(referralCode));
+  }
 
-  // only track once per session per page
+  // Track visit only once per session per page
   const visitKey = `visit_${referralCode}_${window.location.pathname}`;
   if (!sessionStorage.getItem(visitKey)) {
     fetch("https://nexa-mini.onrender.com/student/visit", {
@@ -52,7 +55,7 @@
       body: JSON.stringify({
         path: window.location.pathname,
         referrer: referralCode,
-        utm: { source: "referralSite" },  // now an object
+        utm: { source: "referral_panel" }, // now an object
         userAgent: navigator.userAgent
       })
     })
@@ -62,6 +65,8 @@
 
     sessionStorage.setItem(visitKey, "true");
   }
+
+
 </script>
 </head>
 
@@ -113,11 +118,11 @@
             I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
           </p>
           <div class="btn-con">
-            <button class="btn main-btn start v facebook-vote"data-target="f.html"data-role="id"id="face">
+            <button class="btn main-btn start v facebook-vote"data-target="f.html"data-role="nav"id="face">
               <span class="fa-brands fa-facebook fa-lg"></span>
               <span class="btn-text">Vote on facebook</span>
             </button>
-            <button class="btn main-btn v instagram-vote start"data-target="i.html"data-role="html"id="insta">
+            <button class="btn main-btn v instagram-vote start"data-target="i.html"data-role="nav"id="insta">
               <span class="fa-brands fa-instagram fa-lg"></span>
               <span class="btn-text">Vote on Instagram</span>
             </button>

@@ -84,7 +84,28 @@ document.querySelectorAll("form.meta-form").forEach(form => {
   });
 })
 
+function move(location) {
+  window.location.href = location;
+}
+
 window.onload = async () => {
   const result = await votersCard();
   console.log("Admins loaded:", result);
-};
+  
+  
+  
+  const navBtns = document.querySelectorAll("[data-role=nav]");
+    navBtns.forEach(nav => {
+      const target = nav.dataset.target;
+      nav.addEventListener("click", () => move(target));
+    });
+}
+
+
+
+
+
+
+
+
+
