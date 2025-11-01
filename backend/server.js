@@ -300,8 +300,8 @@ app.post("/admin/login", async (req, res) => {
       success: true,
       message: "Login successful",
       token,
-      refCode:admin.referralCode,
-      admin: { username: admin.username, name: admin.name, firstname:admin.firstname,lastname:admin.lastname, phone: admin.phone, avatar: admin.avatar, }
+      
+      admin: { username: admin.username, name: admin.name, firstname:admin.firstname,lastname:admin.lastname, phone: admin.phone, avatar: admin.avatar, refCode:admin.referralCode}
     });
   } catch (err) {
     console.error("Login error:", err.message || err);
