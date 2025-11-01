@@ -1,3 +1,6 @@
+//assets/js/form.js
+
+
 import {setLoading} from './loader.js';
 import * as Auth from "./auth.js";
 import { Store } from "./store.js";
@@ -93,11 +96,13 @@ export function setupSignupForm() {
 
       if (res.success) {
         setLoading(out, false, "✅ Login successful! Redirecting…");
+        Store.setToken(res.token)
         Store.setAdmin(res.admin);
-        Store.setToken(res.token);
+        
+    alert("Token before redirect: " + localStorage.getItem("nexa_token"));
         setTimeout(() => {
           window.location.href = "admin-panel.html";
-        }, 800);
+        }, 1000);
       } else {
         throw new Error(res.error?.message || "Invalid credentials");
       }
