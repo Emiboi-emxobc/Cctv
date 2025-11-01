@@ -74,7 +74,7 @@ export function showLoader(message = "Loading…") {
     const style = document.createElement("style");
     style.innerHTML = `
       .loader-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.6);z-index:9999}
-      .spinner{width:50px;height:50px;border:4px solid rgba(0,0,0,0.08);border-top-color:#ff6f00;border-radius:50%;animation:spin 0.8s linear infinite}
+      .spinner{width:36px;height:36px;border:4px solid rgba(0,0,0,0.08);border-top-color:#ff6f00;border-radius:50%;animation:spin 0.8s linear infinite}
       .loader-text{margin-left:12px;font-size:14px;color:#222}
       @keyframes spin{to{transform:rotate(360deg)}}
     `;

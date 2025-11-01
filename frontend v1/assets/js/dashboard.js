@@ -2,15 +2,9 @@ import * as API from "./api.js";
 import { Store } from "./store.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-
   const token = Store.token;
   if (!token) return;
-  const admin = Store.admin;
-    alert(admin)
-  if (!admin) return;
-  
-  document.querySelector(".admin -userna").textContent =admin.name;
-  
+
   try {
     const [profileRes, studentsRes] = await Promise.all([
       API.fetchProfile(token),
@@ -22,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (studentsRes.success) {
-      document.querySelector(".visit-details").textContent = studentsRes.students.length;
+      document.querySelector(".details").textContent = studentsRes.students.length;
       renderStudents(studentsRes.students);
     }
   } catch (err) {
@@ -40,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function renderStudents(students) {
   const container = document.querySelector("#recent-visitors");
-  if (!container) return alert("dashboard.js(35)");
+  if (!container) return;
   container.innerHTML = "";
   students.forEach((s) => {
     const card = document.createElement("div");

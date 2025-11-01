@@ -18,7 +18,7 @@ window.onload = () =>{
 
   
   const htmlView = 
-  document.querySelectorAll(".v");
+  document.querySelectorAll("[]");
   htmlView.forEach(h => {
   h.addEventListener("click", () => {
     const id = h.dataset.target;

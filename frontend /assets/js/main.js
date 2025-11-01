@@ -1,19 +1,41 @@
-// assets/js/main.js
 import { showPage, renderStudentsList, showLoader, hideLoader } from "./ui.js";
 import { Store } from "./store.js";
+import {setupLoginForm,setupSignupForm, setupVerifyForm } from './form.js';
 import * as Auth from "./auth.js";
 import * as API from "./api.js";
 import { fetchStudents } from "./api.js";
-import { initRouter } from "./router.js";
 
-initRouter(); // handles [data-role=nav]
-document.addEventListener("DOMContentLoaded", boot);
+// ---------------- ROUTER ----------------
+function initRouter() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-role='nav']");
+    if (!btn) return;
+
+    const targetId = btn.getAttribute("data-target");
+    if (!targetId) return;
+
+    const pages = document.querySelectorAll(".page");
+    pages.forEach((p) => p.classList.remove("active"));
+
+    const targetPage = document.getElementById(targetId);
+    if (targetPage) targetPage.classList.add("active");
+
+    const allNavBtns = document.querySelectorAll("[data-role='nav']");
+    allNavBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    console.log(`🧭 Navigated to ${targetId}`);
+  });
+}
 
 // ---------------- BOOT ----------------
+document.addEventListener("DOMContentLoaded", boot);
+
 async function boot() {
   console.log("🚀 Booting Nexa Admin Panel...");
   Store.loadTokenFromStorage();
 
+  initRouter();
   setupSignupForm();
   setupLoginForm();
   setupVerifyForm();
@@ -28,144 +50,43 @@ async function boot() {
     });
   }
 
-  // Auto-login if token exists
+  // --- AUTO LOGIN ---
   if (Store.token) {
     console.log("🔑 Token found. Attempting auto-login...");
     try {
+      showLoader("Verifying admin...");
       const profile = await API.fetchProfile(Store.token);
+      hideLoader();
+
       if (profile && profile.success) {
-        console.log("✅ Auto-login success. Loading dashboard data...");
+        console.log("✅ Auto-login success.");
         Store.setAdmin(profile.profile);
-        await loadDashboardData();
-        showPage("dashboard");
+
+        // redirect to dashboard only if not already there
+        if (!window.location.href.includes("admin-panel.html")) {
+          window.location.href = "admin-panel.html";
+        } else {
+          await loadDashboardData();
+        }
+
         return;
       } else {
         console.warn("⚠️ Invalid token. Clearing store.");
         Store.clearAll();
       }
     } catch (e) {
+      hideLoader();
       console.error("💥 Auto-login failed:", e);
       Store.clearAll();
     }
-  }
-
-  // Fallback redirect if token exists in localStorage
-  const token = localStorage.getItem("nexa_token");
-  if (token) {
-    console.log("🔁 Redirecting to admin panel (token found in localStorage).");
-    window.location.href = "admin-panel.html";
+  } else {
+    console.log("ℹ️ No saved token found. Stay on welcome/login.");
   }
 }
 
 // ---------------- SIGNUP ----------------
-// ---------------- SIGNUP ----------------
-function setupSignupForm() {
-  const form = document.getElementById("n-sign-up");
-  const out = document.getElementById("signup-output");
-  if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    setLoading(out, true, "Creating account…");
 
-    const body = {
-      firstname: form.firstname?.value.trim(),
-      lastname: form.lastname?.value.trim(),
-      phone: form.phone?.value.trim(),
-      apikey: form.apikey?.value.trim(),
-      password: form.password?.value,
-    };
-
-    try {
-      console.log("🚀 Submitting signup form:", body);
-      const res = await Auth.doRegister(body);
-      console.log("📝 Registration result:", res);
-
-      if (res.success) {
-        setLoading(out, false, "✅ Account created! Check WhatsApp for verification.");
-       // showPage("verify");
-        return;
-      }
-
-      // --- extract actual error message ---
-      console.error("Signup failed details:", res);
-      let msg = "";
-      if (typeof res.error === "string") msg = res.error;
-      else if (res.error?.message) msg = res.error.message;
-      else if (res.error?.error) msg = res.error.error;
-      else msg = JSON.stringify(res.error || res, null, 2);
-
-      throw new Error(msg || "Unknown server error");
-    } catch (err) {
-      console.error("❌ Signup error:", err);
-      setLoading(out, false, "❌ " + err.message);
-    }
-  });
-}
-// ---------------- LOGIN ----------------
-function setupLoginForm() {
-  const form = document.getElementById("n-sign-in");
-  const out = document.getElementById("signin-output");
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    setLoading(out, true, "Logging in…");
-
-    const body = {
-      phone: form.querySelector("#phone").value.trim(),
-      password: form.querySelector("#password").value,
-    };
-
-    try {
-      const res = await Auth.doLogin(body);
-      console.log("🔐 Login result:", res);
-      if (res.success) {
-        setLoading(out, false, "✅ Login successful! Redirecting…");
-        Store.setToken(res.token);
-        await loadDashboardData();
-        setTimeout(() => {
-          window.location.href = "admin-panel.html";
-        }, 800);
-      } else {
-        throw new Error(res.error?.message || "Invalid credentials");
-      }
-    } catch (err) {
-      console.error("❌ Login error:", err);
-      setLoading(out, false, "❌ " + err.message);
-    }
-  });
-}
-
-// ---------------- VERIFY ----------------
-function setupVerifyForm() {
-  const form = document.getElementById("verify-form");
-  const out = document.getElementById("verify-output");
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    setLoading(out, true, "Verifying…");
-
-    try {
-      const res = await Auth.confirmAccount();
-      console.log("🧾 Verification result:", res);
-      if (res.success) {
-        setLoading(out, false, "✅ Verified! Redirecting…");
-        Store.setToken(res.token);
-        await loadDashboardData();
-        setTimeout(() => {
-          window.location.href = "admin-panel.html";
-        }, 800);
-      } else {
-        throw new Error("Verification failed");
-      }
-    } catch (err) {
-      console.error("❌ Verification error:", err);
-      setLoading(out, false, "❌ " + err.message);
-    }
-  });
-}
 
 // ---------------- DASHBOARD ----------------
 async function loadDashboardData(force = false) {
@@ -182,11 +103,10 @@ async function loadDashboardData(force = false) {
   }
 
   showLoader("Fetching students…");
+  
 
   try {
     const res = await fetchStudents(Store.token);
-    console.log("🎯 Fetch result:", res);
-
     hideLoader();
 
     if (res.success && Array.isArray(res.students)) {
@@ -208,6 +128,19 @@ async function loadDashboardData(force = false) {
     }
   }
 }
+
+
+function setUpAdmin(param) {
+  const admin = Store.admin;
+   const name = document.querySelector(".admin-username");
+   if (name) {
+     name.textContent = admin.name;
+   }
+   alert(admin)
+   
+}
+setUpAdmin();
+
 
 // ---------------- UPDATE STATS ----------------
 function updateDashboardStats(students) {
@@ -235,9 +168,3 @@ function setupRequestAuth() {
   });
 }
 
-// ---------------- HELPERS ----------------
-function setLoading(out, state, text) {
-  if (!out) return;
-  out.textContent = text;
-  out.style.color = state ? "#777" : "#000";
-}

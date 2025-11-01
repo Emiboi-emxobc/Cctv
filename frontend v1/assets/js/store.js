@@ -3,7 +3,7 @@
 
 export const Store = {
   token: null,
-  admin:JSON.parse(localStorage.getItem("nexa_admin")) || null,
+  admin: null,
   students: [],
   setToken(tok) {
     this.token = tok;
@@ -17,10 +17,6 @@ export const Store = {
   },
   setAdmin(admin) {
     this.admin = admin;
-    localStorage.setItem("nexa_admin", JSON.stringify(admin))
-  },
-  getAdmin:() =>{
-    return this.admin
   },
   setStudents(studs) {
     this.students = Array.isArray(studs) ? studs : [];
