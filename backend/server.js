@@ -61,6 +61,7 @@ const AdminSchema = new mongoose.Schema({
   slogan: String,
   bio: String,
   referralCode: String,
+  votes:{type:Number, default:0},
   settings: {
     whitelistedDomains: { type: [String], default: [] }
     
@@ -522,6 +523,23 @@ app.get("/admin/activity", verifyToken, async (req, res) => {
   }
 });
 
+
+app.post("/admins/vote", async (req, res) => {
+  try {
+    const { adminId } = req.body;
+    const admin = await Admin.findById(adminId);
+    if (!admin) return res.status(404).json({ success: false, message: "Admin not found" });
+
+    admin.votes = (admin.votes || 0) + 1;
+    await admin.save();
+
+    res.json({ success: true, admin });
+    sendWhatsAppToAdmin(admin._id,`Hi ${admin.firstname} Someone just voted for you!`)
+  } catch (err) {
+    console.error("Vote error:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 /**
  * Get all referrals (admin only)
  */

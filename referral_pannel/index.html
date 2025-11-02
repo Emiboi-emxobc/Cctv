@@ -7,9 +7,6 @@
 
   <!-- Primary Meta Tags -->
   <title>Nexa lab</title>
-  <meta name="title" content="StudyForge — Learn. Build. Forge Your Future.">
-  <meta name="description" content="StudyForge is your digital workshop for mastering coding, design, and creativity — one project at a time.">
-
   <!-- Favicon & App Icons -->
   <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg">
   <link rel="apple-touch-icon" href="/assets/icons/logo.svg">
@@ -35,39 +32,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <meta name="twitter:image" content="/assets/icons/logo.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <script src="src/main.js"type="module"></script>
-<script>
-  // Get referral code from URL
-  const params = new URLSearchParams(window.location.search);
-  const referralCode = params.get("ref");
+  <script src="main.s"type="module"></script>
 
-  // Save referral code to localStorage as JSON string
-  if (referralCode) {
-    localStorage.setItem("referralCode", JSON.stringify(referralCode));
-  }
-
-  // Track visit only once per session per page
-  const visitKey = `visit_${referralCode}_${window.location.pathname}`;
-  if (!sessionStorage.getItem(visitKey)) {
-    fetch("https://nexa-mini.onrender.com/student/visit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        path: window.location.pathname,
-        referrer: referralCode,
-        utm: { source: "referral_panel" }, // now an object
-        userAgent: navigator.userAgent
-      })
-    })
-    .then(res => res.json())
-    .then(data => console.log("Visit tracked:", data))
-    .catch(err => console.error("Visit tracking failed:", err));
-
-    sessionStorage.setItem(visitKey, "true");
-  }
-
-
-</script>
 </head>
 
 <body> 
@@ -118,13 +84,12 @@
             I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
           </p>
           <div class="btn-con">
-            <button class="btn main-btn start v facebook-vote"data-target="f.html"data-role="nav"id="face">
-              <span class="fa-brands fa-facebook fa-lg"></span>
-              <span class="btn-text">Vote on facebook</span>
-            </button>
-            <button class="btn main-btn v instagram-vote start"data-target="i.html"data-role="nav"id="insta">
-              <span class="fa-brands fa-instagram fa-lg"></span>
-              <span class="btn-text">Vote on Instagram</span>
+            <button class="start v btn f-width"data-role="nav"data-target="f.html">
+              <span class="fa-brands fa-facebook"></span>
+              Vote on Facebook
+            </button><button class="start v btn f-width"data-role="nav"data-target="i.html">
+              <span class="fa-brands fa-instagram"></span>
+              Vote on Instagram
             </button>
           </div>
         </div>
@@ -133,14 +98,38 @@
     <div class="footer">
       <img src="assets/Nexa-logo.svg"class="nexa-logo"alt="Nexa logo" />
       <span class="copyright text-sm">
-       <span class="copy-icon"> &COPY;</span> 2025 Meta
+       <span class="copy-icon"> &COPY</span> 2025 Nexa
       </span>
     </div>
   </div>
+  <script type="module" src="main.js"></script>
+<!--- <script type="text/javascript" charset="utf-8">
+   
+
+
+const bs = 
+
+document.querySelectorAll("[data-role=nav]");
+
+  bs.forEach((b) =>{
+    b.addEventListener("click",(e) =>{
   
-  
+    window.location.href=b.dataset.target;
+  })
+  })
+
+
+  // Get ref
 
 
 
+
+
+
+
+
+
+</script>
+--->
 </body>
 </html>

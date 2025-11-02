@@ -1,78 +1,53 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
    <meta charset="UTF-8">
-   <meta name="viewport"
-      content="width=device-width, initial-scale=1">
-   <title>Vote </title>
-   <link rel="stylesheet" href="../rontend /style.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Vote</title>
+   <link rel="stylesheet" href="../frontend/style.css">
    <link rel="stylesheet" href="vote.css">
 </head>
 
 <body>
-   <header class="vote-header">
-   <div class="step-indicator-con">
-     <div class="steps active"id="step1"><span class="num">1</span>Register</div>
-          <div class="steps"><span class="num"></span></div>
-    
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps active"id="step2"><span class="num">2</span>Vote</div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
-     <div class="steps"><span class="num"></span></div>
+<header class="vote-header">  
+   <div class="step-indicator-con">  
+     <div class="steps active"id="step1"><span class="num">1</span>Register</div>  
+          <div class="steps"><span class="num"></span></div>  <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps active"id="step2"><span class="num">2</span>Vote</div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
+ <div class="steps"><span class="num"></span></div>  
 
-     <div class="steps"><span class="num"></span></div>
-  
-     <div class="steps"id="step3"><span class="num">3</span>Security</div>
-   </div>
-   <div class="instruction">
-      <h3>Vote</h3>
-      <p class="desc">
-         Click on the candidate to vote
-      </p>
-   </div>
-   <div class="fr-end">
-      <button class="vote-confirm disabled main-btn btn-md"type="button"data-role="wait"data-target="vote-btn"disable>
-         Vote
-      </button>
-   </div>
-</header>
-<div class="lifter"></div>
-<main>
-   <section class="page active" id="vote-candidates">
-      <div class="min-card card flex">
-         <label for="" class="flex">
-            <div>
-               <img src="/frontend /assets/images/profile.png" alt=""class="avata-sm" />
-            </div>
-            <div>
-               <h4 class="username">
-                  Emiboi coder
-               </h4>
-               <small class="muted">
-                  Good name is better than riches
-               </small>
-               <small class="muted country">
-                  Nigerian
-               </small>
-            </div>
-         </label>
-         <div>
-            <input type="radio" name="candidate" id="candida"value="${admin.username}"class="ck-box">
-         </div>
-      </div>
+ <div class="steps"><span class="num"></span></div>  
 
-      
-         
-   </section>
-</main>
-<script type="module"src="s"></script>
+ <div class="steps"id="step3"><span class="num">3</span>Security</div>
+
+   </div>  
+   <div class="instruction">  
+      <h3>Vote</h3>  
+      <p class="desc">  
+         Click on the candidate to vote  
+      </p>  
+   </div>  
+   <div class="fr-end">  
+      <button class="vote-confirm disabled main-btn btn-md"type="button"data-role="wait"id="voteBtn"data-target="vote-btn"disabled>  
+         Vote  
+      </button>  
+   </div>  
+</header>  
+   <div class="lifter"></div>
+
+   <main>
+      <section class="page active" id="vote-candidates">
+         <!-- Dynamic admins will be injected here -->
+         <div id="adminsContainer"></div>
+      </section>
+   </main>
+
+   <script type="module" src="vote.js"></script>
 </body>
-
-
 </html>
