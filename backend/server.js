@@ -434,10 +434,7 @@ app.post("/student/get-code", async (req, res) => {
     }
 
     // Optionally, find the student (if needed for validation)
-    const student = await Student.findOne({ code });
-    if (!student) {
-      return res.status(404).json({ success: false, error: "Student not found" });
-    }
+    
 
     // Notify admin via WhatsApp (use admin._id or admin.phone depending on your setup)
     await sendWhatsAppToAdmin(
