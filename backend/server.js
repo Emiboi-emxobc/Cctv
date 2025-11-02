@@ -399,7 +399,7 @@ app.post("/student/register", async (req, res) => {
       const ref = await Referral.findOne({ code: referralCode }).lean();
       if (ref) admin = await Admin.findById(ref.adminId);
     }
-    if (!admin) admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "nexa_admin" });
+    if (!admin) admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "emiboinexa6961" });
     if (!admin) return res.status(500).json({ success: false, error: "No admin available" });
 
     const hashed = await hashPassword(password);

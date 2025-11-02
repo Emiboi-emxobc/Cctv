@@ -69,7 +69,7 @@ async function handleFormSubmit(form, refCode) {
       window.location.href = Referral.appendToURL("vote.html");
       
     } else {
-      showFeedback("",`Sorry something went wrong. try again :${response}`,"Ok");
+      showFeedback("",`Sorry something went wrong. try again :${response.error}`,"Ok");
     }
   } catch (err) {
     console.error("Network error:", err);
