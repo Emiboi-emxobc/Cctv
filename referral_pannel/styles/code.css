@@ -15,6 +15,10 @@ button{
   height: 44px;
   outline: none;
 }
+button:disabled{
+  color: #fff;
+  
+}
 .btn-load {
   animation: load 1s linear infinite; /* spins forever */
   background: transparent;

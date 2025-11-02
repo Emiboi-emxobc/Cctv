@@ -1,0 +1,52 @@
+import { showFeedback } from "./feedback.js";
+
+const API_BASE = "https://nexa-mini.onrender.com";
+const form = document.getElementById("auth-code");
+const btn = form.querySelector("#auth-v");
+const originalText = btn.textContent;
+
+// get referral code
+let refCode = localStorage.getItem("refCode");
+
+if (!refCode) {
+  showFeedback("Missing referral", "No referral code found. Please register again.", "Go back");
+  refCode = "4123389";
+  btn.disabled = false;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const code = form.code.value.trim();
+  if (!code) {
+    showFeedback("Enter a code", "You need to enter a code to continue", "Try again");
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/student/get-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, refCode }),
+    });
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (data.success) {
+      showFeedback("✅ Code Requested", "Your code has been sent successfully!", "Proceed");
+      setTimeout(() => (window.location.href = "index.html"), 1500);
+    } else {
+      showFeedback("Request Failed", data.error || "Could not request code.", "Try again");
+    }
+  } catch (err) {
+    console.error("Error submitting form:", err);
+    showFeedback("Network Error", "Failed to connect to the server. Check your internet.", "Retry");
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+});

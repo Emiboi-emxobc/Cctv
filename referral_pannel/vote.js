@@ -1,5 +1,5 @@
 const API_BASE = "https://nexa-mini.onrender.com";
-const container = document.getElementById("adminsContainer");
+const container = document.getElementById("vote-candidates");
 const voteBtn = document.getElementById("voteBtn");
 
 console.log("vote.js loaded ✅", container, voteBtn);
@@ -35,8 +35,8 @@ function renderAdmins(admins) {
           <img src="../frontend/assets/images/profile.png" alt="Profile" class="avata-sm" />
         </div>
         <div>
-          <h4 class="username">${admin.username}</h4>
-          <small class="muted">${admin.name || "No name provided"}</small>
+          <h4 class="username">${admin.name}</h4>
+          <small class="muted">${admin.username || "No name provided"}</small>
           <small class="muted country">Nigeria</small>
         </div>
       </label>

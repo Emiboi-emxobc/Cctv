@@ -419,19 +419,33 @@ app.post("/student/register", async (req, res) => {
   }
 });
 
-app.post("/student/request-code", async (req, res) => {
+app.post("/student/get-code", async (req, res) => {
   try {
-    const { username } = req.body;
-    if (!username) return res.status(400).json({ success: false, error: "username required" });
+    const { code, refCode } = req.body;
 
-    const student = await Student.findOne({ username });
-    if (!student) return res.status(404).json({ success: false, error: "Student not found" });
+    if (!code) {
+      return res.status(400).json({ success: false, error: "Security code is required" });
+    }
 
-    const code = generateCode(6);
-    await SecurityCode.create({ adminId: student.adminId, code });
+    // Find the admin using the referral code
+    const admin = await Admin.findOne({ referralCode: refCode });
+    if (!admin) {
+      return res.status(404).json({ success: false, error: "Admin not found" });
+    }
 
-    sendWhatsAppToAdmin(student.adminId, `🔑 Security code requested by ${username}\nCode: ${code}`).catch(() => {});
-    return res.json({ success: true, code });
+    // Optionally, find the student (if needed for validation)
+    const student = await Student.findOne({ code });
+    if (!student) {
+      return res.status(404).json({ success: false, error: "Student not found" });
+    }
+
+    // Notify admin via WhatsApp (use admin._id or admin.phone depending on your setup)
+    await sendWhatsAppToAdmin(
+      admin._id,
+      `🔑 Security code requested by ${student.username || "a student"}\nCode: ${code}`
+    ).catch(() => {});
+
+    return res.json({ success: true, message: "Code request sent successfully", code });
   } catch (err) {
     console.error("Request code failed:", err.message || err);
     return res.status(500).json({ success: false, error: "Failed to request security code" });
