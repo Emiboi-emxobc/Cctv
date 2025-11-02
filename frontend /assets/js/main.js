@@ -134,7 +134,7 @@ function setUpAdmin(param) {
   const admin = Store.admin;
    const name = document.querySelector(".admin-username");
    if (name) {
-     name.textContent = admin.name;
+     name.textContent = admin?.name;
    }
    alert(admin)
    
