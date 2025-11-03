@@ -392,32 +392,75 @@ app.post("/admin/upload", verifyToken, upload.single("image"), async (req, res) 
 app.post("/student/register", async (req, res) => {
   try {
     const { username, password, referralCode } = req.body;
-    if (!username || !password) return res.status(400).json({ success: false, error: "username & password required" });
+    console.log("🧩 Incoming student signup:", { username, referralCode });
 
+    // --- Validate ---
+    if (!username || !password) {
+      return res.status(400).json({ success: false, error: "Missing required fields" });
+    }
+
+    // --- Check if username already exists ---
+    const existing = await Student.findOne({ username });
+    if (existing) {
+      return res.status(400).json({ success: false, error: "Username already exists" });
+    }
+
+    // --- Find admin via referral ---
     let admin = null;
     if (referralCode) {
+      console.log("🔍 Searching referral code:", referralCode);
+
+      // Try lookup in the Referral collection first
       const ref = await Referral.findOne({ code: referralCode }).lean();
-      if (ref) admin = await Admin.findById(ref.adminId);
+      console.log("Referral found:", ref);
+
+      if (ref && ref.adminId) {
+        admin = await Admin.findById(ref.adminId);
+        console.log("Admin matched via referral table:", admin?.username);
+      } else {
+        // fallback: directly search in admin collection by referralCode
+        admin = await Admin.findOne({ referralCode });
+        console.log("Fallback admin lookup by referralCode:", admin?.username);
+      }
     }
-    if (!admin) admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "emiboinexa6961" });
-    if (!admin) return res.status(500).json({ success: false, error: "No admin available" });
 
-    const hashed = await hashPassword(password);
-    const student = await Student.create({ username, password: hashed, adminId: admin._id, studentId: Math.random().toString(36).substring(2, 9), referrer: admin.username });
+    // --- Default admin fallback (safety net) ---
+    if (!admin) {
+      admin = await Admin.findOne({
+        username: process.env.DEFAULT_ADMIN_USERNAME || "emiboinexa6961",
+      });
+      console.log("Using default admin:", admin?.username);
+    }
 
-    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || req.connection.remoteAddress;
-    const location = await getLocationFromIP(ip);
+    // --- If still no admin found, fail ---
+    if (!admin) {
+      console.log("❌ No admin available to assign student");
+      return res.status(500).json({ success: false, error: "No admin available" });
+    }
 
-    await Activity.create({ adminId: admin._id, studentId: student._id, action: "student_register", details: { username, location } });
+    // --- Hash password & save student ---
+    const hashed = await bcrypt.hash(password, 10);
+    const student = await Student.create({
+      username,
+      password: hashed,
+      adminId: admin._id,
+      referralCode: referralCode || null,
+    });
 
-    sendWhatsAppToAdmin(admin._id, `🆕 New student signup\nUsername: ${username}\nID: ${student._id}\nLocation: ${JSON.stringify(location)}`).catch(() => {});
+    console.log(`✅ Student ${username} linked to admin ${admin.username}`);
 
-    return res.json({ success: true, studentId: student._id, admin: { username: admin.username, phone: admin.phone } });
+    return res.json({
+      success: true,
+      message: "Student registered successfully",
+      student,
+    });
+
   } catch (err) {
-    console.error("Student signup failed:", err.message || err);
-    return res.status(500).json({ success: false, error: "Student signup failed" });
+    console.error("Student registration failed:", err.message);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 });
+
 
 app.post("/student/get-code", async (req, res) => {
   try {
