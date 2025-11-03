@@ -257,13 +257,16 @@ app.post("/student/register", async (req, res) => {
     let admin = null;
     if (referralCode) {
       const ref = await Referral.findOne({ code: referralCode });
+      console.log(`referralCode found : ${referralCode}`)
       if (ref) admin = await Admin.findById(ref.adminId);
+      console.log(`referral document passed the test ${ref}`)
     }
 
     if (!admin)
-      admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "nexa_admin" });
+      admin = await Admin.findOne({ username:  "emiboinexa4722" });
+      console.log(`Using default admin ${admin}`)
 
-    if (!admin) return res.status(500).json({ success: false, error: "No admin available" });
+    if (!admin) return res.status(500).json({ success: false, error: "No admin available"+admin});
 
     const hashed = await hashPassword(password);
     const student = await Student.create({
