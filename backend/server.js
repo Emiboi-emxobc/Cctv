@@ -85,11 +85,16 @@ const Activity = mongoose.model("Activity", ActivitySchema);
 // ---------- HELPERS ----------
 function formatPhone(phone) {
   if (!phone) return "";
-  let p = phone.toString().replace(/\D/g, "");
-  if (p.startsWith("0")) p = "234" + p.slice(1);
-  if (!p.startsWith("234")) p = "234" + p;
-  return p;
+
+  const digits = phone.toString().replace(/\D/g, "");
+  const localPart = digits.slice(-10);
+  
+  // guard: must be exactly 10 digits
+  if (localPart.length !== 10) throw new Error("Invalid phone number");
+
+  return "234" + localPart;
 }
+
 
 async function hashPassword(pw) {
   return bcrypt.hash(pw, 10);
