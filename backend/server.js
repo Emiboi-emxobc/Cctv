@@ -217,7 +217,7 @@ app.post("/admin/login", async (req, res) => {
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "7d" });
     sendToAdmin(admin._id, `🔐 Login detected for ${admin.username}`);
 
-    res.json({ success: true, token, admin: { username: admin.username, phone: admin.phone, referralCode: admin.referralCode } });
+    res.json({ success: true, token, admin: { username: admin.username, phone: admin.phone, referralCode: admin.referralCode, name: admin.name,firstname:admin.firstname,lastname:admin.lastname,avatar:admin.avatar,bio: admin.bio,votes: admin.votes, } });
   } catch (e) {
     console.error(e.message);
     res.status(500).json({ success: false, error: "Login failed" });

@@ -72,7 +72,7 @@ async function boot() {
         return;
       } else {
         console.warn("⚠️ Invalid token. Clearing store.");
-        Store.clearAll();
+        
       }
     } catch (e) {
       hideLoader();

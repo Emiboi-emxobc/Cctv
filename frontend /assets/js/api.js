@@ -73,7 +73,8 @@ export async function loginAdmin(body) {
 // ---------------- PROTECTED ENDPOINTS ----------------
 
 export async function fetchProfile(token) {
-  return req("/admin/profile", { method: "GET" }, token);
+ // return req("/admin/profile", { method: "GET" }, token);
+ console.log(token)
 }
 
 export async function fetchStudents(token) {

@@ -252,27 +252,5 @@ document.addEventListener("DOMContentLoaded", () => {
     refLink.value = `https://cctv-liart.vercel.app?ref=${user.referralCode}`;
   }
 
-  // ======================= Visit Tracking =======================
-  const params = new URLSearchParams(window.location.search);
-  const referralCode = params.get("ref") || "direct";
-  localStorage.setItem("referralCode", referralCode);
 
-  const visitKey = `visit_${referralCode}_${window.location.pathname}`;
-  if (!sessionStorage.getItem(visitKey)) {
-    fetch(API_VISIT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        path: window.location.pathname,
-        referrer: referralCode,
-        utm: { source: "referralSite" },
-        userAgent: navigator.userAgent,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("Visit tracked:", data))
-      .catch((err) => console.error("Visit tracking failed:", err));
-
-    sessionStorage.setItem(visitKey, "true");
-  }
 });
