@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = Store.token;
   if (!token) return;
   const admin = Store.admin;
-    alert(admin)
+    console.log(Store.admin);
   if (!admin) return;
   
-  document.querySelector(".admin -userna").textContent =admin.name;
+  document.querySelector(".admin -userna").textContent =admin.firstname;
   
   try {
     const [profileRes, studentsRes] = await Promise.all([

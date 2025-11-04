@@ -134,7 +134,23 @@ function setUpAdmin(param) {
   const admin = Store.admin;
    const name = document.querySelector(".admin-username");
    if (name) {
-     name.textContent = admin?.name;
+     name.textContent = admin?.name||admin?.firstname + " " + admin?.lastname;
+   }
+   const bio = 
+   document.querySelector(".admin-bio");
+   if (bio) {
+     bio.textContent = admin?.bio || admin?.username;
+   }
+   const refLink = 
+   document.getElementById("ref-link");
+   if (refLink) {
+     refLink.value = `https://cctv-ujg4.vercel.app?ref=${admin?.referralCode}`;
+   }
+   
+   const votes = 
+   document.querySelector(".vote-details");
+   if (vote) {
+     vote.textContent = admin?.votes;
    }
    alert(admin)
    

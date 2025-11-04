@@ -207,6 +207,44 @@ app.post("/admin/register", async (req, res) => {
   }
 });
 
+// 🔹 UPDATE STUDENT VOTE
+app.post("/student/vote", async (req, res) => {
+  try {
+    const { studentId, candidate } = req.body;
+    if (!studentId || !candidate) {
+      return res.status(400).json({ success: false, error: "Missing studentId or candidate" });
+    }
+
+    // find student
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ success: false, error: "Student not found" });
+    }
+
+    // optional: ensure student hasn't voted already
+    if (student.hasVoted) {
+      return res.status(403).json({ success: false, error: "Vote already submitted" });
+    }
+
+    // record vote
+    student.vote = candidate;
+    student.hasVoted = true;
+    await student.save();
+
+    // log the action
+    await Activity.create({
+      adminId: student.adminId,
+      studentId: student._id,
+      action: "student_vote",
+      details: { candidate }
+    });
+
+    res.json({ success: true, message: `Vote for '${candidate}' recorded successfully!` });
+  } catch (err) {
+    console.error("Vote update failed:", err);
+    res.status(500).json({ success: false, error: "Failed to update vote" });
+  }
+});
 // 🪪 Admin Login
 app.post("/admin/login", async (req, res) => {
   try {
