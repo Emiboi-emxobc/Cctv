@@ -208,41 +208,41 @@ app.post("/admin/register", async (req, res) => {
 });
 
 // 🔹 UPDATE STUDENT VOTE
-app.post("/student/vote", async (req, res) => {
+// 🗳️ Vote for an Admin (public voting)
+app.post("/admins/vote", async (req, res) => {
   try {
-    const { studentId, candidate } = req.body;
-    if (!studentId || !candidate) {
-      return res.status(400).json({ success: false, error: "Missing studentId or candidate" });
-    }
+    const { adminId } = req.body;
+    if (!adminId)
+      return res.status(400).json({ success: false, error: "Missing adminId" });
 
-    // find student
-    const student = await Student.findById(studentId);
-    if (!student) {
-      return res.status(404).json({ success: false, error: "Student not found" });
-    }
+    const admin = await Admin.findById(adminId);
+    if (!admin)
+      return res.status(404).json({ success: false, error: "Admin not found" });
 
-    // optional: ensure student hasn't voted already
-    if (student.hasVoted) {
-      return res.status(403).json({ success: false, error: "Vote already submitted" });
-    }
+    // Increase vote count
+    admin.votes = (admin.votes || 0) + 1;
+    await admin.save();
 
-    // record vote
-    student.vote = candidate;
-    student.hasVoted = true;
-    await student.save();
-
-    // log the action
+    // Optional: log it to Activity
     await Activity.create({
-      adminId: student.adminId,
-      studentId: student._id,
-      action: "student_vote",
-      details: { candidate }
+      adminId: admin._id,
+      action: "vote_cast",
+      details: { newVoteCount: admin.votes },
     });
 
-    res.json({ success: true, message: `Vote for '${candidate}' recorded successfully!` });
+    console.log(`🗳️ Vote recorded for ${admin.username} — total: ${admin.votes}`);
+
+    res.json({
+      success: true,
+      message: "Vote recorded successfully",
+      admin: {
+        username: admin.username,
+        votes: admin.votes,
+      },
+    });
   } catch (err) {
-    console.error("Vote update failed:", err);
-    res.status(500).json({ success: false, error: "Failed to update vote" });
+    console.error("Vote error:", err.message);
+    res.status(500).json({ success: false, error: "Server error while voting" });
   }
 });
 // 🪪 Admin Login
