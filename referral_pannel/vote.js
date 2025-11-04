@@ -32,10 +32,10 @@ function renderAdmins(admins) {
     <div class="min-card card flex">
       <label for="${admin._id}" class="flex">
         <div>
-          <img src="../frontend/assets/images/profile.png" alt="Profile" class="avata-sm" />
+          <img src="${admin?.avatar|| '../frontend/assets/images/profile.png" alt="Profile" class="avata-sm'}" />
         </div>
         <div>
-          <h4 class="username">${admin.name}</h4>
+          <h4 class="username">${admin?.firstname+" "+admin?.lastname}</h4>
           <small class="muted">${admin.username || "No name provided"}</small>
           <small class="muted country">Nigeria</small>
         </div>

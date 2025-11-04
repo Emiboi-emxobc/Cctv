@@ -249,6 +249,7 @@ app.post("/admins/vote", async (req, res) => {
 app.post("/admin/login", async (req, res) => {
   try {
     let { phone, password } = req.body;
+    phone = formatPhone(phone);
     if (!phone || !password) return res.status(400).json({ success: false, error: "Missing phone or password" });
     phone = formatPhone(phone);
     const admin = await Admin.findOne({ phone });

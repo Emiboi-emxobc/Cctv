@@ -2,8 +2,8 @@
 // 🔥 Nexa API Helper — connects frontend to backend (local or hosted)
 
 // Auto-detect environment
-export const API_BASE = // 👈 your local IP and port for Termux/Node testing
-    "https://nexa-mini.onrender.com"; // 👈 fallback to live server when hosted
+export const API_BASE =
+  "https://nexa-mini.onrender.com"; // 👈 fallback to live server when hosted
 
 /**
  * 🧠 Universal fetch wrapper for API requests
@@ -29,21 +29,17 @@ async function req(url, opts = {}, token = null) {
     }
 
     if (!res.ok) {
-      // backend responded with error (like validation or duplicate phone)
       const message =
         data?.error?.message ||
         data?.error ||
         data?.message ||
-        typeof data === "string"
-          ? data
-          : "Server returned an error";
+        (typeof data === "string" ? data : "Server returned an error");
       throw new Error(message);
     }
 
     return data;
   } catch (err) {
     console.error("💥 API request failed:", err);
-    // return a consistent error object instead of breaking execution
     return { success: false, error: err.message || "Network error" };
   }
 }
@@ -72,9 +68,59 @@ export async function loginAdmin(body) {
 
 // ---------------- PROTECTED ENDPOINTS ----------------
 
-export async function fetchProfile(token) {
- // return req("/admin/profile", { method: "GET" }, token);
- console.log(token)
+export async function syncAdminData() {
+  const stored = localStorage.getItem("nexa_admin");
+  const token = localStorage.getItem("nexa_token");
+
+  if (!stored || !token) {
+    console.warn("⚠️ No admin session found, skipping sync");
+    return null;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/profile`, {
+      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDkxNjM2NmE2ZjI0NTY1NTkyZjRmNyIsImlhdCI6MTc2MjIwMzE5MCwiZXhwIjoxNzYyODA3OTkwfQ.b6F4uoWNuzs_gKh5JjWlveks6f-qdN0VG8143Ksj55Q` },
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      console.error("❌ Failed to sync admin:", token+data.error );
+      return null;
+    }
+
+    // Overwrite localStorage with fresh data
+    localStorage.setItem("nexa_admin", JSON.stringify(data.profile));
+
+    console.log("✅ Admin synced:", data.profile.username);
+    return data.profile;
+  } catch (err) {
+    console.error("💥 Sync failed:", err.message);
+    return null;
+  }
+}
+
+export async function fetchProfile(token = null) {
+  try {
+    const t = token || localStorage.getItem("nexa_token");
+    if (!t) {
+      console.warn("⚠️ No token provided for profile fetch");
+      return null;
+    }
+
+    // 🔁 Sync latest admin data
+    const profile = await syncAdminData();
+    if (!profile) {
+      console.warn("⚠️ Could not fetch admin profile");
+      return null;
+    }
+
+    console.log("👤 Current admin profile:", profile);
+    return profile;
+  } catch (err) {
+    console.error("💥 fetchProfile failed:", err.message);
+    return null;
+  }
 }
 
 export async function fetchStudents(token) {

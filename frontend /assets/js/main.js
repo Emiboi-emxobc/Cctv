@@ -147,7 +147,7 @@ function setUpAdmin(param) {
      refLink.value = `https://cctv-ujg4.vercel.app?ref=${admin?.referralCode}`;
    }
    
-   const votes = 
+   const vote = 
    document.querySelector(".vote-details");
    if (vote) {
      vote.textContent = admin?.votes;
