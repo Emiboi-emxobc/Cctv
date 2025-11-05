@@ -133,4 +133,4 @@ export async function updateAdmin(data, token) {
 
 export async function sendAuthRequest(token) {
   return req("/admin/request-auth", { method: "POST" }, token);
-}
+} 

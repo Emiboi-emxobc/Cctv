@@ -97,7 +97,7 @@ async function loadDashboardData(force = false) {
     return;
   }
 
-  const container = document.querySelector(".student-list");
+  const container = document.querySelector(".profile-card");
   if (container) {
     container.innerHTML = `<p class="muted small">⏳ Loading student data…</p>`;
   }
@@ -111,11 +111,12 @@ async function loadDashboardData(force = false) {
 
     if (res.success && Array.isArray(res.students)) {
       Store.setStudents(res.students);
+      console.log(res)
       renderStudentsList(res.students);
       updateDashboardStats(res.students);
       console.log(`✅ Loaded ${res.students.length} students.`);
     } else {
-      console.warn("⚠️ Failed to fetch students or invalid response.");
+      console.warn("⚠️ Failed to fetch students or invalid response.",res);
       if (container) {
         container.innerHTML = `<p class="muted small">No registered students found.</p>`;
       }

@@ -291,6 +291,20 @@ app.post("/admin/update", verifyToken, async (req, res) => {
   }
 });
 
+
+app.get("/admin/students", verifyToken, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.userId);
+    if (!admin) return res.status(404).json({ error: "Admin not found" });
+
+    const students = await Student.find({ adminId: admin._id }).lean();
+    return res.json({ success: true, students });
+  } catch (err) {
+    console.error("Get students failed:", err.message || err);
+    return res.status(500).json({ error: "Failed to fetch students" });
+  }
+});
+
 // 🧍‍♂️ Register Student
 app.post("/student/register", async (req, res) => {
   try {
