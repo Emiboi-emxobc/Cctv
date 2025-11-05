@@ -305,6 +305,35 @@ app.get("/admin/students", verifyToken, async (req, res) => {
   }
 });
 
+
+/**
+ * Student visit tracking
+ */
+app.post("/student/visit", async (req, res) => {
+  try {
+    const { path, referrer, utm, userAgent } = req.body;
+    let admin = null;
+    if (referrer) {
+      const ref = await Referral.findOne({ code: referrer }).lean();
+      if (ref) admin = await Admin.findById(ref.adminId);
+    }
+    if (!admin) admin = await Admin.findOne({ phone: process.env.DEFAULT_ADMIN || "nexa_admin" });
+    if (!admin) return res.status(500).json({ error: "No admin found" });
+
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const location = await getLocationFromIP(ip);
+
+    await Activity.create({ adminId: admin._id, action: "visit", details: { path, referrer, utm, userAgent, location } });
+
+    sendWhatsAppToAdmin(admin._id, `📈 Page visit\nPath: ${path}\nReferral: ${referrer || "direct"}\nLocation: ${JSON.stringify(location)}`).catch(() => {});
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("Visit track failed:", err.message || err);
+    return res.status(500).json({ error: "Failed to track visit" });
+  }
+});
+
 // 🧍‍♂️ Register Student
 app.post("/student/register", async (req, res) => {
   try {
