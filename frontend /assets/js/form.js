@@ -61,7 +61,7 @@ export function setupSignupForm() {
 
       if (res.success) {
         setLoading(out, false, "✅ Account created! Check WhatsApp for verification.");
-        window.location.href = "admin-panel.html"
+        showPage("verify");
         return;
       }
 

@@ -275,18 +275,6 @@ app.get("/admin/profile", verifyToken, async (req, res) => {
   res.json({ success: true, profile: admin });
 });
 
-
-
-// 🧍‍♂️ Get all students for admin
-app.get("/admin/students", verifyToken, async (req, res) => {
-  try {
-    const students = await Student.find({ adminId: req.userId }).select("-password");
-    res.json({ success: true, students });
-  } catch (err) {
-    console.error("Fetch students error:", err.message);
-    res.status(500).json({ success: false, error: "Server error while fetching students" });
-  }
-});
 // ✍️ Update Admin Info
 app.post("/admin/update", verifyToken, async (req, res) => {
   try {
@@ -367,4 +355,4 @@ app.get("/admin/activity", verifyToken, async (req, res) => {
   res.json({ success: true, logs });
 });
 
-app.listen(PORT, () => console.log(`🚀 Nexa Ultra running on ${PORT}`)); 
+app.listen(PORT, () => console.log(`🚀 Nexa Ultra running on ${PORT}`));
