@@ -251,7 +251,7 @@ p{
   flex-direction:column;
 }
 .main-btn{
-  background: #998C5E;
+  background:linear-gradient(220deg, #C26A01,#D78F0F,#FECC04);
   color: #fff;
   transition: all 0.3s ease-in;
   padding:8px;
@@ -280,4 +280,8 @@ p{
 .facebook-vote{
   display: none;
 }
-
+#f-form, #i-form{
+  & input{
+    padding-left: 1rem;
+  }
+}
