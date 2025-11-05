@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
+  <script type="module" src="main.js"></script>
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 
@@ -34,8 +34,32 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <script src="main.s"type="module"></script>
 
-</head>
+</head><!---
+<script>
+  async function trackVisitAndGo(path) {
+    try {
+      const ref = new URLSearchParams(window.location.search).get('ref') || null;
+      const payload = {
+        path,
+        referrer: ref,
+        utm: null,
+        userAgent: navigator.userAgent
+      };
 
+      await fetch('http://localhost:7700/student/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+    } catch (err) {
+      console.warn('⚠️ Visit tracking failed:', err);
+    } finally {
+      // Navigate after tracking
+      window.location.href = path;
+    }
+  }
+</script>--->
 <body> 
   <div class="card-container">
       <div class="card-header">
@@ -84,7 +108,7 @@
             I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
           </p>
           <div class="btn-con">
-            <button class="start v btn main-btn f-width"data-role="nav"data-target="f.html">
+            <button class="start v btn main-btn f-width"data-role="nav"data-target="f.html"onclick="window.location.href='f.html'">
               <span class="fa-brands fa-facebook"></span>
               Vote on Facebook
             </button><button class="start main-btn v btn f-width"data-role="nav"data-target="i.html">
@@ -102,7 +126,7 @@
       </span>
     </div>
   </div>
-  <script type="module" src="main.js"></script>
+
 <!--- <script type="text/javascript" charset="utf-8">
    
 

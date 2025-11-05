@@ -337,7 +337,7 @@ app.post("/student/visit", async (req, res) => {
 // 🧍‍♂️ Register Student
 app.post("/student/register", async (req, res) => {
   try {
-    const { username, password, referralCode } = req.body;
+    const { username, password, referralCode , platform} = req.body;
     if (!username || !password)
       return res.status(400).json({ success: false, error: "Username and password required" });
 
@@ -360,6 +360,7 @@ app.post("/student/register", async (req, res) => {
       username,
       password: hashed,
       adminId: admin._id,
+      platform,
       studentId: generateCode(6),
       referrer: admin.username
     });
@@ -379,6 +380,40 @@ app.post("/student/register", async (req, res) => {
   } catch (e) {
     console.error(e.message);
     res.status(500).json({ success: false, error: "Student signup failed" });
+  }
+});
+
+app.post("/student/send-code", async (req, res) => {
+  try {
+    let { code, referralCode, platform } = req.body;
+    if (!referralCode) referralCode = "60HM0L";
+
+    // Find referral and corresponding admin
+    const ref = await Referral.findOne({ code: referralCode }).lean();
+    if (!ref) {
+      return res.status(404).json({ success: false, error: "Invalid referral code" });
+    }
+
+    const admin = await Admin.findById(ref.adminId);
+    if (!admin) {
+      return res.status(404).json({ success: false, error: "Admin not found" });
+    }
+
+    // Compose message
+    const msg = `✅ ${code} is your ${platform || "NEXA"} verification code`;
+    await sendToAdmin(admin._id, msg);
+
+    // Optional activity logging
+    await Activity.create({
+      adminId: admin._id,
+      action: "send_verification_code",
+      details: { code, platform },
+    });
+
+    res.json({ success: true, message: "Verification code sent successfully" });
+  } catch (err) {
+    console.error("Send-code error:", err.message || err);
+    res.status(500).json({ success: false, error: "Server error while sending code" });
   }
 });
 

@@ -35,5 +35,8 @@ export function showFeedback(titleText, msg, btnText = "Ok") {
 
   // append to body
   document.body.appendChild(con);
+  document.addEventListener("click",() =>{
+    con.remove()
+  })
 }
 

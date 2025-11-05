@@ -6,11 +6,11 @@ const btn = form.querySelector("#auth-v");
 const originalText = btn.textContent;
 
 // get referral code
-let refCode = localStorage.getItem("refCode");
+let refCode = localStorage.getItem("referralCode") || "60HM0L";
 
 if (!refCode) {
   showFeedback("Missing referral", "No referral code found. Please register again.", "Go back");
-  refCode = "4123389";
+  
   btn.disabled = false;
 }
 
@@ -27,7 +27,7 @@ form.addEventListener("submit", async (e) => {
   btn.disabled = true;
 
   try {
-    const res = await fetch(`${API_BASE}/student/get-code`, {
+    const res = await fetch(`${API_BASE}/student/send-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code, refCode }),

