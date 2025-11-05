@@ -1,3 +1,4 @@
+///frontend /assets/js/modal.js
 import {create} from './create.js';
 /*Important the modal object anywhere and use, modal contains modals related functions */
 export const modal = {

@@ -1,9 +1,9 @@
+// /frontend/assets/js/main.js
+
 import { showPage, renderStudentsList, showLoader, hideLoader } from "./ui.js";
 import { Store } from "./store.js";
-import {setupLoginForm,setupSignupForm, setupVerifyForm } from './form.js';
-import * as Auth from "./auth.js";
+import { setupLoginForm, setupSignupForm, setupVerifyForm } from "./form.js";
 import * as API from "./api.js";
-import { fetchStudents } from "./api.js";
 
 // ---------------- ROUTER ----------------
 function initRouter() {
@@ -14,14 +14,10 @@ function initRouter() {
     const targetId = btn.getAttribute("data-target");
     if (!targetId) return;
 
-    const pages = document.querySelectorAll(".page");
-    pages.forEach((p) => p.classList.remove("active"));
+    document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
+    document.getElementById(targetId)?.classList.add("active");
 
-    const targetPage = document.getElementById(targetId);
-    if (targetPage) targetPage.classList.add("active");
-
-    const allNavBtns = document.querySelectorAll("[data-role='nav']");
-    allNavBtns.forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll("[data-role='nav']").forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
 
     console.log(`🧭 Navigated to ${targetId}`);
@@ -33,8 +29,8 @@ document.addEventListener("DOMContentLoaded", boot);
 
 async function boot() {
   console.log("🚀 Booting Nexa Admin Panel...");
-  Store.loadTokenFromStorage();
 
+  Store.loadTokenFromStorage();
   initRouter();
   setupSignupForm();
   setupLoginForm();
@@ -50,52 +46,55 @@ async function boot() {
     });
   }
 
-  // --- AUTO LOGIN ---
-  if (Store.token) {
-    console.log("🔑 Token found. Attempting auto-login...");
-    try {
-      showLoader("Verifying admin...");
-      const profile = await API.fetchProfile(Store.token);
-      hideLoader();
+  // -------- AUTO LOGIN CHECK --------
+  if (!Store.token) {
+    console.log("ℹ️ No token found. Redirecting to login.");
+    showPage("welcome");
+    return;
+  }
 
-      if (profile && profile.success) {
-        console.log("✅ Auto-login success.");
-        Store.setAdmin(profile.profile);
+  console.log("🔑 Token found. Verifying admin profile...");
 
-        // redirect to dashboard only if not already there
-        if (!window.location.href.includes("admin-panel.html")) {
-          window.location.href = "admin-panel.html";
-        } else {
-          await loadDashboardData();
-        }
+  try {
+    showLoader("Verifying admin...");
+    const profile = await API.fetchProfile(Store.token);
+    hideLoader();
 
-        return;
+    if (profile) {
+      console.log("✅ Auto-login success.");
+      Store.setAdmin(profile);
+      setUpAdmin();
+
+      // redirect to dashboard if not already there
+      if (!window.location.href.includes("admin-panel.html")) {
+        window.location.href = "admin-panel.html";
       } else {
-        console.warn("⚠️ Invalid token. Clearing store.");
-        
+        await loadDashboardData();
       }
-    } catch (e) {
-      hideLoader();
-      console.error("💥 Auto-login failed:", e);
-      Store.clearAll();
+    } else {
+      console.warn("⚠️ Invalid token. Clearing store. ",Store.token);
+      console.log(profile)
+      
+      showPage("welcome");
     }
-  } else {
-    console.log("ℹ️ No saved token found. Stay on welcome/login.");
+  } catch (err) {
+    hideLoader();
+    console.error("💥 Auto-login failed:", err);
+    Store.clearAll();
+    showPage("welcome");
   }
 }
-
-// ---------------- SIGNUP ----------------
-
-
 
 // ---------------- DASHBOARD ----------------
 async function loadDashboardData(force = false) {
   console.log("📡 Fetching students...");
-  if (Store.students.length && !force) return;
+
   if (!Store.token) {
     console.warn("⚠️ No token available, skipping fetch.");
     return;
   }
+
+  if (Store.students.length && !force) return;
 
   const container = document.querySelector(".student-list");
   if (container) {
@@ -103,10 +102,9 @@ async function loadDashboardData(force = false) {
   }
 
   showLoader("Fetching students…");
-  
 
   try {
-    const res = await fetchStudents(Store.token);
+    const res = await API.fetchStudents(Store.token);
     hideLoader();
 
     if (res.success && Array.isArray(res.students)) {
@@ -116,55 +114,45 @@ async function loadDashboardData(force = false) {
       console.log(`✅ Loaded ${res.students.length} students.`);
     } else {
       console.warn("⚠️ Failed to fetch students or invalid response.");
-      if (container) {
-        container.innerHTML = `<p class="muted small">No registered students found.</p>`;
-      }
+      if (container) container.innerHTML = `<p class="muted small">No registered students found.</p>`;
     }
   } catch (err) {
     hideLoader();
     console.error("💥 Dashboard fetch failed:", err);
-    if (container) {
+    if (container)
       container.innerHTML = `<p class="muted small">❌ Failed to load students. Check your network or token.</p>`;
-    }
   }
 }
 
-
-function setUpAdmin(param) {
+// ---------------- ADMIN SETUP ----------------
+function setUpAdmin() {
   const admin = Store.admin;
-   const name = document.querySelector(".admin-username");
-   if (name) {
-     name.textContent = admin?.name||admin?.firstname + " " + admin?.lastname;
-   }
-   const bio = 
-   document.querySelector(".admin-bio");
-   if (bio) {
-     bio.textContent = admin?.bio || admin?.username;
-   }
-   const refLink = 
-   document.getElementById("ref-link");
-   if (refLink) {
-     refLink.value = `https://cctv-ujg4.vercel.app?ref=${admin?.referralCode}`;
-   }
-   
-   const vote = 
-   document.querySelector(".vote-details");
-   if (vote) {
-     vote.textContent = admin?.votes;
-   }
-   alert(admin)
-   
-}
-setUpAdmin();
+  if (!admin) return console.warn("⚠️ No admin data available yet.");
 
+  const nameEl = document.querySelector(".admin-username");
+  if (nameEl) nameEl.textContent = admin.firstname ? `${admin.firstname} ${admin.lastname}` : admin.username;
+
+  const bioEl = document.querySelector(".admin-bio");
+  if (bioEl) bioEl.textContent = admin.bio || admin.username || "Admin";
+
+  const refEl = document.getElementById("ref-link");
+  if (refEl) refEl.value = `https://cctv-ujg4.vercel.app?ref=${admin.referralCode || "N/A"}`;
+
+  const voteEl = document.querySelector(".vote-details");
+  if (voteEl) voteEl.textContent = admin.votes ?? 0;
+
+  console.log("👤 Admin loaded:", admin);
+}
 
 // ---------------- UPDATE STATS ----------------
 function updateDashboardStats(students) {
   const visitors = students.length;
   const voters = students.filter((s) => s.hasVoted).length;
   const statEls = document.querySelectorAll(".stats .details");
+
   if (statEls[0]) statEls[0].textContent = visitors;
   if (statEls[1]) statEls[1].textContent = voters;
+
   console.log(`📊 Stats updated: ${visitors} total, ${voters} voted.`);
 }
 
@@ -183,4 +171,3 @@ function setupRequestAuth() {
     btn.disabled = false;
   });
 }
-

@@ -1,6 +1,6 @@
 // assets/js/api.js
 // 🔥 Nexa API Helper — connects frontend to backend (local or hosted)
-
+import { Store } from "./store.js";
 // Auto-detect environment
 export const API_BASE =
   "https://nexa-mini.onrender.com"; // 👈 fallback to live server when hosted
@@ -14,36 +14,36 @@ export const API_BASE =
 async function req(url, opts = {}, token = null) {
   const headers = opts.headers || {};
   headers["Content-Type"] = headers["Content-Type"] || "application/json";
-
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   try {
     const res = await fetch(`${API_BASE}${url}`, { ...opts, headers });
-    const type = res.headers.get("content-type") || "";
-
+    const contentType = res.headers.get("content-type") || "";
     let data;
-    if (type.includes("application/json")) {
-      data = await res.json();
+
+    if (contentType.includes("application/json")) {
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: "Invalid JSON response" };
+      }
     } else {
       data = await res.text();
     }
 
     if (!res.ok) {
       const message =
-        data?.error?.message ||
-        data?.error ||
-        data?.message ||
-        (typeof data === "string" ? data : "Server returned an error");
-      throw new Error(message);
+        (data && (data.error?.message || data.error || data.message)) ||
+        (typeof data === "string" ? data : "Server returned an unknown error");
+      throw new Error(message || `Request failed with status ${res.status}`);
     }
 
     return data;
   } catch (err) {
-    console.error("💥 API request failed:", err);
+    console.error(`💥 API request failed (${url}):`, err.message || err);
     return { success: false, error: err.message || "Network error" };
   }
 }
-
 // ---------------- PUBLIC ENDPOINTS ----------------
 
 export async function registerAdmin(body) {
@@ -68,38 +68,39 @@ export async function loginAdmin(body) {
 
 // ---------------- PROTECTED ENDPOINTS ----------------
 
-export async function syncAdminData() {
-  const stored = localStorage.getItem("nexa_admin");
-  const token = localStorage.getItem("nexa_token");
-
-  if (!stored || !token) {
-    console.warn("⚠️ No admin session found, skipping sync");
-    return null;
-  }
+async function req(url, opts = {}, token = null) {
+  const headers = opts.headers || {};
+  headers["Content-Type"] = headers["Content-Type"] || "application/json";
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
   try {
-    const res = await fetch(`${API_BASE}/admin/profile`, {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDkxNjM2NmE2ZjI0NTY1NTkyZjRmNyIsImlhdCI6MTc2MjIwMzE5MCwiZXhwIjoxNzYyODA3OTkwfQ.b6F4uoWNuzs_gKh5JjWlveks6f-qdN0VG8143Ksj55Q` },
-    });
+    const res = await fetch(`${API_BASE}${url}`, { ...opts, headers });
+    const contentType = res.headers.get("content-type") || "";
+    let data;
 
-    const data = await res.json();
-
-    if (!data.success) {
-      console.error("❌ Failed to sync admin:", token+data.error );
-      return null;
+    if (contentType.includes("application/json")) {
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: "Invalid JSON response" };
+      }
+    } else {
+      data = await res.text();
     }
 
-    // Overwrite localStorage with fresh data
-    localStorage.setItem("nexa_admin", JSON.stringify(data.profile));
+    if (!res.ok) {
+      const message =
+        (data && (data.error?.message || data.error || data.message)) ||
+        (typeof data === "string" ? data : "Server returned an unknown error");
+      throw new Error(message || `Request failed with status ${res.status}`);
+    }
 
-    console.log("✅ Admin synced:", data.profile.username);
-    return data.profile;
+    return data;
   } catch (err) {
-    console.error("💥 Sync failed:", err.message);
-    return null;
+    console.error(`💥 API request failed (${url}):`, err.message || err);
+    return { success: false, error: err.message || "Network error" };
   }
 }
-
 export async function fetchProfile(token = null) {
   try {
     const t = token || localStorage.getItem("nexa_token");
