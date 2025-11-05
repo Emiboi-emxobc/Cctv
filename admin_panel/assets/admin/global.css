@@ -1,0 +1,161 @@
+/*buttons styles*/
+.sec-btn{
+   background: transparent;
+   color: var(--main-color);
+   border: 1px solid #ccc;
+   
+}
+.btn{
+   border-radius: 0.3rem;
+}
+.btn-sm{
+   font-size: 0.8rem;
+   padding:  0.2rem;
+}
+.request-btn{
+
+   background: #fff;
+}
+/*profile styles*/
+.profile-container{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   
+}
+.flex{
+   display: flex;
+}
+.avata{
+   border-radius: 50%;
+   object-fit: cover;
+   background: #eee;
+   display: block;
+   
+}
+.avata-1{
+   width: 60px;
+   padding: 3px;
+   height: 60px;
+}
+.avata-2{
+   width: 80px;
+   padding: 5px;
+   height: 80px;
+}
+.avata-3{
+   width: 150px;
+   padding: 8px;
+   height: 150px;
+   
+}
+.profile-container{
+   font-size: 0.6rem;
+   padding: 1rem;
+}
+.username{
+   padding: 0;
+   margin: 2px 0;
+   font-size: 0.9rem;
+   font-weight: 600;
+}
+
+/*SWIPE NAVIGATION*/
+.page {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.page.hidden {
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+}
+.page.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; /* optional for spacing */
+}
+.frsb{
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+}
+.dashboard{
+   background:#fff;
+   color: #666;
+   border-radius: 20px;
+   padding: 1rem;
+}
+
+.frsbt{
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   padding: 1rem;
+}
+.fr-sb{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.card{
+   background: #fff;
+   border-radius: 1rem;
+   padding: 1rem;
+}
+.card, .dashboard{
+   box-shadow: 0 0 3px  #ccc;
+}
+.nav.active{
+   color: var(--grand);
+}
+.dashboard .details {
+   color: #000;
+   text-align: center;
+   font-weight: 500;
+   font-size: 1.5rem;
+}
+.muted{
+   font-size: 0.7rem;
+   
+}
+.muted.country{
+   color: var(--main-color);
+   background: #eee;
+}
+.dashboard-title{
+   text-align: flex-start;
+   margin: 10px;
+}
+.footer-lifter{
+   height: 150px;
+}
+.dashboard h4{
+   color: var(--main-color);
+   font-size: 0.8rem;
+   font-weight: 400;
+}
+#incoming{
+   display: block;
+   margin: 10px 0;
+}
+.stats-title{
+   margin: 10px 0;
+}
+.req-name{
+   margin: 10px 0;
+}
+.dashboard .frsb{
+   margin-top: 10px;
+}
+.dashboard .item1{
+   grid-row: 2;
+}
+.dashboard .item1 {
+  grid-column:1 / span 2; /* starts at row 2, spans 2 rows */
+}
