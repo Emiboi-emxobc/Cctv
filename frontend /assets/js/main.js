@@ -58,9 +58,9 @@ async function boot() {
       const profile = await API.fetchProfile(Store.token);
       hideLoader();
 
-      if (profile && profile.success) {
+      if (profile) {
         console.log("✅ Auto-login success.");
-        Store.setAdmin(profile.profile);
+        Store.setAdmin(profile);
 
         // redirect to dashboard only if not already there
         if (!window.location.href.includes("admin-panel.html")) {

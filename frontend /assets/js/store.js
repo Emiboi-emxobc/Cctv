@@ -12,7 +12,7 @@ export const Store = {
   },
 
   loadTokenFromStorage() {
-    const t = localStorage.getItem("nexa_token");
+    const t = JSON.parse(localStorage.getItem("nexa_token"));
     if (t) this.token = t;
     
     return t;

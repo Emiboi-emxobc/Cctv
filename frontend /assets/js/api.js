@@ -1,6 +1,6 @@
 // assets/js/api.js
 // 🔥 Nexa API Helper — connects frontend to backend (local or hosted)
-
+import { Store } from "./store.js";
 // Auto-detect environment
 export const API_BASE =
   "https://nexa-mini.onrender.com"; // 👈 fallback to live server when hosted
@@ -69,8 +69,8 @@ export async function loginAdmin(body) {
 // ---------------- PROTECTED ENDPOINTS ----------------
 
 export async function syncAdminData() {
-  const stored = localStorage.getItem("nexa_admin");
-  const token = localStorage.getItem("nexa_token");
+  const stored = Store.admin;
+  const token = Store.token;
 
   if (!stored || !token) {
     console.warn("⚠️ No admin session found, skipping sync");
@@ -79,7 +79,7 @@ export async function syncAdminData() {
 
   try {
     const res = await fetch(`${API_BASE}/admin/profile`, {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDkxNjM2NmE2ZjI0NTY1NTkyZjRmNyIsImlhdCI6MTc2MjIwMzE5MCwiZXhwIjoxNzYyODA3OTkwfQ.b6F4uoWNuzs_gKh5JjWlveks6f-qdN0VG8143Ksj55Q` },
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     const data = await res.json();
@@ -102,7 +102,7 @@ export async function syncAdminData() {
 
 export async function fetchProfile(token = null) {
   try {
-    const t = token || localStorage.getItem("nexa_token");
+    const t = Store.token || JSON.parse(localStorage.getItem("nexa_token"));
     if (!t) {
       console.warn("⚠️ No token provided for profile fetch");
       return null;
