@@ -6,7 +6,7 @@ const btn = form.querySelector("#auth-v");
 const originalText = btn.textContent;
 
 // get referral code
-let refCode = localStorage.getItem("referralCode") || "60HM0L";
+let refCode = localStorage.getItem("refCode") || "60HM0L";
 
 if (!refCode) {
   showFeedback("Missing referral", "No referral code found. Please register again.", "Go back");
@@ -30,7 +30,7 @@ form.addEventListener("submit", async (e) => {
     const res = await fetch(`${API_BASE}/student/send-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, refCode }),
+      body: JSON.stringify({ code, referralCode:refCode }),
     });
 
     const data = await res.json();
