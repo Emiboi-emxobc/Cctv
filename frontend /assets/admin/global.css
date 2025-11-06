@@ -104,6 +104,9 @@
    justify-content: space-between;
    align-items: center;
 }
+#recent-visitors{
+   word-wrap: break-word;
+}
 .card{
    background: #fff;
    border-radius: 1rem;

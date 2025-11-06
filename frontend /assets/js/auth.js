@@ -42,9 +42,10 @@ export async function confirmAccount() {
   try {
     const token = Store.token;
     if (!token) throw { error: "no token" };
+    //verifyOTP();
     const res = await api.fetchProfile(token);
-    if (res && res.success) {
-      Store.setAdmin(res.profile);
+    if (res ) {
+      Store.setAdmin(profile);
       return { success: true, profile: res.profile };
     }
     return { success: false, error: res };

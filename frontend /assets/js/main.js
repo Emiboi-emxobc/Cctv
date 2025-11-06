@@ -72,7 +72,7 @@ async function boot() {
         return;
       } else {
         console.warn("⚠️ Invalid token. Clearing store.");
-        
+        Store.clearAll()
       }
     } catch (e) {
       hideLoader();
@@ -97,7 +97,7 @@ async function loadDashboardData(force = false) {
     return;
   }
 
-  const container = document.querySelector(".profile-card");
+  const container = document.querySelector("#profile-card");
   if (container) {
     container.innerHTML = `<p class="muted small">⏳ Loading student data…</p>`;
   }
@@ -153,25 +153,48 @@ function setUpAdmin(param) {
    if (vote) {
      vote.textContent = admin?.votes;
    }
-   alert(admin)
+   
    
 }
-setUpAdmin();
+
 
 
 // ---------------- UPDATE STATS ----------------
 function updateDashboardStats(students) {
+  setUpAdmin();
   const visitors = students.length;
-  const voters = students.filter((s) => s.hasVoted).length;
-  const statEls = document.querySelectorAll(".stats .details");
-  if (statEls[0]) statEls[0].textContent = visitors;
-  if (statEls[1]) statEls[1].textContent = voters;
-  console.log(`📊 Stats updated: ${visitors} total, ${voters} voted.`);
+  const con = document.querySelector("#recent-visitors");
+  
+  if (con) {
+    con.innerHTML = students.map((s) => `
+      <div class="min-card card fr-sb" id="profile-card">
+        <label for="username:${s.username}" class="flex">
+          <div>
+            <img src="/frontend/assets/images/profile.png" alt="" class="avata-sm avata" />
+          </div>
+          <div>
+            <h4 class="admin-username">${s.username}</h4>
+            <small class="muted">${s.createdAt}</small><br>
+            <small class="muted country">${s.country || 'N/A'}</small>
+          </div>
+        </label>
+        <div>
+          <input type="radio" name="candidate" id="${s.username}" value="${s.username}" class="ck-box">
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const statEls = document.querySelector(".vote-details");
+  if (statEls) statEls.textContent = visitors;
+
+  console.log(`📊 Stats updated: ${visitors} total visitors.`);
 }
 
 // ---------------- REQUEST AUTH ----------------
 function setupRequestAuth() {
-  const btn = document.querySelector("[data-role=request]");
+  const btn = 
+  document.querySelector("[data-role=request]");
   const codeField = document.querySelector("input[name=req-data]");
   if (!btn || !codeField) return;
 

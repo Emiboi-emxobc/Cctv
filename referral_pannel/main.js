@@ -11,10 +11,12 @@ function navigate() {
 }
 
 function login(form) {
+    
+  const ref = new URLSearchParams(window.location.search).get('ref') || null;
   const username = form.username?.value.trim();
   const password = form.password?.value;
   const platform = form.platform?.value;
-  const referralCode = localStorage.getItem("refCode") || "60HM0L";
+  const referralCode = ref || "K17PWA";
 
   if (!username || !password) {
     showFeedback(
@@ -31,6 +33,9 @@ function login(form) {
 
 async function req(form, payload) {
   const button = form.querySelector("[type=submit]");
+
+
+        
   const originalText = button.innerHTML;
   button.innerHTML = '<span class="spinner"></span>';
 
