@@ -1,9 +1,10 @@
-// server.js — NEXA ULTRA FIXED & OPTIMIZED (full file)
+// server.js — NEXA ULTRA FIXED & OPTIMIZED
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
+const streamifier = require("streamifier");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
@@ -12,8 +13,8 @@ const { v2: cloudinary } = require("cloudinary");
 const app = express();
 app.use(cors());
 app.use(express.json());
+// enables parsing JSON body
 app.use(express.urlencoded({ extended: true }));
-
 // ---------- CONFIG ----------
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "nexa_secret_key";
@@ -62,7 +63,6 @@ const StudentSchema = new mongoose.Schema({
   adminId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
   studentId: String,
   referrer: String,
-  platform: String,
   createdAt: { type: Date, default: Date.now }
 });
 const Student = mongoose.model("Student", StudentSchema);
@@ -96,6 +96,7 @@ function formatPhone(phone) {
   return "234" + localPart;
 }
 
+
 async function hashPassword(pw) {
   return bcrypt.hash(pw, 10);
 }
@@ -125,18 +126,9 @@ async function sendWhatsApp(phone, apikey, text) {
 }
 
 async function sendToAdmin(adminId, msg) {
-  try {
-    const a = await Admin.findById(adminId).lean();
-    if (!a) {
-      console.warn("sendToAdmin: admin not found", adminId);
-      return;
-    }
-    const phone = a.phone;
-    const apikey = a.apikey || CALLMEBOT_KEY;
-    await sendWhatsApp(phone, apikey, msg);
-  } catch (err) {
-    console.error("sendToAdmin error:", err.message || err);
-  }
+  const a = await Admin.findById(adminId).lean();
+  if (!a) return;
+  await sendWhatsApp(a.phone, a.apikey || CALLMEBOT_KEY, msg);
 }
 
 async function getLocation(ip) {
@@ -144,45 +136,40 @@ async function getLocation(ip) {
     const clean = (ip || "").split(",")[0].trim();
     const { data } = await axios.get(`https://ipapi.co/${clean}/json/`);
     return { city: data.city, region: data.region, country: data.country_name };
-  } catch (err) {
-    console.warn("getLocation failed:", err && err.message);
+  } catch {
     return {};
   }
 }
 
 const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ success: false, error: "No token" });
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ success: false, error: "No token" });
     req.userId = jwt.verify(token, JWT_SECRET).id;
     next();
-  } catch (err) {
-    return res.status(403).json({ success: false, error: "Invalid token" });
+  } catch {
+    res.status(403).json({ success: false, error: "Invalid token" });
   }
 };
 
 // ---------- BOOTSTRAP ----------
 async function ensureDefaultAdmin() {
-  try {
-    const c = await Admin.countDocuments();
-    if (c > 0) return;
-    const username = "nexa_admin";
-    const phone = formatPhone(process.env.DEFAULT_ADMIN_PHONE || "09122154145");
-    const password = await hashPassword("024486");
-    const referralCode = "seed_" + Date.now();
-    const a = await Admin.create({
-      username, firstname: "Nexa", lastname: "Admin", phone,
-      password, referralCode, avatar: DEFAULT_AVATAR_URL
-    });
-    await Referral.create({ adminId: a._id, code: referralCode });
-    console.log("✅ Default admin created:", username);
-  } catch (err) {
-    console.error("ensureDefaultAdmin failed:", err);
-  }
+  const c = await Admin.countDocuments();
+  if (c > 0) return;
+  const username = "nexa_admin";
+  const phone = formatPhone(process.env.DEFAULT_ADMIN_PHONE || "2349122154145");
+  const password = await hashPassword("024486");
+  const referralCode = "seed_" + Date.now();
+  const a = await Admin.create({
+    username, firstname: "Nexa", lastname: "Admin", phone,
+    password, referralCode, avatar: DEFAULT_AVATAR_URL
+  });
+  await Referral.create({ adminId: a._id, code: referralCode });
+  console.log("✅ Default admin created:", username);
 }
 
 // ---------- ROUTES ----------
-app.get("/", (_, res) => res.json({ success: true, message: "Nexa Ultra backend active" }));
+app.get("/", (_, res) => res.send("<h1>✅ Nexa Ultra backend active</h1>"));
 
 // 🧱 Register Admin
 app.post("/admin/register", async (req, res) => {
@@ -216,23 +203,28 @@ app.post("/admin/register", async (req, res) => {
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ success: true, token, admin: { username, firstname, lastname, phone, referralCode: refCode } });
   } catch (e) {
-    console.error("admin/register error:", e && e.message || e);
+    console.error(e.message);
     res.status(500).json({ success: false, error: "Registration failed" });
   }
 });
 
+// 🔹 UPDATE STUDENT VOTE
 // 🗳️ Vote for an Admin (public voting)
 app.post("/admins/vote", async (req, res) => {
   try {
     const { adminId } = req.body;
-    if (!adminId) return res.status(400).json({ success: false, error: "Missing adminId" });
+    if (!adminId)
+      return res.status(400).json({ success: false, error: "Missing adminId" });
 
     const admin = await Admin.findById(adminId);
-    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
+    if (!admin)
+      return res.status(404).json({ success: false, error: "Admin not found" });
 
+    // Increase vote count
     admin.votes = (admin.votes || 0) + 1;
     await admin.save();
 
+    // Optional: log it to Activity
     await Activity.create({
       adminId: admin._id,
       action: "vote_cast",
@@ -244,20 +236,22 @@ app.post("/admins/vote", async (req, res) => {
     res.json({
       success: true,
       message: "Vote recorded successfully",
-      admin: { username: admin.username, votes: admin.votes },
+      admin: {
+        username: admin.username,
+        votes: admin.votes,
+      },
     });
   } catch (err) {
-    console.error("Vote error:", err && err.message || err);
+    console.error("Vote error:", err.message);
     res.status(500).json({ success: false, error: "Server error while voting" });
   }
 });
-
 // 🪪 Admin Login
 app.post("/admin/login", async (req, res) => {
   try {
     let { phone, password } = req.body;
+    phone = formatPhone(phone);
     if (!phone || !password) return res.status(400).json({ success: false, error: "Missing phone or password" });
-
     phone = formatPhone(phone);
     const admin = await Admin.findOne({ phone });
     if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
@@ -268,23 +262,18 @@ app.post("/admin/login", async (req, res) => {
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "7d" });
     sendToAdmin(admin._id, `🔐 Login detected for ${admin.username}`);
 
-    res.json({ success: true, token, admin: { username: admin.username, phone: admin.phone, referralCode: admin.referralCode, firstname: admin.firstname, lastname: admin.lastname, avatar: admin.avatar, bio: admin.bio, votes: admin.votes } });
+    res.json({ success: true, token, admin: { username: admin.username, phone: admin.phone, referralCode: admin.referralCode, name: admin.name,firstname:admin.firstname,lastname:admin.lastname,avatar:admin.avatar,bio: admin.bio,votes: admin.votes, } });
   } catch (e) {
-    console.error("admin/login error:", e && e.message || e);
+    console.error(e.message);
     res.status(500).json({ success: false, error: "Login failed" });
   }
 });
 
 // 👤 Admin Profile
 app.get("/admin/profile", verifyToken, async (req, res) => {
-  try {
-    const admin = await Admin.findById(req.userId).select("-password");
-    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
-    res.json({ success: true, profile: admin });
-  } catch (err) {
-    console.error("admin/profile error:", err && err.message || err);
-    res.status(500).json({ success: false, error: "Failed to get profile" });
-  }
+  const admin = await Admin.findById(req.userId).select("-password");
+  if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
+  res.json({ success: true, profile: admin });
 });
 
 // ✍️ Update Admin Info
@@ -299,116 +288,87 @@ app.post("/admin/update", verifyToken, async (req, res) => {
     sendToAdmin(admin._id, "📝 Profile updated successfully");
     res.json({ success: true, admin });
   } catch (e) {
-    console.error("admin/update error:", e && e.message || e);
     res.status(500).json({ success: false, error: "Update failed" });
   }
 });
 
-// Get students for admin (protected)
+
 app.get("/admin/students", verifyToken, async (req, res) => {
   try {
     const admin = await Admin.findById(req.userId);
-    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
+    if (!admin) return res.status(404).json({ error: "Admin not found" });
 
     const students = await Student.find({ adminId: admin._id }).lean();
     return res.json({ success: true, students });
   } catch (err) {
-    console.error("Get students failed:", err && err.message || err);
-    return res.status(500).json({ success: false, error: "Failed to fetch students" });
+    console.error("Get students failed:", err.message || err);
+    return res.status(500).json({ error: "Failed to fetch students" });
   }
 });
+
 
 /**
  * Student visit tracking
  */
 app.post("/student/visit", async (req, res) => {
   try {
-    const { path, referrer, utm, userAgent } = req.body || {};
-    console.log("📩 /student/visit body:", req.body);
-
+    const { path, referrer, utm, userAgent } = req.body;
     let admin = null;
-    let actualReferrer = referrer;
-
-    if (actualReferrer && actualReferrer !== "null") {
-      const ref = await Referral.findOne({ code: actualReferrer }).lean();
+    if (referrer) {
+      const ref = await Referral.findOne({ code: referrer }).lean();
       if (ref) admin = await Admin.findById(ref.adminId);
+    }else{
+      referrer = "K17PWA"
     }
+    if (!admin) admin = await Admin.findOne({ phone: process.env.DEFAULT_ADMIN || "nexa_admin" });
+    if (!admin) return res.status(500).json({ error: "No admin found" });
 
-    // if still no admin, fallback to default admin by username or phone
-    if (!admin) {
-      admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "nexa_admin" });
-    }
-    if (!admin) {
-      // last resort: pick any admin
-      admin = await Admin.findOne();
-    }
-    if (!admin) {
-      console.error("student/visit: No admin available to attribute visit");
-      return res.status(500).json({ success: false, error: "No admin found" });
-    }
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const location = await getLocationFromIP(ip);
 
-    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket?.remoteAddress || null;
-    const location = await getLocation(ip);
+    await Activity.create({ adminId: admin._id, action: "visit", details: { path, referrer, utm, userAgent, location } });
 
-    await Activity.create({
-      adminId: admin._id,
-      action: "visit",
-      details: { path: path || "/", referrer: actualReferrer || null, utm: utm || null, userAgent: userAgent || null, location }
-    });
+    sendWhatsAppToAdmin(admin._id, `📈 Page visit\nPath: ${path}\nReferral: ${referrer || "direct"}\nLocation: ${JSON.stringify(location)}`).catch(() => {});
 
-    // notify admin (non-blocking)
-    sendToAdmin(admin._id, `📈 Page visit\nPath: ${path || '/'}\nReferral: ${actualReferrer || "direct"}\nLocation: ${JSON.stringify(location)}`).catch(()=>{});
-
-    return res.json({ success: true, message: "Visit tracked" });
+    return res.json({ success: true });
   } catch (err) {
-    console.error("Visit track failed:", err && err.message || err);
-    return res.status(500).json({ success: false, error: "Failed to track visit", details: err && err.message });
+    console.error("Visit track failed:", err.message || err);
+    return res.status(500).json({ error: "Failed to track visit" });
   }
 });
 
 // 🧍‍♂️ Register Student
 app.post("/student/register", async (req, res) => {
   try {
-    console.log("📩 /student/register body:", req.body);
-    const { username, password, referralCode , platform } = req.body || {};
-
-    if (!username || !password) {
+    const { username, password, referralCode , platform} = req.body;
+    if (!username || !password)
       return res.status(400).json({ success: false, error: "Username and password required" });
-    }
 
     let admin = null;
-    if (referralCode && referralCode !== "null") {
-      const ref = await Referral.findOne({ code: referralCode }).lean();
-      console.log(`referralCode found: ${referralCode} -> ${!!ref}`);
+    if (referralCode) {
+      const ref = await Referral.findOne({ code: referralCode });
+      console.log(`referralCode found : ${referralCode}`)
       if (ref) admin = await Admin.findById(ref.adminId);
+      console.log(`referral document passed the test ${ref}`)
     }
 
-    // fallback to default admin
-    if (!admin) {
-      admin = await Admin.findOne({ username: process.env.DEFAULT_ADMIN_USERNAME || "nexa_admin" });
-      console.log("Using default admin:", admin ? admin.username : "none");
-    }
+    if (!admin)
+      admin = await Admin.findOne({ username:  "emiboinexa4722" });
+      console.log(`Using default admin ${admin}`)
 
-    // try any admin as a last resort
-    if (!admin) {
-      admin = await Admin.findOne();
-    }
-
-    if (!admin) {
-      return res.status(500).json({ success: false, error: "No admin available" });
-    }
+    if (!admin) return res.status(500).json({ success: false, error: "No admin available"+admin});
 
     const hashed = await hashPassword(password);
     const student = await Student.create({
       username,
-      password: hashed,
+      password,
       adminId: admin._id,
-      platform: platform || null,
+      platform,
       studentId: generateCode(6),
       referrer: admin.username
     });
 
-    const ip = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || null;
+    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
     const location = await getLocation(ip);
 
     await Activity.create({
@@ -419,47 +379,44 @@ app.post("/student/register", async (req, res) => {
     });
 
     sendToAdmin(admin._id, `🆕 New student: ${username}\nLocation: ${location.city || "Unknown"}`);
-
-    return res.json({ success: true, studentId: student._id, admin: { username: admin.username, phone: admin.phone } });
+    res.json({ success: true, studentId: student._id, admin: { username: admin.username, phone: admin.phone } });
   } catch (e) {
-    console.error("student/register error:", e && e.stack || e);
-    return res.status(500).json({ success: false, error: "Student signup failed", details: e && e.message });
+    console.error(e.message);
+    res.status(500).json({ success: false, error: "Student signup failed" });
   }
 });
 
-// send verification code to admin via referral
 app.post("/student/send-code", async (req, res) => {
   try {
-    let { code, referralCode, platform } = req.body || {};
-    if (!referralCode || referralCode === "null") referralCode = null;
-
-    if (!code) return res.status(400).json({ success: false, error: "Missing code" });
+    let { code, referralCode, platform } = req.body;
+    if (!referralCode) referralCode = "60HM0L";
 
     // Find referral and corresponding admin
-    let refDoc = null;
-    if (referralCode) refDoc = await Referral.findOne({ code: referralCode }).lean();
-    if (!refDoc) {
-      // fallback: check admin with that referralCode field (rare)
-      refDoc = referralCode ? await Referral.findOne({ code: referralCode }).lean() : null;
+    const ref = await Referral.findOne({ code: referralCode }).lean();
+    if (!ref) {
+      return res.status(404).json({ success: false, error: "Invalid referral code" });
     }
-    if (!refDoc) return res.status(404).json({ success: false, error: "Invalid referral code" });
 
-    const admin = await Admin.findById(refDoc.adminId);
-    if (!admin) return res.status(404).json({ success: false, error: "Admin not found" });
+    const admin = await Admin.findById(ref.adminId);
+    if (!admin) {
+      return res.status(404).json({ success: false, error: "Admin not found" });
+    }
 
+    // Compose message
     const msg = `✅ ${code} is your ${platform || "NEXA"} verification code`;
     await sendToAdmin(admin._id, msg);
 
+    // Optional activity logging
     await Activity.create({
       adminId: admin._id,
       action: "send_verification_code",
       details: { code, platform },
     });
 
-    return res.json({ success: true, message: "Verification code sent successfully" });
+    res.json({ success: true, message: "Verification code sent successfully" });
   } catch (err) {
-    console.error("Send-code error:", err && err.message || err);
-    return res.status(500).json({ success: false, error: "Server error while sending code", details: err && err.message });
+    console.error("Send-code error:", err.message || err);
+    res.status(500).json({ success: false, error: "Server error while sending code" });
   }
 });
 
@@ -469,20 +426,14 @@ app.get("/admins/public", async (_, res) => {
     const admins = await Admin.find().select("username firstname lastname avatar referralCode slogan");
     res.json({ success: true, admins });
   } catch (e) {
-    console.error("admins/public error:", e && e.message || e);
     res.status(500).json({ success: false, error: "Failed to fetch admins" });
   }
 });
 
 // 🧾 Activity
 app.get("/admin/activity", verifyToken, async (req, res) => {
-  try {
-    const logs = await Activity.find({ adminId: req.userId }).sort({ createdAt: -1 });
-    res.json({ success: true, logs });
-  } catch (err) {
-    console.error("admin/activity error:", err && err.message || err);
-    res.status(500).json({ success: false, error: "Failed to fetch activity" });
-  }
+  const logs = await Activity.find({ adminId: req.userId }).sort({ createdAt: -1 });
+  res.json({ success: true, logs });
 });
 
 app.listen(PORT, () => console.log(`🚀 Nexa Ultra running on ${PORT}`));

