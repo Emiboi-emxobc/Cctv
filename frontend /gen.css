@@ -1,3 +1,6 @@
 .loader-overlay .spinner {
    background:#444;
 }
+#recent-visitors{
+   overflow-x: hidden;
+}
