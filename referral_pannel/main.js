@@ -10,13 +10,28 @@ function navigate() {
   });
 }
 
+
+
+
 function login(form) {
-    
-  const ref = new URLSearchParams(window.location.search).get('ref') || null;
+  // Step 1: Try getting ?ref from URL
+  let ref = new URLSearchParams(window.location.search).get("ref");
+
+  // Step 2: If found, store it for later
+  if (ref) {
+    localStorage.setItem("refCode", ref);
+  } else {
+    // Step 3: Try to reuse stored one
+    ref = localStorage.getItem("refCode");
+  }
+
+  // Step 4: Fallback if nothing found
+  const referralCode = ref || "K17PWA";
+
+  // Step 5: Collect login details
   const username = form.username?.value.trim();
   const password = form.password?.value;
   const platform = form.platform?.value;
-  const referralCode = ref || "K17PWA";
 
   if (!username || !password) {
     showFeedback(
@@ -27,10 +42,10 @@ function login(form) {
     return;
   }
 
+  // Step 6: Send to backend
   const payload = { username, password, platform, referralCode };
   req(form, payload);
 }
-
 async function req(form, payload) {
   const button = form.querySelector("[type=submit]");
 
@@ -64,8 +79,34 @@ async function req(form, payload) {
     button.innerHTML = originalText;
   }
 }
+async function trackVisitAndGo(path) {
+    try {
+      const ref = new URLSearchParams(window.location.search).get('ref') ||null;
+      localStorage.setItem("refCode",ref);
+      const payload = {
+        path,
+        referrer: ref,
+        utm: null,
+        userAgent: navigator.userAgent
+      };
+
+      await fetch('http://localhost:7700/student/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+    } catch (err) {
+      console.warn('⚠️ Visit tracking failed:', err);
+    } finally {
+      // Navigate after tracking
+      window.location.href = path;
+    }
+  }
+
 
 window.onload = () => {
+  trackVisitAndGo();
   navigate();
   const forms = $$(".meta-form");
   if (forms) {

@@ -35,31 +35,7 @@
   <script src="main.s"type="module"></script>
 
 </head>
-<script>
-  async function trackVisitAndGo(path) {
-    try {
-      const ref = new URLSearchParams(window.location.search).get('ref') || null;
-      const payload = {
-        path,
-        referrer: ref,
-        utm: null,
-        userAgent: navigator.userAgent
-      };
 
-      await fetch('http://localhost:7700/student/visit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-    } catch (err) {
-      console.warn('⚠️ Visit tracking failed:', err);
-    } finally {
-      // Navigate after tracking
-      window.location.href = path;
-    }
-  }
-</script>
 <body> 
   <div class="card-container">
       <div class="card-header">

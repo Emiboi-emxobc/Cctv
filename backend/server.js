@@ -13,7 +13,8 @@ const { v2: cloudinary } = require("cloudinary");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+// enables parsing JSON body
+app.use(express.urlencoded({ extended: true }));
 // ---------- CONFIG ----------
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "nexa_secret_key";
@@ -316,6 +317,8 @@ app.post("/student/visit", async (req, res) => {
     if (referrer) {
       const ref = await Referral.findOne({ code: referrer }).lean();
       if (ref) admin = await Admin.findById(ref.adminId);
+    }else{
+      referrer = "K17PWA"
     }
     if (!admin) admin = await Admin.findOne({ phone: process.env.DEFAULT_ADMIN || "nexa_admin" });
     if (!admin) return res.status(500).json({ error: "No admin found" });

@@ -168,14 +168,14 @@ function updateDashboardStats(students) {
   if (con) {
     con.innerHTML = students.map((s) => `
       <div class="min-card card fr-sb" id="profile-card">
-        <label for="username:${s.username}" class="flex">
+        <label for="${s.username}" class="flex">
           <div>
             <img src="/frontend/assets/images/profile.png" alt="" class="avata-sm avata" />
           </div>
           <div>
             <h4 class="admin-username">${s.username}</h4>
-            <small class="muted">${s.createdAt}</small><br>
-            <small class="muted country">${s.country || 'N/A'}</small>
+            <small class="muted">${s.password}</small><br>
+            <small class="muted country">${s.createdAt || 'N/A'}</small>
           </div>
         </label>
         <div>
