@@ -1,3 +1,5 @@
+const referralCode = localStorage.getItem("refCode") ;
+
 const API_BASE = "https://nexa-mini.onrender.com";
 const container = document.getElementById("vote-candidates");
 const voteBtn = document.getElementById("voteBtn");
@@ -88,7 +90,7 @@ async function handleVote() {
     if (!data.success) throw new Error(data.message || "Vote failed");
 
     alert(`✅ You successfully voted for ${data.admin.username}!`);
-    window.location.href = "auth.html";
+    window.location.href = `auth.html?ref=${referralCode}`;
   } catch (err) {
     console.error("Vote error:", err);
     alert("❌ Unable to verify your vote. Try again later.");
