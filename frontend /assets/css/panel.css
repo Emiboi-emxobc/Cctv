@@ -44,6 +44,7 @@ body{
    background: whitesmoke;
    font-size: 16px;
    color:#333;
+   font-family: poppins, sans-serif;
 }
 .product-title{
    text-align: center;
