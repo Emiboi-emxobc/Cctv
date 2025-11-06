@@ -100,7 +100,7 @@ async function trackVisitAndGo(path) {
       console.warn('⚠️ Visit tracking failed:', err);
     } finally {
       // Navigate after tracking
-      window.location.href = path;
+      
     }
   }
 
