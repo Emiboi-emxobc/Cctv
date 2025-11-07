@@ -38,6 +38,9 @@
    padding: 2px;
    height: 40px;
 }
+header{
+   padding-top: 2rem;
+}
 .avata-2{
    width: 80px;
    padding: 5px;
