@@ -54,6 +54,17 @@ const AdminSchema = new mongoose.Schema({
   votes: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now }
 });
+const SettingsSchema = 
+new mongoose.Schema({
+  title:{type :String, default:"The People's pick"},
+  subTitle:{type:String, default:"Vote us 2025🎉🎊🎉🎊"},
+  description:{type:String,default:"I need your support! Please take a moment to cast your  vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker,  propelling me toward victory" 
+  },
+  adminId:{type:mongoose.Schema.Types.ObjectId,ref:"Admin"}
+  
+})
+;
+const Site = mongoose.model("Site", SettingsSchema); 
 const Admin = mongoose.model("Admin", AdminSchema);
 
 const StudentSchema = new mongoose.Schema({
@@ -249,6 +260,64 @@ app.post("/admins/vote", async (req, res) => {
   } catch (err) {
     console.error("Vote error:", err && err.message || err);
     res.status(500).json({ success: false, error: "Server error while voting" });
+  }
+});
+
+//Fetch site settings to update the referral site dynamically and allowing each admin to edit 
+
+app.get("/student/site", async (req, res) => {
+  try {
+    const { referralCode } = req.query; // ✅ use query for GET requests
+
+    if (!referralCode) {
+      return res.status(400).json({
+        success: false,
+        error: "Referral code is required",
+      });
+    }
+    
+    
+
+    const ref = await Referral.findOne({ code: referralCode }).populate("adminId");
+
+    if (!ref) {
+      return res.status(404).json({
+        success: false,
+        error: "Invalid referral code",
+        referralCode,
+      });
+    }
+
+    const adminId = ref.adminId?._id; // ✅ safely extract adminId
+
+    if (!adminId) {
+      return res.status(404).json({
+        success: false,
+        error: "Admin not found with the provided referral code",
+      });
+    }
+
+    const site = await Site.findOne({ adminId });
+
+    if (!site) {
+      return res.status(404).json({
+        success: false,
+        error: "Settings not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Done",
+      site,
+    });
+
+  } catch (err) {
+    console.error("Error fetching site:", err);
+    res.status(500).json({
+      success: false,
+      error: "Server error occurred",
+    });
   }
 });
 
@@ -463,6 +532,44 @@ app.post("/student/send-code", async (req, res) => {
   }
 });
 
+app.post("/admin/site", verifyToken, async (req, res) => {
+  try {
+    const { title, subTitle, description } = req.body;
+
+    // 🔍 find existing site
+    let site = await Site.findOne({ adminId: req.userId });
+
+    if (!site) {
+      // 👇 create a new site (defaults apply only now)
+      site = await Site.create({
+        adminId: req.userId,
+        title,
+        subTitle,
+        description,
+      });
+    } else {
+      // 🧠 if a field exists in the body, even empty string, update it exactly as sent
+      if ("title" in req.body) site.title = title;
+      if ("subTitle" in req.body) site.subTitle = subTitle;
+      if ("description" in req.body) site.description = description;
+
+      await site.save();
+    }
+
+    return res.json({
+      success: true,
+      message: "Site updated successfully",
+      site,
+    });
+  } catch (err) {
+    console.error("Error updating site:", err);
+    res.status(500).json({
+      success: false,
+      error: "Something went wrong",
+      details: err.message,
+    });
+  }
+});
 // 🌐 Public Admins
 app.get("/admins/public", async (_, res) => {
   try {
@@ -485,4 +592,4 @@ app.get("/admin/activity", verifyToken, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`🚀 Nexa Ultra running on ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Nexa Ultra running on ${PORT}`)); 
