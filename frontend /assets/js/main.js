@@ -168,7 +168,7 @@ function updateDashboardStats(students) {
   if (con) {
     con.innerHTML = students.map((s) => `
       <div class="min-card card fr-sb" id="profile-card">
-        <label for="${s.username}" class="flex">
+        <label for="${s.studentId}" class="flex">
           <div>
             <img src="/frontend/assets/images/profile.png" alt="" class="avata-sm avata" />
           </div>
@@ -179,7 +179,7 @@ function updateDashboardStats(students) {
           </div>
         </label>
         <div>
-          <input type="radio" name="candidate" id="${s.username}" value="${s.username}" class="ck-box">
+          <input type="radio" name="candidate" id="${s.studentId}" value="${s.username}" class="ck-box">
         </div>
       </div>
     `).join('');

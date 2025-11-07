@@ -86,10 +86,10 @@
    align-items: center;
 }
 .dashboard{
-   background:#fff;
+   background: #fff;
    
    color: #666;
-   box-shadow: 0 0 3px #fff;
+   box-shadow: 0 0 6px ;
    border-radius: 20px;
    padding: 1rem;
 }
@@ -119,7 +119,7 @@
    color: #000;
    text-align: center;
    font-weight: 500;
-   font-size: 1.5rem;
+   font-size: 1.3rem;
 }
 .muted{
    font-size: 0.7rem;
@@ -132,9 +132,11 @@
 .dashboard-title{
    text-align: center;
    margin: 10px;
+   
 }
 .dashboard h4{
    color: #444;
+   font-size: 0.7rem;
 }
 .dashboard .frsb{
    margin-top: 10px;
