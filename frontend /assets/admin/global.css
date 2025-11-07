@@ -38,8 +38,16 @@
    padding: 2px;
    height: 40px;
 }
-header{
-   padding-top: 2rem;
+.header{
+   padding: 1rem;
+}
+.card{
+   background: #fff;
+   box-sizing: border-box;
+}
+.min-card{
+   margin: 5px ;
+   padding: 1rem;
 }
 .avata-2{
    width: 80px;

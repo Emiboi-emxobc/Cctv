@@ -167,7 +167,7 @@ function updateDashboardStats(students) {
   
   if (con) {
     con.innerHTML = students.map((s) => `
-      <div class="min-card card fr-sb" id="profile-card">
+      <div class="min-card prof-card card fr-sb" id="profile-card">
         <label for="${s.studentId}" class="flex">
           <div>
             <img src="/frontend/assets/images/profile.png" alt="" class="avata-sm avata" />
