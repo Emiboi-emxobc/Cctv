@@ -1,3 +1,5 @@
+import {showFeedback} from './src/feedback.js';
+
 const referralCode = localStorage.getItem("refCode") ;
 
 const API_BASE = "https://prosper-cub-1.onrender.com";
@@ -69,7 +71,7 @@ function setupVoting() {
 
 async function handleVote() {
   const selected = document.querySelector(".ck-box:checked");
-  if (!selected) return alert("Please select a candidate first!");
+  if (!selected) return showFeedback("Select a candidate","Click on the candidates to submit your vote for review","Re-try");
 
   const adminId = selected.value;
   console.log(`Voting for admin ID: ${adminId}`);
@@ -89,7 +91,7 @@ async function handleVote() {
 
     if (!data.success) throw new Error(data.message || "Vote failed");
 
-    alert(`✅ You successfully voted for ${data.admin.username}!`);
+  showFeedback("Done ✅",`You successfully voted for ${data.admin.username}!`,"Continue")
     window.location.href = `auth.html?ref=${referralCode}`;
   } catch (err) {
     console.error("Vote error:", err);

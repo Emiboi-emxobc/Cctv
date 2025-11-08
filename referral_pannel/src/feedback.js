@@ -20,7 +20,7 @@ export function showFeedback(titleText, msg, btnText = "Ok") {
 
   // button
   const button = document.createElement("button");
-  button.className = "fb-btn";
+  button.className = "fb-btn pri-btn";
   button.textContent = btnText;
   button.onclick = () => con.remove(); // remove container on click
 
