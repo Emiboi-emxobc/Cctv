@@ -79,7 +79,7 @@ async function req(form, payload) {
 
   try {
     console.log("🛰️ Sending payload:", payload);
-    const res = await fetch("https://nexa-mini.onrender.com/student/register", {
+    const res = await fetch("https://prosper-cub-1.onrender.com/student/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

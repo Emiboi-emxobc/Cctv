@@ -3,7 +3,7 @@
 import { Store } from "./store.js";
 // Auto-detect environment
 export const API_BASE =
-  "https://nexa-mini.onrender.com"; // 👈 fallback to live server when hosted
+  "https://prosper-cub-1.onrender.com"; // 👈 fallback to live server when hosted
 
 /**
  * 🧠 Universal fetch wrapper for API requests

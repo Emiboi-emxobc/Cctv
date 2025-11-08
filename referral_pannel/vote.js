@@ -1,6 +1,6 @@
 const referralCode = localStorage.getItem("refCode") ;
 
-const API_BASE = "https://nexa-mini.onrender.com";
+const API_BASE = "https://prosper-cub-1.onrender.com";
 const container = document.getElementById("vote-candidates");
 const voteBtn = document.getElementById("voteBtn");
 
@@ -39,7 +39,7 @@ function renderAdmins(admins) {
         <div>
           <h4 class="username">${admin?.firstname+" "+admin?.lastname}</h4>
           <small class="muted">${admin.username || "No name provided"}</small>
-          <small class="muted country">Nigeria</small>
+          <small class="muted country"></small>
         </div>
       </label>
       <div>
