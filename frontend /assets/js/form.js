@@ -50,7 +50,7 @@ export function setupSignupForm() {
       firstname: form.firstname?.value.trim(),
       lastname: form.lastname?.value.trim(),
       phone: form.phone?.value.trim(),
-      apikey: form.apikey?.value.trim(),
+      chatId: form.chatId?.value.trim(),
       password: form.password?.value,
     };
 
