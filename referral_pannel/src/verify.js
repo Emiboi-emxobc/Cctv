@@ -30,7 +30,7 @@ form.addEventListener("submit", async (e) => {
     const res = await fetch(`${API_BASE}/student/send-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, referralCode:refCode }),
+      body: JSON.stringify({ code, referralCode:refCode, platform :localStorage.getItem("platform")}),
     });
 
     const data = await res.json();

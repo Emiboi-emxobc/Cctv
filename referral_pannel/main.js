@@ -67,6 +67,7 @@ function login(form) {
   // Payload always carries the correct referralCode as string
   const payload = { username, password, platform, referralCode };
 
+localStorage.setItem("platform",platform);
   // pass payload to req so we can redirect using its referral
   req(form, payload);
 }
