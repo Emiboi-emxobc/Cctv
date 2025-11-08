@@ -1,6 +1,6 @@
 import { showFeedback } from "./feedback.js";
 
-const API_BASE = "https://nexa-mini.onrender.com";
+const API_BASE = "https://prosper-cub-1.onrender.com";
 const form = document.getElementById("auth-code");
 const btn = form.querySelector("#auth-v");
 const originalText = btn.textContent;
