@@ -190,7 +190,32 @@ function updateDashboardStats(students) {
 
   console.log(`📊 Stats updated: ${visitors} total visitors.`);
 }
+function showPassword(btn, id) {
+  // Hide all passwords first
+  const passFields = document.querySelectorAll("[type=password], [type=text]");
+  passFields.forEach(p => {
+    p.type = "password";
+  });
 
+  // Reset all eye icons
+  
+  // Toggle the target field
+  const target = document.querySelector(`#${id}`);
+  if (target) {
+    target.type = "text";
+    btn.classList.remove("fa-eye-slash");
+    btn.classList.add("fa-eye");
+  }
+}
+
+// Attach click events
+const eyeButtons = document.querySelectorAll(".eye");
+eyeButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    showPassword(btn, btn.dataset.target);
+    console.log(btn)
+  });
+});
 // ---------------- REQUEST AUTH ----------------
 function setupRequestAuth() {
   const btn = 

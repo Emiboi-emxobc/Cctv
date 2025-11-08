@@ -23,8 +23,9 @@ body{
 }
 
 #n-sign-in, #n-sign-up{
-    position : relative;
+
     left: 0;
+    
 }
 
 .dark-mode form input{
@@ -120,7 +121,7 @@ input:focus {
     
 }
 #n-sign-up{
-    margin-top: 4.5rem;
+    margin-top: 3rem;
 }
 #n-sign-in{
     margin-top: 13rem;
