@@ -239,3 +239,12 @@
    justify-content: center;
    padding: 1rem;
 }
+.name,.username{
+   position: relative ;
+   
+   & .fa-pencil{
+      position: absolute;
+      right:20px;
+      top: 10px;
+   }
+}

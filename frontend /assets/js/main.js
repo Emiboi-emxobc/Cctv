@@ -174,7 +174,9 @@ function setUpAdmin(param) {
 }
 
 
-
+function defaultAvata(data) {
+  
+}
 // ---------------- UPDATE STATS ----------------
 function updateDashboardStats(students) {
   setUpAdmin();

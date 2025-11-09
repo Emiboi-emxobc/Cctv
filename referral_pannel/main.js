@@ -153,11 +153,14 @@ async function trackVisitAndGo(path = window.location.pathname) {
 
 // ================== Boot ==================
 window.addEventListener("DOMContentLoaded", () => {
+  
   // persist referral if present on initial page load
   storeReferralIfPresentFromURL();
 
   // track first visit
-  trackVisitAndGo().catch(()=>{});
+  trackVisitAndGo().catch((e)=>{
+    alert(e)
+  });
 
   // navigation
   navigate();
