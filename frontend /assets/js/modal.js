@@ -47,7 +47,6 @@ export const modal = {
       modalBox.appendChild(btnCon); 
       container.appendChild(modalBox);
       document.body.appendChild(container);
-      alert(titleEl.textContent);
       return container;
 
 //End of function 🇳🇬🇳🇬🇳🇳

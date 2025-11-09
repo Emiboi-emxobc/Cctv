@@ -5,6 +5,9 @@
    border: 1px solid #ccc;
    
 }
+.body{
+   padding: 0;
+}
 .btn{
    border-radius: 0.3rem;
 }
@@ -136,6 +139,7 @@
    font-size: 0.7rem;
    
 }
+
 .muted.country{
    color: var(--main-color);
    background: #eee;
@@ -158,3 +162,64 @@
 .dashboard .item1 {
   grid-column:1 / span 2; /* starts at row 2, spans 2 rows */
 }
+.avata-container{
+   position: relative;
+}
+.avata-container .edit-avata{
+   position: absolute;
+   top: 1rem;
+   right: 10px;
+   font-size: 1.8rem;
+}
+
+.preview-container{
+   height: 400px;
+   width: 100%;
+}
+.hidden{
+   display :none;
+}
+.max-card{
+   padding-top: 2.5rem;
+}
+.avata-4{
+   width: 100%;
+   background: #fff;
+   padding: 5px;
+   
+   height: 300px;
+   min-width: 300px;
+   object-fit: cover;
+   background-position: center;
+   
+}
+#save-avata{
+   background: var(--main-color);
+   color: #fff;
+   border: none;
+   position: absolute;
+   right: 10px;
+   bottom: -1rem;
+   font-weight: 500;
+   padding: 0.2rem;
+   
+}
+#save-avata:disabled {
+   background: transparent;
+   color: transparent;
+   border: none;
+   
+}
+.fa-nav{
+   background: #fff;
+   cursor:pointer;
+}
+.page-info{
+   font-size:1.2rem;
+   margin: 1rem 0;
+}
+.page-name{
+   font-weight: 400;
+   margin: 0  0.5rem;
+}
+

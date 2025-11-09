@@ -133,10 +133,22 @@ async function loadDashboardData(force = false) {
 
 function setUpAdmin(param) {
   const admin = Store.admin;
-   const name = document.querySelector(".admin-username");
-   if (name) {
-     name.textContent = admin?.name||admin?.firstname + " " + admin?.lastname;
+   const usernameEl = document.querySelectorAll(".username");
+   
+   usernameEl.forEach((name) =>{
+     if (name) {
+     name.textContent = admin?.username
    }
+   })
+   
+   const nameEl = 
+   document.querySelectorAll(".name");
+   
+   const avatar = 
+   document.querySelectorAll(".avata");
+   avatar.forEach(a =>{
+     a.src= localStorage.getItem("avatar")
+   })
    const bio = 
    document.querySelector(".admin-bio");
    if (bio) {

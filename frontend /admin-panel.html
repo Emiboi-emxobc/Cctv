@@ -61,7 +61,7 @@
      </span>
      <span>
        <strong class="admin-username username"id="admin-name">
-        Chukwuemeka
+        User
        </strong>
        <p class="text admin-bio">
           Welcome to cctv admin panel 
@@ -70,10 +70,12 @@
    </div>
    
    <div>
+     <label for="avatarInput">
       <button class="sec-btn btn btn-sm edit" id="edit-prifile">
          <span class="fas fa-pencil"></span>
       
       </button>
+   </label>
    </div>
    </div> 
 </header>
@@ -100,11 +102,16 @@
      </div>
    </div>
    <div class="frsb">
+
+
+
+  <div>
    <input type="hidden" name="" id="ref-link" value="" />
    <button type="button"class="main-btn btn-sm btn copy-text"data-role="copy"data-target="ref-link">
      <span class="fas fa-copy"></span>
      Copy voting link
    </button>
+  </div>
    </div>
 </div>
 
@@ -126,8 +133,42 @@
             
     
 
-
 </section>
+<!---Main profile--->
+<section id="profile" class="page">
+<div class="page-info">
+    <span class="fas fa-lg fa-nav fa-arrow-left"></span>
+  <span class="page-name">Profile</span>
+</div>
+  <div id="feedback">
+    
+  </div>
+
+  <div class="max-card card profie-container">
+    <div class="profile-data">
+      <div class="avata-container">
+        <img src="" alt="my profile" class="avata avata-4"id="main-profile"/>
+       <form id="avatarForm">
+  <input type="file" id="avatarInput" accept="image/*" class="hidden"/>
+  <label for="avatarInput">
+    <span class="fas fa-camera edit-avata"></span>
+  </label>
+    <button type="submit"id="save-avata" class="main-btn">Save Image</button>
+      </form>
+      </div>
+    </div>
+    
+    <div class="user-detail">
+      <div class="name">
+        
+      </div>
+      <span class="username"></span>
+    </div>
+  </div>
+</section>
+
+
+
 <section id="hom"class="page">
    <div class="header home-header">
       <div class="logo-con">
@@ -237,6 +278,63 @@
    </footer>
   <script type="module" src="assets/js/main.js"></script>
 
+ <script type="module">
+const avatarForm = document.getElementById("avatarForm");
+const avatarInput = document.getElementById("avatarInput");
+const currentAvatar = document.querySelectorAll(".avata");
+const preview = document.querySelector("#preview");
+const save = avatarForm.querySelector("[type=submit]");
+save.disabled = true;
+// Detect file selection and show preview
+avatarInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return console.log("No avatar selected");
+
+
+save.disabled = false;
+  // Show preview
+  const reader = new FileReader();
+  reader.onload = (event) => {
+ if(preview)   preview.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+
+
+});
+
+// Handle avatar upload
+avatarForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const file = avatarInput.files[0];
+  if (!file) return alert("Select a file first");
+
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  try {
+    const token = JSON.parse(localStorage.getItem("nexa_token"));
+    const res = await fetch("https://prosper-cub-1.onrender.com/admin/avatar", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token },
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      currentAvatar.forEach(a => a.src = data.avatar); // update all avatars
+      localStorage.setItem("avatar", data.avatar);     // save to localStorage
+      
+    } else {
+      alert("Error: " + data.error);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while uploading.");
+  }
+});
+</script>
 </body>
 
 </html>

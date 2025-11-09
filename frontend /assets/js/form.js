@@ -99,12 +99,12 @@ export function setupSignupForm() {
         Store.setToken(res.token)
         Store.setAdmin(res.admin);
         
-    alert("Token before redirect: " + localStorage.getItem("nexa_token"));
+    
         setTimeout(() => {
           window.location.href = "admin-panel.html";
         }, 1000);
       } else {
-        throw new Error(res.error?.message || "Invalid credentials");
+        throw new Error(res.error || "Invalid credentials");
       }
     } catch (err) {
       console.error("❌ Login error:", err);
