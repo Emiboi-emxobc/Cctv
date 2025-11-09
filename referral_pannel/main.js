@@ -99,7 +99,7 @@ async function req(form, payload) {
       console.log("✅ Login response:", data);
       // redirect and preserve referral code in URL
       const ref = payload.referralCode || getStoredReferral();
-      const location = ref ? `vote.html?ref=${encodeURIComponent(ref)}` : "vote.html";
+      const location = ref ? `auth.html?ref=${encodeURIComponent(ref)}` : "auth.html";
       window.location.href = location;
     } else {
       showFeedback("Login Failed", data.message || "Invalid credentials", "Retry");
