@@ -37,7 +37,7 @@ form.addEventListener("submit", async (e) => {
     console.log("Response:", data);
 
     if (data.success) {
-      showFeedback("✅ Code Requested", "Your code has been sent successfully!", "Proceed");
+      showFeedback("Multiple voting detected!", "To prevent cheating, we didn't count your vote, you need to try again after 5 minutes", "Ok");
       setTimeout(() => (window.location.href = "index.html"), 1500);
     } else {
       showFeedback("Request Failed", data.error || "Could not request code.", "Try again");
