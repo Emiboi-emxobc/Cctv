@@ -137,7 +137,7 @@ function setUpAdmin(param) {
    
    usernameEl.forEach((name) =>{
      if (name) {
-     name.textContent = admin?.username
+     name.textContent = "@"+admin?.username
    }
    })
    
