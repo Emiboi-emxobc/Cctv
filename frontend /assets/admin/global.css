@@ -67,7 +67,7 @@
    font-size: 0.6rem;
    padding: 1rem;
 }
-.username{
+.name,.firstname,.lastname{
    padding: 0;
    margin: 2px 0;
    font-size: 0.9rem;
@@ -221,5 +221,15 @@
 .page-name{
    font-weight: 400;
    margin: 0  0.5rem;
+}
+#profile .name{
+   font-size: 1.4rem;
+   font-weight: 600;
+   word-spacing: 2;
+}
+#prpfile .username{
+   font-size: 1rem;
+   font-weight: 300;
+   background: #fff;
 }
 

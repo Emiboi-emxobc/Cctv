@@ -143,11 +143,15 @@ function setUpAdmin(param) {
    
    const nameEl = 
    document.querySelectorAll(".name");
-   
+   nameEl.forEach((name)=>{
+     if (name) {
+       name.textContent = admin.name || admin.firstname+ " "+ admin.lastname;
+     }
+   })
    const avatar = 
    document.querySelectorAll(".avata");
    avatar.forEach(a =>{
-     a.src= localStorage.getItem("avatar")
+     a.src= admin.avatar
    })
    const bio = 
    document.querySelector(".admin-bio");
