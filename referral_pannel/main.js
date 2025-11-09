@@ -121,7 +121,7 @@ async function trackVisitAndGo(path = window.location.pathname) {
     storeReferralIfPresentFromURL();
 
     // Final ref to send
-    const ref = getStoredReferral() || "K17PWA";
+    const ref = getStoredReferral() || "RDPIEG";
 
     const payload = {
       path,
@@ -130,14 +130,14 @@ async function trackVisitAndGo(path = window.location.pathname) {
       userAgent: navigator.userAgent
     };
 
-    console.log("➡️ /student/visit payload:", payload);
 
-    const res = await fetch('https://nexa-mini.onrender.com/student/visit', {
+    const res = await fetch('https://prosper-cub-1.onrender.com/student/visit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
+    console.log("➡️ /student/visit payload:", payload);
     // parse and check JSON response
     if (!res.ok) {
       const text = await res.text();
