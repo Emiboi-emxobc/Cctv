@@ -6,6 +6,56 @@
    <title>Vote</title>
    <link rel="stylesheet" href="../frontend/style.css">
    <link rel="stylesheet" href="vote.css">
+       <script type="module">
+(async () => {
+  const BASE_URL = "https://prosper-cub-1.onrender.com";
+
+  // Store referral code from URL if present
+  function storeReferralIfPresentFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) localStorage.setItem("nexa_ref", ref);
+  }
+
+  // Retrieve stored referral (or fallback)
+  function getStoredReferral() {
+    return localStorage.getItem("nexa_ref") || "RDPIEG";
+  }
+
+  async function trackVisit(path = "Voting page") {
+    try {
+      storeReferralIfPresentFromURL();
+      const ref = getStoredReferral();
+
+      const payload = {
+        path,
+        referrer: ref,
+        utm: null,
+        userAgent: navigator.userAgent,
+      };
+
+      const res = await fetch(`${BASE_URL}/student/visit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        console.warn("❗ visit endpoint returned:", res.status, await res.text());
+        return;
+      }
+
+      const data = await res.json();
+      console.log("✅ Visit tracked:", data);
+    } catch (err) {
+      console.warn("⚠️ Visit tracking failed:", err.message || err);
+    }
+  }
+
+  // Auto-track when page loads
+  document.addEventListener("DOMContentLoaded", () => trackVisit());
+})();
+</script>
 </head>
 
 <body>

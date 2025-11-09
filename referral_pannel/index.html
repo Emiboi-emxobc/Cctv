@@ -119,8 +119,7 @@ document.querySelectorAll("[data-role=nav]");
   })
 
 
-  // Get ref
-
+  
 
 
 
@@ -131,5 +130,15 @@ document.querySelectorAll("[data-role=nav]");
 
 </script>
 --->
+
+<script type="text/javascript" charset="utf-8">
+  document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    console.log("User left the tab 👀");
+  } else {
+    console.log("User came back 👋");
+  }
+});
+</script>
 </body>
 </html>
