@@ -301,11 +301,11 @@ save.disabled = false;
 
 
 });
-
+const o = save.textContent;
 // Handle avatar upload
 avatarForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
+save.textContent = "Updating avatar..."
   const file = avatarInput.files[0];
   if (!file) return alert("Select a file first");
 
@@ -332,6 +332,10 @@ avatarForm.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error(err);
     alert("Something went wrong while uploading.");
+  }finally{
+    save.textContent = o;
+    save.disabled = true;
+  
   }
 });
 </script>

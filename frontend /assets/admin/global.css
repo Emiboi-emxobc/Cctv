@@ -207,6 +207,7 @@
 #save-avata:disabled {
    background: transparent;
    color: transparent;
+   opacity: 0;
    border: none;
    
 }
@@ -244,7 +245,5 @@
    
    & .fa-pencil{
       position: absolute;
-      right:20px;
-      top: 10px;
    }
 }

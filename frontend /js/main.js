@@ -36,6 +36,7 @@ export function feedbackFactory(theme = {}) {
   };
 }
 
+
 // ======================= Loader =======================
 function toggleLoader(show = true) {
   let loader = document.getElementById("global-loader");

@@ -6,7 +6,7 @@
   --accent: #ff8a00;
 }
 * {
-  -webkit-tap-highlight-color: transparent;
+  
   box-sizing: border-box;
 }
 .spinner {
