@@ -1,11 +1,11 @@
-import {token} from './store.js';
+import {Store} from './store.js';
 
 function fetchSettings(admin) {
    await fetch("https://prosper-cub-1.onrender.com/admin/site", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${Store.token}`,
   },
   body: JSON.stringify({
     title: form.title?.value,
