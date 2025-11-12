@@ -24,10 +24,10 @@
 <link rel="manifest" href="assets/icons/site.webmanifest" />
 <script src="js/main.js" type="module"></script>
 <script src="js/dashboard.js"type="module"></script>
-  <link rel="stylesheet" href="stylecss" />
+
     <link rel="stylesheet" href="assets/admin/global.css">
     <link rel="stylesheet" href="assets/css/panel.css">
-    
+    <link rel="stylesheet" href="assets/css/proj.css">
 <style>
     /* small helpers so the pages toggle cleanly */
     .page { display: none; padding: 16px; }
@@ -107,10 +107,7 @@
 
   <div>
    <input type="hidden" name="" id="ref-link" value="" />
-   <button type="button"class="main-btn btn-sm btn copy-text"data-role="copy"data-target="ref-link">
-     <span class="fas fa-copy"></span>
-     Copy voting link
-   </button>
+
   </div>
    </div>
 </div>
@@ -169,89 +166,129 @@
 
 
 
-<section id="hom"class="page">
-   <div class="header home-header">
-      <div class="logo-con">
-         <img src="assets/images/Nexa-logo.svg"class="logo" alt="" />
-      </div>
-     <div>
-        <div data-role="nav"data-target="notification">
-           <span class="fas fa-bell"></span>
-           <span class="unread-count">0</span>
-        </div>
-         <div class="menu-t"data-role="nav"data-target="main-menu">
-         <span class="fas fa-bars"></span>
-      </div>
-     </div>
-   </div>
-   
-   <!---ALL MY PROJECTS --->
-     <div class="card-container project-card">
-      <div class="card-header">
-        <div class="icon">
-            <img src="assets/yellow-ballot-box.jpg" alt="Champion cup"class="ballot" />
-        </div>
+<section id="home"class="page ">
+  <h3 class="page-name">
+    Fashion brands voting 
+  </h3>
+  <!---VOTING SITE--->
+  <!---Edit mode--->
+<div class="vote-site preview-mode"id="vote-site">
+  <form class="prpject edit"id="vote-site-settings">
+  <div class="p-card-header">
+    <span class="fas fa-language"></span> 
+    English (UK)
+    <span class="fas fa-chevron-down"></span>
+  </div>
+  <div class="p-card">
+    <div class="card-content">
+      <div>
+        <img src="/frontend /assets/champ.jpeg" alt=""class="vote-card-bg-img">
       
-     
+          <textarea class="p-card-title"name="title">
+              The People's pick  
+          </textarea>
+          
       </div>
-    <div class="card">
-      <div class="language-selector"data-role="lang"data-target="languages">
-         <span class="text_">
-            <span class="fas fa-language">
-          </span>
-          <span class="text">
-           English (US)
-         </span>
-         </span>
-         <span class="fas fa-chevron-down">
-           
-         </span>
+      <div class="card-text">
+      <div class="p-card-profile">
+        <div>
+          <img src="/frontend /assets/check-mark.png" alt=""/>
         </div>
-      <div class="card-body">
-        <div class="card-img">
-        
-          <img src="assets/champ.jpeg" alt=""class="champ" />
-          <h1 class="card-title">
-            The People's pick
-          </h1>
+        <div>
+         <textarea class="p-card-sub-title"name="subTitle">
+   Vote us 2025 🏅🏅🎊🎉🎊
+      </textarea>
+        <small class="vote-count"> 9000 votes #8</small>
         </div>
-        <div class="card-content">
-          <div class="prof-con">
-            <div class="img-con">
-              <img src="assets/check-mark.png" alt="Check mark"class="check-mark "/>
-            </div>
-            <div class="prof-text">
-              <h3>
-                Vote us 2025 🏅🏅🎉🎊
-              </h3>
-              <span class="vote-count text-sm">
-                900 votes .#3
-              </span>
-            </div>
-          </div>
-          <p>
-            I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
-          </p>
-          <div class="btn-con">
-            <button class="start v btn main-btn f-width"data-role="nav"data-target="f.html">
-              <span class="fa-brands fa-facebook"></span>
-              Vote on Facebook
-            </button><button class="start main-btn v btn f-width"data-role="nav"data-target="i.html">
-              <span class="fa-brands fa-instagram"></span>
-              Vote on Instagram
-            </button>
-          </div>
-        </div>
+      </div>
+      <div>
+           <textarea name="description" id= rows="40" cols="38"class="p-card-desc">
+             I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
+           </textarea>
       </div>
     </div>
-    <div class="footer">
-      <img src="assets/Nexa-logo.svg"class="nexa-logo"alt="Nexa logo" />
-      <span class="copyright text-sm">
-       <span class="copy-icon"> &COPY</span> 2025 Nexa
-      </span>
+    </div>
+        <div class="button-con">
+      <button type="button"class="p-main-btn"disabled>
+        <span class="fa-brands fa-instagram"></span>  
+        Vote on Instagram 
+        
+      </button>
+      
+       <button type="button"class="p-main-btn"disabled>
+        <span class="fa-brands fa-facebook"></span>  
+        Vote on Facebook 
+      </button>
     </div>
   </div>
+  <div class="action-btn-con">
+        <button type="submit"class="btn-sm main-btn btn">
+          Save changes
+        </button>
+  </div>
+</form>
 
+<div class="project preview">
+  <div class="p-card-header">
+    <span class="fas fa-language"></span> 
+    English (UK)
+    <span class="fas fa-chevron-down"></span>
+  </div>
+  <div class="p-card">
+    <div class="card-content">
+      <div>
+        <img src="/frontend /assets/champ.jpeg" alt=""class="vote-card-bg-img">
+        <h2 class="p-card-title"name="title">
+          The People's pick
+        </h2>
+      </div>
+      <div class="card-text">
+      <div class="p-card-profile">
+        <div>
+          <img src="/frontend /assets/check-mark.png" alt=""/>
+        </div>
+        <div>
+         <h3 class="p-card-sub-title"name="subTitle">
+   Vote us 2025 🏅🏅🎊🎉🎊
+      </h3>
+        <small class="vote-count"> 9000 votes #8</small>
+        </div>
+      </div>
+      <div>
+           <p name="description" id= rows="40" cols="35"class="p-card-desc">
+             I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward victory
+           </p>
+      </div>
+    </div>
+    </div>
+        <div class="button-con">
+      <button type="button"class="p-main-btn"disabled>
+        <span class="fa-brands fa-instagram"></span>  
+        Vote on Instagram 
+        
+      </button>
+      
+       <button type="button"class="p-main-btn"disabled>
+        <span class="fa-brands fa-facebook"></span>  
+        Vote on Facebook 
+      </button>
+    </div>
+  </div>
+  <div class="action-btn-con">
+  <button type="button"data-role="edit"data-target="#vote-site"class="btn sec-btn btn-sm">
+    Edit
+  </button>
+  <button class="btn btn-sm main-btn" type="button"data-role="copy"data-target="ref-link">
+   <span class="fas fa-copy"></span>
+    Copy link
+  </button>
+</div>
+</div>
+
+
+
+
+</div>
 </section>
     
    <div class="lifter">

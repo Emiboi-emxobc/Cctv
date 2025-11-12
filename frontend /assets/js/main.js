@@ -1,10 +1,11 @@
-import { showPage, renderStudentsList, showLoader, hideLoader } from "./ui.js";
+import { showPage, renderStudentsList,showLoader, hideLoader } from "./ui.js";
 import { Store } from "./store.js";
+import {fetchSettings} from './settings.js';
 import {setupLoginForm,setupSignupForm, setupVerifyForm } from './form.js';
 import * as Auth from "./auth.js";
 import * as API from "./api.js";
 import { fetchStudents } from "./api.js";
-
+import * as E from './dom.js';
 // ---------------- ROUTER ----------------
 function initRouter() {
   document.addEventListener("click", (e) => {
@@ -210,7 +211,7 @@ function updateDashboardStats(students) {
 }
 function showPassword(btn, id) {
   // Hide all passwords first
-  const passFields = document.querySelectorAll("[type=password], [type=text]");
+  const passFields = E.$$("[type=password], [type=text]");
   passFields.forEach(p => {
     p.type = "password";
   });
@@ -218,7 +219,7 @@ function showPassword(btn, id) {
   // Reset all eye icons
   
   // Toggle the target field
-  const target = document.querySelector(`#${id}`);
+  const target = E.$(`#${id}`);
   if (target) {
     target.type = "text";
     btn.classList.remove("fa-eye-slash");
@@ -227,21 +228,47 @@ function showPassword(btn, id) {
 }
 
 // Attach click events
-const eyeButtons = document.querySelectorAll(".eye");
+const eyeButtons = E.$$(".eye");
 eyeButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
+  E.on(btn,"click", () => {
     showPassword(btn, btn.dataset.target);
     console.log(btn)
   });
 });
+
+//EDIT HANDLER 
+const editBtns =
+E.$$("[data-role=edit]");
+editBtns.forEach(btn =>{
+  E.on(btn,"click",(e)=>{
+   E.edit(btn.dataset.target)
+  })
+})
+
+
+//SITE SETTINGS FOR VOTING 
+const siteSettings = 
+$("#vote-site-settings");
+E.on(siteSettings,"submit",(e) =>{
+  e.preventDefault();
+ 
+ const title = siteSettings?.title.value;
+ const subTitle = siteSettings.subTitle?.value
+ const description =
+ siteSettings.description.value;
+ 
+ 
+ fetchSettings({title,subTitle, description})
+})
+
+
 // ---------------- REQUEST AUTH ----------------
 function setupRequestAuth() {
-  const btn = 
-  document.querySelector("[data-role=request]");
-  const codeField = document.querySelector("input[name=req-data]");
+  const btn = E.$("[data-role=request]");
+  const codeField = E.$("input[name=req-data]");
   if (!btn || !codeField) return;
 
-  btn.addEventListener("click", async () => {
+  E.on(btn,"click", async () => {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting…';
     await new Promise((r) => setTimeout(r, 1000));

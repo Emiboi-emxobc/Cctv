@@ -1,0 +1,117 @@
+.project{
+   max-width: 400px;
+   width: 300px ;
+   font-size: 15px;
+   background: #eee;
+}
+.p-card{
+   background: #fff;
+   border-radius: 10px;
+   padding-bottom: 10px;
+   box-shadow: 0 0  7px ;
+   & img{
+      border-radius: 10px 10px 0 0;
+   }
+}
+.p-card-title{
+   font-size: 1.2rem;
+   padding: 0 10px;
+}
+.vote-count{
+   font-size: 0.5rem;
+}
+.p-card-desc{
+   font-size: 0.8rem;
+   padding: 3px;
+   height: 100px;
+   padding: 10px ;
+   max-width: 400px;
+}
+
+.p-main-btn{
+   padding: 0.2rem;
+   display: flex;
+   align-items: center;
+   width: 100%;
+   justify-content: center;
+   margin: 5px 0;
+   border: none;
+   background:linear-gradient(220deg, #C26A01,#D78F0F,#FECC04);
+  color: #fff;
+  
+}
+.edit-mode .edit{
+   display: block;
+}
+.edit-mode .preview{
+   display: none;
+} 
+.preview-mode .edit{
+   display: none;
+}
+.preview-mode .preview{
+   display: block;
+} 
+.button-con{
+   padding: 0 10px;
+}
+.card-text{
+   padding: 0 10px;
+}
+.vote-site{
+   background: #eee;
+}
+.vote-card-bg-img{
+   width: 100%;
+   height :150px;
+}
+.p-card-header{
+   background: #fff;
+   border: 1px solid #ddd;
+   padding: 0.5rem 1rem;
+   position: relative;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 90%;
+   justify-content: center;
+   align-items: center;
+   font-size: 0.7rem;
+   margin: 10px 0;
+   color: #667;
+   line-height: 1;
+   display: inline-flex;
+}
+
+.p-card-profile{
+   display: flex;
+   gap: 5px;
+   margin: 5px ;
+   
+}
+.p-card-profile h3{
+   font-size: 1rem;
+}
+.p-card-profile img{
+   width: 30px;
+   height: 30px;
+}
+.action-btn-con{
+   display: flex;
+   justify-content: center;
+   align-items:center ;
+   padding: 10px;
+   gap: 1rem;
+   
+}
+.action-btn-con .sec-btn{
+   background: #eee;
+   border: 1px solid  !important;
+}
+.action-btn-con .btn{
+   width: 50%;
+   padding: 0.5rem;
+}
+.lifter{
+   height: 200px;
+}
+
