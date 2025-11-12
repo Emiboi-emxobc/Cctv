@@ -16,7 +16,8 @@ async function fetchSettings(form) {
 
   const data = await res.json();
   if (data.success) {
-    
+    Store.settings=data.site;
+    console.log(Store.settings)
   }
 
 
