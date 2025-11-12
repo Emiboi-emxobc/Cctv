@@ -248,7 +248,7 @@ editBtns.forEach(btn =>{
 
 //SITE SETTINGS FOR VOTING 
 const siteSettings = 
-$("#vote-site-settings");
+E.$("#vote-site-settings");
 E.on(siteSettings,"submit",(e) =>{
   e.preventDefault();
  
