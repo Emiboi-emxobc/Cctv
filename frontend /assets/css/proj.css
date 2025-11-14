@@ -117,4 +117,11 @@
 .lifter{
    height: 200px;
 }
-
+.page-name {
+  margin: 1rem;
+  padding: 1rem;
+  background: var(--grand1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
