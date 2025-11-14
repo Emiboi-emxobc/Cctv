@@ -29,7 +29,6 @@
 }
 
 .p-main-btn{
-   padding: 0.2rem;
    display: flex;
    align-items: center;
    width: 100%;
@@ -53,7 +52,7 @@
    display: block;
 } 
 .button-con{
-   padding: 0 10px;
+   padding: 21px;
 }
 .card-text{
    padding: 0 10px;
@@ -64,6 +63,10 @@
 .vote-card-bg-img{
    width: 100%;
    height :150px;
+}
+.fa-brands{
+   font-size: 0.8rem;
+   margin-right:10px ;
 }
 .p-card-header{
    background: #fff;

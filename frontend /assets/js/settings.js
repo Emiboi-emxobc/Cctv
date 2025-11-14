@@ -28,7 +28,7 @@ async function fetchSettings(form) {
    } finally {
      
      const settings = 
-     $("#vote-site");
+     E.$("#vote-site");
      E.switchClass(settings,"edit-mode","preview-mode");
    }
 

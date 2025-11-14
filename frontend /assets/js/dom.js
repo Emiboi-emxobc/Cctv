@@ -67,7 +67,7 @@ export function edit(target) {
   }
 }
 
-function switchClass(el,from,to) {
+export function switchClass(el,from,to) {
   if (el) {
     el.classList.remove(from);
     el.classList.add(to);
