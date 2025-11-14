@@ -15,6 +15,7 @@
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref");
     if (ref) localStorage.setItem("nexa_ref", ref);
+    localStotage.getItem("nexa_admin")
   }
 
   // Retrieve stored referral (or fallback)
