@@ -89,8 +89,8 @@ button:focus, a:focus {
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-primary: #fff;
-    --text-secondary: #bbb;
+    --text-primary: ;
+    --text-secondary: ;
   }
 }
 .card-title{
