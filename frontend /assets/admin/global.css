@@ -47,6 +47,9 @@
 *{
    word-wrap: break-word;
 }
+.p-03{
+   padding: 0.3rem;
+}
 .header{
    padding: 1rem;
 }
