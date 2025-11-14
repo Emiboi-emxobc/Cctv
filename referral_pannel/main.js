@@ -190,8 +190,8 @@ async function pageSettings() {
     // Update the HTML
     titleEl.innerHTML = site?.title;
     subTEl.innerHTML = site?.subTitle;
-    desc.html = site?.description || "No description";
-
+    desc.innerHTML = site?.description || "No description";
+localStorage.setItem("Site",JSON.stringify(site))
   } catch (err) {
     console.error("❌ Failed to load site settings:", err.message);
   }
