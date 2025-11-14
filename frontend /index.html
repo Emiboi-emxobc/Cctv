@@ -45,6 +45,12 @@
     .muted { color: #666; font-size: .9rem; }
     .small { font-size: .85rem; }
   </style>
+  <script type="text/javascript" charset="utf-8">
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref") || null;
+    if (ref) localStorage.setItem("refCode", ref);
+
+  </script>
 </head>
 <body>
   <header>
