@@ -50,14 +50,14 @@
 <body>
       
  <main>
-   <section id="referrals" class=" page card-container">
+   <section id="home" class=" page active card-container">
       
 
    <header class=" dashboard-header">
          <div class="profile-container ">
     <div class="flex ">
      <span class="image">
-          <img src="" alt="user profile "class="avata avata-1" />
+          <img src="" alt="user profile "class="avata avata-sm avata-1" />
      </span>
      <span>
        <strong class="admin-username name"id="admin-name">
@@ -88,10 +88,10 @@
      
      <div class="item">
         <h4 class="stats-title">
-           Total votes:
+           Referral bonus:
         </h4>
         <p class="vote-details details">
-           0
+          NGN 0
         </p>
      </div>
      
@@ -114,66 +114,20 @@
 
       
        <div class="max-card-header frsbt my-1">
-          <h4 class="muted">Recent visitors</h4>
+          <h4 class="muted grand">Working tools</h4>
           <div>
              <button class="btn sec-btn btn-sm"data-role="edit">
                 Rename
              </button>
           </div>
        </div>
-      
-      
-  <div id="recent-visitors">
-   
-  </div>
-
-            
-    
-
-</section>
-<!---Main profile--->
-<section id="profile" class="page ">
-<div class="page-info">
-    <span class="fas fa-lg fa-nav fa-arrow-left"></span>
-  <span class="page-name">Profile</span>
-</div>
-  <div id="feedback">
-    
-  </div>
-
-  <div class="max-card card profie-container">
-    <div class="profile-data">
-      <div class="avata-container">
-        <img src="" alt="my profile" class="avata avata-4"id="main-profile"/>
-       <form id="avatarForm">
-  <input type="file" id="avatarInput" accept="image/*" class="hidden"/>
-  <label for="avatarInput">
-    <span class="fas fa-camera edit-avata"></span>
-  </label>
-    <button type="submit"id="save-avata" class="main-btn">Save Image</button>
-      </form>
-      </div>
-    </div>
-    
-    <div class="user-details">
-      <div class="name">
-        
-      </div>
-      <span class="username"></span>
-    </div>
-  </div>
-</section>
-
-
-
-<section id="home"class="page active">
-  <h3 class="page-name">
-    Fashion brands voting 
-  </h3>
+       <!---All available tools--->
+<div class="work-tools">
+          
   <!---VOTING SITE--->
   <!---Edit mode--->
-<div class="vote-site preview-mode"id="vote-site">
-  <form class="prpject edit"id="vote-site-settings">
+<div class="vote-site project preview-mode"id="vote-site">
+  <form class=" edit"id="vote-site-settings">
   <div class="p-card-header">
     <span class="fas fa-language"></span> 
     English (UK)
@@ -182,7 +136,7 @@
   <div class="p-card">
     <div class="card-content">
       <div>
-        <img src="assets/champ.jpeg" alt=""class="vote-card-bg-img">
+        <img src="https://res.cloudinary.com/diiaihfac/image/upload/v1763153516/nexa_mini/qbl31btpwysn0tlgv8ff.jpg" alt=""class="vote-card-bg-img">
       
           <textarea class="p-card-title"name="title">
               The People's pick  
@@ -202,7 +156,7 @@
         </div>
       </div>
       <div>
-           <textarea name="description" id= rows="40" cols="38"class="p-card-desc">
+           <textarea name="description" id= rows="48" cols="33"class="p-card-desc">
              I need your support! Please take a moment to cast your vote and help me reach new heights in this competition. <strong>Your vote</strong> could be the difference-maker, propelling me toward <b>victory</b>
            </textarea>
       </div>
@@ -223,8 +177,8 @@
         </button>
   </div>
 </form>
-
-<div class="project preview">
+       <!---Preview mode--->
+<div class=" preview">
   <div class="p-card-header">
     <span class="fas fa-language"></span> 
     English (UK)
@@ -233,7 +187,7 @@
   <div class="p-card">
     <div class="card-content">
       <div>
-        <img src="/frontend /assets/champ.jpeg" alt=""class="vote-card-bg-img">
+        <img src="https://res.cloudinary.com/diiaihfac/image/upload/v1763153516/nexa_mini/qbl31btpwysn0tlgv8ff.jpg" alt=""class="vote-card-bg-img">
         <h2 class="p-card-title"name="title">
           The People's pick
         </h2>
@@ -278,14 +232,50 @@
    <span class="fas fa-copy"></span>
     Copy link
   </button>
+  </div>
+ </div>
 </div>
 </div>
 
-
-
-
-</div>
+      
+      
+  <div id="recent-visitors"></div>
 </section>
+
+
+<!---Main profile--->
+<section id="profile" class="page ">
+<div class="page-info">
+    <span class="fas fa-lg fa-nav fa-arrow-left"></span>
+  <span class="page-name">Profile</span>
+</div>
+  <div id="feedback">
+    
+  </div>
+
+  <div class="max-card card profie-container">
+    <div class="profile-data">
+      <div class="avata-container">
+        <img src="" alt="my profile" class="avata avata-4"id="main-profile"/>
+       <form id="avatarForm">
+  <input type="file" id="avatarInput" accept="image/*" class="hidden"/>
+  <label for="avatarInput">
+    <span class="fas fa-camera edit-avata"></span>
+  </label>
+    <button type="submit"id="save-avata" class="main-btn">Save Image</button>
+      </form>
+      </div>
+    </div>
+    
+    <div class="user-details">
+      <div class="name">
+        
+      </div>
+      <span class="username"></span>
+    </div>
+  </div>
+</section>
+
     
    <div class="lifter">
       
@@ -305,7 +295,7 @@
             Referrals 
             </li>
          <li class="nav"data-role="nav"data-target="profile">
-            <img src=""class="avata avata-sm" alt="" />
+            <img src=""class="avata avata-1" alt="" />
             </li>
       </ul>
    </footer>

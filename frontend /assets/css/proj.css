@@ -1,8 +1,9 @@
 .project{
    max-width: 400px;
-   width: 300px ;
+   width: 100% ;
    font-size: 15px;
    background: #eee;
+   padding: 1rem;
 }
 .p-card{
    background: #fff;
@@ -12,6 +13,11 @@
    & img{
       border-radius: 10px 10px 0 0;
    }
+}
+.work-tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; /* optional spacing between items */
 }
 .p-card-title{
    font-size: 1.2rem;
@@ -57,9 +63,8 @@
 .card-text{
    padding: 0 10px;
 }
-.vote-site{
-   background: #eee;
-}
+
+   
 .vote-card-bg-img{
    width: 100%;
    height :150px;
@@ -121,6 +126,12 @@
   margin: 1rem 0;
   padding: 1rem;
   background: var(--grand1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.grand{
+   background: var(--grand1);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
