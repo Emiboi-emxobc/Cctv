@@ -168,7 +168,7 @@ function setUpAdmin(param) {
    const vote = 
    document.querySelector(".vote-details");
    if (vote) {
-     vote.textContent = admin?.votes;
+     vote.innerHTML = `<span class="num">NGN ${admin?.adminReferralDiscount}</span>`;
    }
    
    
@@ -181,7 +181,7 @@ function defaultAvata(data) {
 // ---------------- UPDATE STATS ----------------
 function updateDashboardStats(students) {
   setUpAdmin();
-  const visitors = students.length;
+  const visitors = null;
   const con = document.querySelector("#recent-visitors");
   
   if (con) {
@@ -204,8 +204,8 @@ function updateDashboardStats(students) {
     `).join('');
   }
 
-  const statEls = document.querySelector(".vote-details");
-  if (statEls) statEls.textContent = visitors;
+
+  
 
   console.log(`📊 Stats updated: ${visitors} total visitors.`);
 }
