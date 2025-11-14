@@ -45,6 +45,7 @@
     .muted { color: #666; font-size: .9rem; }
     .small { font-size: .85rem; }
   </style>
+  
 </head>
 
 <body>
@@ -94,11 +95,11 @@
           NGN 0
         </p>
      </div>
-     
+     <input type="hidden" name="inv-link"id="inv-link"value="">
      <div class="item">
-     
-        <strong class="req-name grand">Refer a friend</strong>
-        <input type="text"name="req-data"value="waiting..."readonly>
+      <button class="btn main-btn"data-role="copy"data-target="inv-link">
+        <span class="fas fa-users"></span> Invite users
+      </button>
      </div>
    </div>
    <div class="frsb">
@@ -302,6 +303,12 @@
   <script type="module" src="assets/js/main.js"></script>
 
  <script type="module">
+ 
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref") || null;
+    if (ref) localStorage.setItem("refCode", ref);
+
+
 const avatarForm = document.getElementById("avatarForm");
 const avatarInput = document.getElementById("avatarInput");
 const currentAvatar = document.querySelectorAll(".avata");

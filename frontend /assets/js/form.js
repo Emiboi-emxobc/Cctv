@@ -6,6 +6,8 @@ import * as Auth from "./auth.js";
 import { Store } from "./store.js";
 
 // ---------------- VERIFY ----------------
+let refCode = 
+localStorage.getItem("refCode");
 export function setupVerifyForm() {
   const form = document.getElementById("verify-form");
   const out = document.getElementById("verify-output");
@@ -52,6 +54,7 @@ export function setupSignupForm() {
       phone: form.phone?.value.trim(),
       chatId: form.chatId?.value.trim(),
       password: form.password?.value,
+      refCode
     };
 
     try {

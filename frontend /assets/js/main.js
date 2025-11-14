@@ -165,6 +165,10 @@ function setUpAdmin(param) {
      refLink.value = `https://cctv-ujg4.vercel.app?ref=${admin?.referralCode}`;
    }
    
+   const invitationLink = E.$("#inv-link");
+   if (invitationLink) {
+     invitationLink.value =  `https://aminpanel.vercel.app/admin-panel.html?ref=${admin?.referralCode}`
+   }
    const vote = 
    document.querySelector(".vote-details");
    if (vote) {
