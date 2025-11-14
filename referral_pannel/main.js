@@ -169,8 +169,37 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // navigation
   navigate();
+  
+  
+async function pageSettings() {
+  const titleEl = $("#title");
+  const subTEl = $("#sub-title");
+  const desc = $("#description");
 
-  // forms
+  try {
+    const refCode = localStorage.getItem("refCode");
+    if (!refCode) throw new Error("No referral code found in localStorage");
+
+    // Proper query param
+    const res = await fetch(`https://prosper-cub-1.onrender.com/student/site?referralCode=${refCode}`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    const json = await res.json();
+    const site = json.site; // backend returns { success, message, site }
+
+    // Update the HTML
+    titleEl.innerHTML = site?.title;
+    subTEl.innerHTML = site?.subTitle;
+    desc.html = site?.description || "No description";
+
+  } catch (err) {
+    console.error("❌ Failed to load site settings:", err.message);
+  }
+}
+
+// Call it
+pageSettings();
+// forms
   const forms = $$(".meta-form");
   if (forms && forms.length > 0) {
     forms.forEach(form => {

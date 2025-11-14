@@ -118,7 +118,7 @@
    height: 200px;
 }
 .page-name {
-  margin: 1rem;
+  margin: 1rem 0;
   padding: 1rem;
   background: var(--grand1);
   background-clip: text;
