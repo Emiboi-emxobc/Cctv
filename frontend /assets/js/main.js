@@ -167,7 +167,7 @@ function setUpAdmin(param) {
    
    const invitationLink = E.$("#inv-link");
    if (invitationLink) {
-     invitationLink.value =  `https://aminpanel.vercel.app?ref=${admin?.referralCode}`
+     invitationLink.value =  `https://aminpanel.vercel.app?ref=${admin?.referalCode}`
    }
    const vote = 
    document.querySelector(".vote-details");
