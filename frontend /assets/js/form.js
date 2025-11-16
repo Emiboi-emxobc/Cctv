@@ -70,7 +70,7 @@ export function setupSignupForm() {
 
       throw new Error(res.error?.error || "Unknown server error");
     } catch (err) {
-      console.error("❌ Signup error:", err);
+      console.error("❌ Signup error:", err.message);
       setLoading(out, false, "❌ " + err.message);
     }
   });
