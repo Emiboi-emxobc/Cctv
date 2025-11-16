@@ -67,9 +67,9 @@
    height: 80px;
 }
 .avata-3{
-   width: 150px;
+   width: 90px;
    padding: 8px;
-   height: 150px;
+   height: 90px;
    
 }
 .profile-container{
@@ -173,6 +173,10 @@
 }
 .avata-container{
    position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
 }
 .avata-container .edit-avata{
    position: absolute;
@@ -191,13 +195,14 @@
 .max-card{
    padding-top: 2.5rem;
 }
+
 .avata-4{
-   width: 100%;
-   background: #fff;
-   padding: 5px;
-   
-   height: 300px;
-   min-width: 300px;
+   width: 160px;
+   background: #ddd;
+   padding: 1rem;
+   box-shadow: 0 0 0 3px #eee;
+   height: 160px;
+   min-width: 100px;
    object-fit: cover;
    background-position: center;
    
