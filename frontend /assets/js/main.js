@@ -14,7 +14,7 @@ import { Modal } from "./modal.js";
 const modalInstance = new Modal();
 
 
-    if (Store.admin.isPaid) {
+    if (!Store.admin.isPaid) {
       modalInstance.announcement({
       title: "Expired subscription",
       description: 'You dont have any active link to access any features, <a href=" https://t.me/marsdove_bot">visit Marsdove_bot</a> send start, select renew subscription to continue.',
