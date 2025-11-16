@@ -20,7 +20,7 @@ async function fetchSettings(form) {
     Store.settings=data.site;
     console.log(Store.settings)
     
-    alert("settings saved to database but not updated")
+    alert("settings saved and updated")
   }
 
    } catch (e) {
