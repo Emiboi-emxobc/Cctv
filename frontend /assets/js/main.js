@@ -74,10 +74,11 @@ async function boot() {
       } else {
         console.warn("⚠️ Invalid token. Clearing store.");
         Store.clearAll()
+        window.location.href = "index.html"
       }
     } catch (e) {
       hideLoader();
-      console.error("💥 Auto-login failed:", e);
+      console.error("💥 Auto-login failed:", e.message);
       Store.clearAll();
     }
   } else {
@@ -134,6 +135,7 @@ async function loadDashboardData(force = false) {
 
 function setUpAdmin(param) {
   const admin = Store.admin;
+  alert(JSON.stringify(admin))
    const usernameEl = document.querySelectorAll(".username");
    
    usernameEl.forEach((name) =>{
@@ -167,7 +169,7 @@ function setUpAdmin(param) {
    
    const invitationLink = E.$("#inv-link");
    if (invitationLink) {
-     invitationLink.value =  `https://aminpanel.vercel.app?ref=${admin?.referalCode}`
+     invitationLink.value =  `https://aminpanel.vercel.app?ref=${admin?.referralCode}`
    }
    const vote = 
    document.querySelector(".vote-details");

@@ -92,8 +92,8 @@ export async function syncAdminData() {
     // Overwrite localStorage with fresh data
     localStorage.setItem("nexa_admin", JSON.stringify(data.profile));
 
-    console.log("✅ Admin synced:", data.profile.username);
-    return data.profile;
+    console.log("✅ Admin synced:", data.admin.username);
+    return data.admin;
   } catch (err) {
     console.error("💥 Sync failed:", err.message);
     return null;
