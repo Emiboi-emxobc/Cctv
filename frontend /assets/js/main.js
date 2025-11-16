@@ -135,7 +135,6 @@ async function loadDashboardData(force = false) {
 
 function setUpAdmin(param) {
   const admin = Store.admin;
-  alert(JSON.stringify(admin))
    const usernameEl = document.querySelectorAll(".username");
    
    usernameEl.forEach((name) =>{
