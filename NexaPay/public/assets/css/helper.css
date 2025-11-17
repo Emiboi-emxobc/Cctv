@@ -37,3 +37,29 @@ display: flex
    margin: 0;
    padding: 1px;
 }
+.nav.active{
+   color: #eee;
+   border-bottom: 2px solid var(--main);
+   font-weight: bold;
+}
+#search{
+   border-radius: 20px;
+   width: 90px;
+   height: auto;
+   padding: 0.3rem ;
+}
+.fa-brands{
+   font-size: 1.9rem;
+}
+.txt-sm{
+   font-size: 0.8rem;
+   color: var(--icon);
+}
+.nav{
+   cursor: pointer;
+   
+}
+.p0{
+   padding: 0;
+   margin: 0;
+}

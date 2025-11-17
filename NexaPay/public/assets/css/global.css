@@ -6,6 +6,7 @@ body{
    margin: 0;
    background: var(--dark);
    color: #eee;
+   font-family: poppins;
 }
 
 .card{

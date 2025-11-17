@@ -3,96 +3,166 @@
 
 <head>
    <meta charset="UTF-8">
-   <meta name="viewport"
-      content="width=device-width, initial-scale=1">
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
    <title>NexaPay register</title>
-     <!-- Fonts & Icons -->
-  <script src="https://kit.fontawesome.com/df4806f026.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="assets/css/main.css">
+
+   <!-- Fonts & Icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+   <link rel="stylesheet" href="assets/css/main.css">
 </head>
+
 <body>
    <header class="nexa-header p4">
       <div class="wraper frsb">
-       <div class="fr g8 ">
+         <div class="fr g8 ">
             <div class="menu-tog-wraper">
-            <span class="fas fa-bars">
-            </span>
+               <span class="fas fa-bars"></span>
+            </div>
+
+            <h2 class="logo">Nexa<span class="highlight">Pay</span></h2>
          </div>
-         
-            <h2 class="logo">Nexa<span class="highlight">Pay
-            </span></h2>
-         
-       </div>
-       
-       <div class="cta">
-          <span class="fas fa-bell"></span>
-       </div>
+
+         <div class="cta">
+            <span class="fas fa-bell"></span>
+         </div>
       </div>
    </header>
 
    <main>
-      <section id="dashboard"class="">
+
+      <section id="dashboard" class="">
          <div class="dashboard-header frsb g4">
             <span class="fas fa-arrow-left fa-lg"></span>
-            
-           <div class="frse g8 ">
-               <h3 class="tag">Funding Account 
-               </h3>
+
+            <div class="frse g8 ">
+               <h3 class="tag">Funding Account </h3>
                <span class="fas fa-circle-question"></span>
                <span class="fas fa-list-ul"></span>
-           </div>
+            </div>
          </div>
+
          <div class="dashboard card">
             <small class="label">
                Total assets <span class="fas fa-eye"></span>
             </small>
-            <p><strong class="bal num">
-               12,672,910.00 
-            
-            </strong>   <span class="cur">
-                  USD <span class="fas fa-chevron-down"></span>
-               </span></p>
-               <p class="label aprox">
-                  &approx; <span id="approx-value-btc"></span>
-               </p>
+
+            <p>
+               <strong class="bal num">12,672,910.00</strong>
+               <span class="cur">USD <span class="fas fa-chevron-down"></span></span>
+            </p>
+
+            <!-- Updated BTC Approx Output but structure preserved -->
+            <p class="label aprox" id="approx-value">
+               &approx; loading…
+            </p>
+         </div>
+
+         <nav id="cta">
+            <ul class="fr g4 p4">
+               <li class="card cta">
+                  <span class="fas fa-circle-arrow-down"></span> Deposit
+               </li>
+               <li class="card cta">
+                  <span class="fas fa-right-left"></span> Transfer
+               </li>
+               <li class="card cta">
+                  <span class="fas fa-rotate"></span> Convert
+               </li>
+               <li class="card cta">
+                  <span class="fas fa-circle-arrow-up"></span> Withdraw
+               </li>
+            </ul>
+         </nav>
+      </section>
+
+      <section id="holdings" class="">
+         <div class="holdings">
+            <div class="holdings-header ">
+               <nav class="p4">
+                  <span class="nav crypto p4 active" data-role="nav" data-target="crypto-holdings">Crypto</span>
+                  <span class="nav fiat p4" data-role="nav" data-target="fiat-holdings">Fiat</span>
+               </nav>
+
+               <div class="frsb p4">
+                  <div>
+                     <input type="checkbox" id="hide-zero-bal">
+                     <label for="hide-zero-bal" class="label">Hide zero balances</label>
+                  </div>
+                  <div class="search-bar">
+                     <input type="search" id="search" placeholder="🔍 Search" class="p4">
+                  </div>
+               </div>
+            </div>
+
+            <div class="frsb p4">
+               <div class="fr g4">
+                  <div>
+                     <span class="fa-brands fa-ethereum" style="color:#627eea"></span>
+                  </div>
+                  <div>
+                     <span class="p0">ETH</span><br />
+                     <small class="label txt-sm">Ethereum</small>
+                  </div>
+               </div>
+            </div>
+
+            <div class="frsb p4">
+               <div class="fr g4">
+                  <div>
+                     <span class="fa-brands fa-bitcoin" style="color:#f7931a"></span>
+                  </div>
+                  <div>
+                     <span class="p0">BTC</span><br />
+                     <small class="label txt-sm">Bitcoin</small>
+                  </div>
+               </div>
+            </div>
+
+            <div class="frsb p4">
+               <div class="fr g4">
+                  <div>
+                     <span class="fa-brands fa-tether" style="color:#26a17b"></span>
+                  </div>
+                  <div>
+                     <span class="p0">USDT</span><br />
+                     <small class="label txt-sm">Tether</small>
+                  </div>
+               </div>
+            </div>
+
          </div>
       </section>
+
    </main>
-<script>
-async function updateApproxBTC(bal) {
-  try {
-    // Fetch BTC price from Coingecko (safe for browser)
-    const res = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-    );
-    const data = await res.json();
 
-    // 1 BTC in USD
-    const btcPriceUsd = data.bitcoin.usd;
+   <script>
+      async function updateApproxBTC(bal) {
+         const target = document.getElementById("approx-value");
 
-    // Your dashboard amount
-    const usdAmount = bal;
+         try {
+            const res = await fetch(
+               "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+            );
+            const data = await res.json();
 
-    // Convert USD → BTC
-    const btcValue = usdAmount / btcPriceUsd;
+            const btcPriceUsd = data.bitcoin.usd;
+            const btcValue = bal / btcPriceUsd;
 
-    // Update UI
-    document.querySelector(".aprox").innerHTML =
-      `&approx; ${btcValue.toFixed(6)} BTC`;
-  } catch (err) {
-    console.log("BTC Fetch Error:", err);
-    document.querySelector(".aprox").innerHTML = "&approx; ---";
-  }
-}
+            target.innerHTML = `&approx; ${btcValue.toFixed(6)} BTC`;
+         } catch (err) {
+            console.log("BTC Fetch Error:", err);
+            target.innerHTML = "&approx; ---";
+         }
+      }
 
-// Run immediately
-updateApproxBTC(12672910);
+      updateApproxBTC(12672910);
+   </script>
 
-// Optional: auto-refresh every 20 sec
-// setInterval(updateApproxBTC, 20000);
-</script>
 </body>
 
 </html>
