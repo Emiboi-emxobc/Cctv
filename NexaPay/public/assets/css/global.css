@@ -1,0 +1,24 @@
+
+@import url("button.css");
+@import url("utils.css");
+@import url("icon.css");
+*{
+   box-sizing: border-box;
+}
+body{
+   font-family: monserrat, aria, sans-serif;
+   font-size: 15px;
+   padding: 0;
+   margin: 0;
+   background: var(--bg);
+   
+}
+header.nexa-header{
+   padding:  0.8rem;
+   border-bottom: 1px solid var(--icon);
+}
+
+
+.card{
+   background: var(--card);
+}

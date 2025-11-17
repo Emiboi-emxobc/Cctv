@@ -1,0 +1,9 @@
+@import url("theme.css");
+
+.highlight{
+   color: var(--primary);
+}
+.logo{
+  color: var(--branded);
+  
+}

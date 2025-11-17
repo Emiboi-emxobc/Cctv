@@ -1,0 +1,10 @@
+.fas{
+   color: var(--icon);
+}
+
+.fa-shopping-cart{
+   color: var(--card);
+}
+.fa-bars{
+   font-size: 1.1rem;
+}

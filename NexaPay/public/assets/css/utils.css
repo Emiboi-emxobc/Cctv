@@ -1,0 +1,18 @@
+
+.frsb{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.p4{
+   padding: 1rem;
+   box-sizing: border-box;
+}
+.fr{
+   display: flex;
+   align-items: center;
+   flex-direction: row;
+}
+.g4{
+   gap:1rem;
+}
