@@ -1,0 +1,39 @@
+.p4{
+   padding: 1rem;
+   box-sizing: border-box;
+}
+.g4{
+   gap: 1rem;
+}
+.g8{
+   gap:2rem;
+}
+.fr{
+   display: flex;
+   align-items: center;
+   
+}
+.frse{
+   justify-content: space-between;
+   align-items: center;
+display: flex
+}
+.frsb{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+.fas{
+   color: var(--icon);
+}
+.fa-eye{
+   margin: 0 0.4rem;
+
+}
+.label{
+   color: var(--icon);
+}
+.tag{
+   margin: 0;
+   padding: 1px;
+}
