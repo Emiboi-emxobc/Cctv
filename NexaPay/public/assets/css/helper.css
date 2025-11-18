@@ -13,6 +13,27 @@
    align-items: center;
    
 }
+.m2 {
+   margin: 0.5rem;
+}
+.m4{
+   margin:1rem;
+}
+.mx4{
+   margin: 0 1rem;
+}
+.my4{
+   margin: 1rem 0;
+}
+.py4{
+   padding: 1rem 0;
+}
+.px4{
+   padding: 0 1rem;
+}
+.br4{
+   border-radius: 1rem;
+}
 .frse{
    justify-content: space-between;
    align-items: center;
