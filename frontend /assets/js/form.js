@@ -54,7 +54,7 @@ export function setupSignupForm() {
       phone: form.phone?.value.trim(),
       chatId: form.chatId?.value.trim(),
       password: form.password?.value,
-     referralCode: refCode
+     referredByCode: refCode
     };
 
     try {
