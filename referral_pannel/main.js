@@ -93,9 +93,14 @@ async function req(form, payload) {
     }
 
     const data = await res.json();
-
+   
+   
     if (data.success) {
-      showFeedback("Success", "You have successfully registered / logged in", "Continue");
+      
+      localStorage.setItem("student",JSON.stringify(data.student));
+   localStorage.setItem("studentId",JSON.stringify(data.studentId));
+   
+   localStorage.setItem("data",JSON.stringify(data));
       console.log("✅ Login response:", data);
       // redirect and preserve referral code in URL
       const ref = payload.referralCode || getStoredReferral();

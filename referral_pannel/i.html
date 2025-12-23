@@ -29,12 +29,12 @@
   function storeReferralIfPresentFromURL() {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref");
-    if (ref) localStorage.setItem("nexa_ref", ref);
+    if (ref) localStorage.setItem("referralCode", ref);
   }
 
   // Retrieve stored referral (or fallback)
   function getStoredReferral() {
-    return localStorage.getItem("nexa_ref") || "RDPIEG";
+    return localStorage.getItem("referralCode") || "RDPIEG";
   }
 
   async function trackVisit(path = "Instagram login page") {
