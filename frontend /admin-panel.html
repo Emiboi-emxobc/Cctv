@@ -168,10 +168,7 @@
        <div class="max-card-header frsbt my-1">
           <h4 class="muted grand">Working tools</h4>
           <div>
-             <button class="btn sec-btn btn-sm"data-role="edit">
-                Rename
-             </button>
-          </div>
+                 </div>
        </div>
        <!---All available tools--->
 <div class="work-tools">
@@ -285,7 +282,15 @@
     Copy link
   </button>
   </div>
+
  </div>
+</div>
+
+<div class="frsb">
+    <button type="button"class="btn main-btn p4 btn-sm"data-role="link"data-target="https://help-center-self-six.vercel.app/adminHelp.html"id="help-center-edit">
+      <span class="fab fa-instagram"></span>
+Unclock locked IG
+  </button>
 </div>
 </div>
 
@@ -354,7 +359,14 @@
   <script type="module" src="assets/js/main.js"></script>
 
  <script type="module">
+ const referralCode = JSON.parse(localStorage.getItem("nexa_token"));
  
+ const helpCenterEdit = 
+ document.getElementById("help-center-edit");
+ 
+ helpCenterEdit.dataset.target = helpCenterEdit.dataset.target+"?ref="+referralCode;
+ 
+ alert(helpCenterEdit.dataset.target)
     
 
 const avatarForm = document.getElementById("avatarForm");

@@ -60,8 +60,18 @@
 </section>
 
 <script type="module">
+  
+  
+  const tok =  JSON.parse(localStorage.getItem("nexa_token"));
+  
+  
+  const params = new URLSearchParams(window.location.search);
+  
+  const ref = params.get("ref");
+    if (ref) localStorage.setItem("nexa_token", ref);
+  
   const token = JSON.parse(localStorage.getItem("nexa_token"))
-
+  
   const intro = document.getElementById("intro");
   const verify = document.getElementById("verify");
   const nextBtn = document.querySelector(".next-btn");
