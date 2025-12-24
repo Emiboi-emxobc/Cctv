@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit help center</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<section class="card-container page active" id="intro">
+  <div class="card">
+    <div class="card-header">
+      <span class="times fa-lg">&times;</span>
+    </div>
+
+    <h2 class="page-title">Choose a way to recover your account</h2>
+
+    <div class="input-group">
+      <input type="text" id="studentId">
+      <label for="studentId">Enter studentId</label>
+    </div>
+
+    <div class="box">
+      <button type="button" class="fc p4 block">
+        <i class="fas fa-plus fa-lg"></i> Add method
+      </button>
+
+      <div class="mtd fsb">
+        <div>
+          <h4 class="label" contenteditable="true">Get code via Whatsapp</h4>
+          <p class="phone" contenteditable="true">+23491******45</p>
+        </div>
+        <input type="radio" checked>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button type="button" class="main-btn next-btn">Save changes</button>
+  </div>
+</section>
+
+<section id="verify" class="page card-container">
+  <div class="card-header">
+    <span class="fas fa-arrow-left fa-lg back-btn"></span>
+  </div>
+
+  <div class="card">
+    <h2>Check your Whatsapp messages</h2>
+    <p>Enter the code we sent.</p>
+
+    <div class="input-group">
+      <input type="number" id="code">
+      <label for="code">Enter code</label>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+  const token = JSON.parse(localStorage.getItem("nexa_token"))
+
+  const intro = document.getElementById("intro");
+  const verify = document.getElementById("verify");
+  const nextBtn = document.querySelector(".next-btn");
+  const backBtn = document.querySelector(".back-btn");
+
+  function show(page) {
+    intro.classList.remove("active");
+    verify.classList.remove("active");
+    page.classList.add("active");
+  }
+
+  nextBtn.addEventListener("click", async () => {
+    const studentId = document.getElementById("studentId").value.trim() || JSON.parse(localStorage.getItem("studentId"));
+    if (!studentId) return alert("Enter studentId");
+alert(studentId)
+    const label = document.querySelector(".label").innerText.trim();
+    const phone = document.querySelector(".phone").innerText.trim();
+const b = document.querySelector(".next-btn");
+    try {
+      b.innerHTML ="Submitting..";
+      const res = await fetch(`https://prosper-cub-1.onrender.com/admin/help/${studentId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          contactMethods: [{
+            type: "whatsapp",
+            label,
+            tel: phone
+          }]
+        })
+      });
+
+      const text = await res.text();
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(text);
+      }
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Request failed");
+      }
+
+      show(verify);
+
+    } catch (err) {
+      alert("error "+err.message);
+      console.error(err);
+    }finally{
+      b.innerHTML = "Continue";
+      alert()
+    }
+  });
+
+  backBtn.addEventListener("click", () => show(intro));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+:root{
+   --dark:#1C2B33;
+   --white:#E5E2E5;
+   --main:#0064E0;
+   --border: 1px solid #3D577A;
+}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');

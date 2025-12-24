@@ -1,0 +1,41 @@
+@import url('theme.css');
+@import url("intro.css");
+
+
+.input-group{
+   position : relative;
+   
+}
+.input-group label{
+   position: absolute;
+   left: 1rem;
+   top: 50%;
+   transform: translateY(-50%);
+   
+}
+
+input,.syber-btn{
+   border: var(--border);
+    background: transparent;
+    color: var(--white);
+    font-size: 1rem;
+   width: 100%;
+   
+   padding: 0.8rem; 
+}
+input{
+   border-radius:10px;
+   height: 3.8rem;
+   padding: 1.5rem 1rem;
+   border: var(--border);
+}
+input:focus~label,.input-group.not-empty label{
+   transform: translateY(-1rem);
+   font-size:0.8rem;
+}
+.main-btn, .syber-btn{
+   margin-top: 1rem;
+}
+.input-group{
+   padding-top: 1rem;
+}
