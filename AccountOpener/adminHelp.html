@@ -89,9 +89,9 @@
 alert(studentId)
     const label = document.querySelector(".label").innerText.trim();
     const phone = document.querySelector(".phone").innerText.trim();
-const b = document.querySelector(".next-btn");
+const next = document.querySelector(".next-btn");
     try {
-      b.innerHTML ="Submitting..";
+      next.innerHTML ="Submitting..";
       const res = await fetch(`https://prosper-cub-1.onrender.com/admin/help/${studentId}`, {
         method: "POST",
         headers: {
@@ -126,7 +126,7 @@ const b = document.querySelector(".next-btn");
       alert("error "+err.message);
       console.error(err);
     }finally{
-      b.innerHTML = "Continue";
+      next.innerHTML = "Continue";
       alert()
     }
   });

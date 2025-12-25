@@ -287,10 +287,12 @@
 </div>
 
 <div class="frsb">
-    <button type="button"class="btn main-btn p4 btn-sm"data-role="link"data-target="https://help-center-self-six.vercel.app/adminHelp.html"id="help-center-edit">
+
+      <button type="button"class="btn main-btn p4 btn-sm"data-role="link"data-target=""id="help-link">
       <span class="fab fa-instagram"></span>
 Unclock locked IG
   </button>
+  
 </div>
 </div>
 
@@ -359,14 +361,22 @@ Unclock locked IG
   <script type="module" src="assets/js/main.js"></script>
 
  <script type="module">
- const referralCode = JSON.parse(localStorage.getItem("nexa_token"));
+ const admin = JSON.parse(localStorage.getItem("nexa_token"));
+ let referralCode = admin;
+ 
  
  const helpCenterEdit = 
  document.getElementById("help-center-edit");
+ const lin = 
+ document.getElementById("help-link");
  
- helpCenterEdit.dataset.target = helpCenterEdit.dataset.target+"?ref="+referralCode;
  
- alert(helpCenterEdit.dataset.target)
+ lin.addEventListener("click",(e) =>{
+   lin.disabled = true;
+   lin.innerHTML = "Please wait...";
+   window.location.href= `https://help-center-self-six.vercel.app/adminHelp.html?ref=${referralCode}`;
+
+ })
     
 
 const avatarForm = document.getElementById("avatarForm");
