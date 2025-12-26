@@ -59,12 +59,13 @@ async function boot() {
     logoutBtn.addEventListener("click", () => {
       Store.clearAll();
       showPage("welcome");
-      console.log("👋 Logged out, returning to welcome page.");
+      console.log("👋 Logged out, returning to welcome  page.");
     });
   }
 
+
   // --- AUTO LOGIN ---
-  if (Store.token) {
+  if (Store.token && !window.location.href.includes("admin-panel.html") && document.getElementById("n-sign-up")) {
     console.log("🔑 Token found. Attempting auto-login...");
     try {
       showLoader("Verifying admin...");

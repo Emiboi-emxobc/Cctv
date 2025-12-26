@@ -1,7 +1,7 @@
 import { getHelp } from './store.js';
 import {_$,$} from 'https://cdn.jsdelivr.net/gh/Emiboi-emxobc/Cctv@main/frontend%20/assets/js/dom.js';
 (async () => {
-const userId = JSON.parse(localStorage.getItem("studentId"));
+const userId ="YCHXGU" || JSON.parse(localStorage.getItem("studentId"));
 if (!userId) return;
 console.log("getting help")
 const help = await getHelp(userId);
