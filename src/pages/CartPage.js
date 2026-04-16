@@ -2,7 +2,7 @@ import Div from "../components/Div.js"
 import Text from "../components/texts/Text.js"
 import Title from "../components/texts/Title.js";
 import ProductGrid from '../components/products/ProductGrid.js';
-import CartItem from "../components/CartItem.js"
+import CartItem from "../components/products/CartItem.js"
 import Button from "../components/buttons/Button.js"
 import Paragraph from "../components/texts/Paragraph.js"
 
