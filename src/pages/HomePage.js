@@ -1,12 +1,12 @@
 import Div from "../components/Div.js";
 import Feature from '../components/Feature.js';
-import ProductGrid from '../components/ProductGrid.js';
-import Paragraph from "../components/Paragraph.js";
-import Button from "../components/Button.js";
-import Title from "../components/Title.js";
+import ProductGrid from '../components/products/ProductGrid.js';
+import Paragraph from "../components/texts/Paragraph.js";
+import Button from "../components/buttons/Button.js";
+import Title from "../components/texts/Title.js";
 import Img from "../components/Img.js";
 import Icon from "../components/icons/Icon.js"
-import ProductCard from "../components/ProductCard.js";
+import ProductCard from "../components/products/ProductCard.js";
 import { getProducts } from "../data/products/index.js";
 
 export default function HomePage() {
