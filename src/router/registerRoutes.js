@@ -4,7 +4,7 @@ import CartPage from "../pages/CartPage.js";
 import ProductPage from "../pages/ProductPage.js";
 import ShopPage from "../pages/ShopPage.js";
 import Layout from "../components/layout/Layout.js";
-import {authGuard} from '../guards/authGuard.js';
+
 
 export function registerRoutes(){
    Router.setConfig({
