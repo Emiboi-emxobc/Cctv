@@ -1,4 +1,4 @@
-import Icon from '../icons/Icon.js';
+import Icon from './icons/Icon.js';
 import Button from './Button.js';
 
 export default function BackButton(){

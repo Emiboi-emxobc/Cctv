@@ -1,4 +1,4 @@
-import { _$ } from "../helpers/dom.js";
+import { _$ } from "./helpers/dom.js";
 
 export default function Button(
   { className = "btn", onClick, ...props } = {},

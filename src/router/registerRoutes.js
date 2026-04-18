@@ -1,9 +1,10 @@
 import { Router } from "./md-router.js";
 import HomePage from "../pages/HomePage.js";
 import CartPage from "../pages/CartPage.js";
-
+import ProductPage from "../pages/ProductPage.js";
+import ShopPage from "../pages/ShopPage.js";
 import Layout from "../components/layout/Layout.js";
-
+import {authGuard} from '../guards/authGuard.js';
 
 export function registerRoutes(){
    Router.setConfig({
@@ -20,7 +21,7 @@ Router.register("/", (HomePage), {
   title: "Marsdove"
 });
 
-/*Router.register("/shop", (ShopPage), {
+Router.register("/shop", (ShopPage), {
   layout: Layout,
   title: "Shop"
 });
@@ -28,7 +29,7 @@ Router.register("/", (HomePage), {
 Router.register("/product/:id", ProductPage, {
   layout: Layout,
   title: ({ params }) => `Products`
-});*/
+});
 
 Router.register("/cart",(CartPage), {
   layout: Layout,

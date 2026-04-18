@@ -1,0 +1,23 @@
+:root {
+  --primary: #FB431F;
+--secondary: #FBE9E8;
+--text-dark: #1F1F1F;
+  --primary-dark: #B01A17;  
+  --surface: #ffffff;
+  --background: #f7f7f7;
+  --text-primary:#d4a373;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --danger: #dc2626;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --space-xs: 0.4rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-xl:1.5rem;
+  --font-lg: 1.5rem;
+  --font-xl:1.8rem;
+  --space-lg: 1.5rem;
+}

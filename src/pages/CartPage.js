@@ -1,11 +1,11 @@
 import Div from "../components/Div.js"
-import Text from "../components/texts/Text.js"
-import Title from "../components/texts/Title.js";
-import ProductGrid from '../components/products/ProductGrid.js';
-import CartItem from "../components/products/CartItem.js"
-import Button from "../components/buttons/Button.js"
-import Paragraph from "../components/texts/Paragraph.js"
-
+import Text from "../components/Text.js"
+import Title from "../components/Title.js";
+import ProductGrid from '../components/ProductGrid.js';
+import CartItem from "../components/CartItem.js"
+import Button from "../components/Button.js"
+import Paragraph from "../components/Paragraph.js"
+import PageHeader from '../components/PageHeader.js';
 import { Store } from "../store/store.js"
 
 export default function CartPage(){

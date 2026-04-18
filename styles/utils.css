@@ -1,0 +1,52 @@
+.fr{
+   display: flex;
+}
+.frsb{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.fc{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+.p4{
+   padding: 1rem;
+}
+.p2{
+   padding: 0.5rem;
+}
+.m4{
+   margin: 1rem;
+}
+.m2{
+   margin:0.5rem;
+}
+.px2{
+   padding: 0 0.5rem;
+}
+.pr2{
+   padding-right:0.5rem;
+}
+.pl2{
+   padding-left: 0.5rem;
+}
+.py2{
+   padding: 0 0.5rem;
+}
+button{
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+.frac{
+   display: flex;
+   align-items: center;
+}
+.fre{
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+}
