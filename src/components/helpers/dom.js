@@ -221,7 +221,7 @@ export const swapPage = (page, scope = "#root") => {
   frag.appendChild(page);
 
   target.replaceChildren(frag);
-
+console.log("navigate triggered");
   _DOM.root = target;
   _DOM.app = page;
 };
