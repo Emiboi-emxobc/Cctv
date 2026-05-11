@@ -1,4 +1,4 @@
-import { Store } from "../store/store.js"
+import {Store} from '../store/index.js';
 
 export function authGuard(component){
 

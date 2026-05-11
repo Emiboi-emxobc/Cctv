@@ -1,5 +1,5 @@
 import Div from "../Div.js"
-import Paragraph from "../Paragraph.js"
+import Paragraph from "../typography/Paragraph.js"
 
 export default function Footer(){
   return Div(

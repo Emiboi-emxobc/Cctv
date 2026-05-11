@@ -1,8 +1,8 @@
 import Div from './Div.js';
-import Title from './Title.js';
+import Title from './typography/Title.js';
 import CategoryNav from './layout/CategoryNav.js';
 import SearchBar from './layout/SearchBar.js';
-import BackButton from './BackButton.js';
+import BackButton from './buttons/BackButton.js';
 
 
 export default function PageHeader({

@@ -1,0 +1,72 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  
+  padding: var(--btn-padding-md);
+  border-radius: var(--radius-md);
+  
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+
+
+
+/*TYPOGRAPHY COMPONENTS*/
+/*price*/
+.price {
+  font-size: var(--font-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: var(--primary);
+}
+
+.btn-outline {
+  border: 1px solid var(--border);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header,
+.card-body,
+.card-footer {
+  padding: var(--space-md);
+}
+.search-input{
+  
+}
+.card-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.card-footer {
+  border-top: 1px solid var(--border);
+}

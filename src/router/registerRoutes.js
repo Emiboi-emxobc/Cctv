@@ -1,39 +1,47 @@
-import { Router } from "./md-router.js";
-import HomePage from "../pages/HomePage.js";
-import CartPage from "../pages/CartPage.js";
-import ProductPage from "../pages/ProductPage.js";
-import ShopPage from "../pages/ShopPage.js";
 import Layout from "../components/layout/Layout.js";
-import {authGuard} from '../guards/authGuard.js';
 
-export function registerRoutes(){
-   Router.setConfig({
-  appName: "Marsdove"
-});
+import ShopPage from "../pages/ShopPage.js";
+import CartPage from "../pages/CartPage.js";
 
-Router.register("/index.html", (HomePage), {
-  layout: Layout,
-  title: "Home page"
-});
+import { authGuard } from "../guards/authGuard.js";
 
-Router.register("/", (HomePage), {
-  layout: Layout,
-  title: "Marsdove"
-});
-
-Router.register("/shop", (ShopPage), {
-  layout: Layout,
-  title: "Shop"
-});
-
-Router.register("/product/:id", ProductPage, {
-  layout: Layout,
-  title: ({ params }) => `Products`
-});
-
-Router.register("/cart",(CartPage), {
-  layout: Layout,
-  title: "Your Cart"
-});
-
+export function registerRoutes() {
+  Router.setConfig({
+    appName: "Marsdove"
+  });
+  
+  Router.register(
+    "/",
+    () => Layout(CartPage()),
+    {
+      title: "Home page"
+    }
+  );
+  
+Router.register(
+    "/cart",
+    () => Layout(CartPage()),
+    {
+      title: "Your cart"
+    }
+  );
+  
+  
+  Router.register(
+    "/shop",
+    (props) => Layout(
+      ShopPage(props)
+    ),
+    {
+      title: "Shop"
+    }
+  );
+  
+  Router.register(
+    "/index.html",
+    () => Layout(CartPage()),
+    {
+      title: "Your cart"
+    }
+  );
 }

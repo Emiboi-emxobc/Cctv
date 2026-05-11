@@ -1,23 +1,101 @@
 :root {
+  /* =========================
+     BRAND COLORS
+  ========================= */
   --primary: #FB431F;
---secondary: #FBE9E8;
---text-dark: #1F1F1F;
-  --primary-dark: #B01A17;  
+  --primary-dark: #B01A17;
+  --secondary: #FBE9E8;
+  --accent: #d4a373;
+  
+  /* =========================
+     SURFACES
+  ========================= */
+  --bg: #f7f7f7;
   --surface: #ffffff;
-  --background: #f7f7f7;
-  --text-primary:#d4a373;
+  --surface-alt: #f9fafb;
   --border: #e5e7eb;
+  --secondary-border: 1px solid var(--primary);
+  
+  /* =========================
+     TEXT
+  ========================= */
   --text: #1f2937;
   --text-light: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+  
+  /* =========================
+     STATE COLORS
+  ========================= */
+  --success: #16a34a;
+  --warning: #f59e0b;
   --danger: #dc2626;
+  --info: #2563eb;
+  --badge: #111827;
+  
+  /* =========================
+     SHADOWS
+  ========================= */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.12);
+  
+  /* =========================
+     RADIUS
+  ========================= */
+  --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
+  --radius-pill: 999px;
+  
+  /* =========================
+     SPACING
+  ========================= */
   --space-xs: 0.4rem;
   --space-sm: 0.75rem;
   --space-md: 1rem;
-  --space-xl:1.5rem;
-  --font-lg: 1.5rem;
-  --font-xl:1.8rem;
   --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  
+  /* =========================
+     TYPOGRAPHY
+  ========================= */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.8rem;
+  --font-2xl: 2.2rem;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  --line-height-sm: 1.3;
+  --line-height-md: 1.5;
+  --line-height-lg: 1.7;
+  
+  /* =========================
+     BUTTONS
+  ========================= */
+  --btn-padding-sm: 6px 10px;
+  --btn-padding-md: 10px 16px;
+  --btn-padding-lg: 14px 20px;
+  
+  --btn-radius-pill: 999px;
+  
+  /* =========================
+     TRANSITIONS
+  ========================= */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.35s ease;
+  
+  /* =========================
+     LAYOUT
+  ========================= */
+  --container-width: 1200px;
+  --header-height: 70px;
 }

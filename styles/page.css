@@ -1,0 +1,20 @@
+/* =========================
+   PAGE TITLE
+========================= */
+
+.page-title {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+  line-height: var(--line-height-sm);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.page-title-center {
+  text-align: center;
+}
+
+.page-title-muted {
+  color: var(--text-light);
+}

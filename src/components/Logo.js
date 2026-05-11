@@ -1,9 +1,9 @@
 import Img from './Img.js';
 import Div from './Div.js';
-import PageName from './PageName.js';
+
 export default function Logo({
-   size="3rem",src="/images/logo.png"
-}){
+   size="2.3rem",src="/images/icons/logo.png"
+}={}){
    return Div({
       className:" logo-con brand"
    },
@@ -12,6 +12,7 @@ export default function Logo({
       onClick:()=>{
          window.router.navigate("/")
       }
-   })
+   }),
+   "Marsdove"
    )
 }

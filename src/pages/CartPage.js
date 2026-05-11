@@ -1,48 +1,22 @@
-import Div from "../components/Div.js"
-import Text from "../components/Text.js"
-import Title from "../components/Title.js";
-import ProductGrid from '../components/ProductGrid.js';
-import CartItem from "../components/CartItem.js"
-import Button from "../components/Button.js"
-import Paragraph from "../components/Paragraph.js"
-import PageHeader from '../components/PageHeader.js';
-import { Store } from "../store/store.js"
+import Div from "../components/Div.js";
+import Page from "../components/page/Page.js";
+import { cart } from "../store/modules/cart.js";
+import CartList from "../components/cart/CartList.js";
+import CartSummary from "../components/cart/CartSummary.js";
 
-export default function CartPage(){
+export default function CartPage() {
+  return Page(
+    {
+      title: "Your Cart",
+      subtitle: "Review items before checkout",
+      className: "cart-page",
+      showHeader: !cart.isEmpty()
+    },
 
-  const items = Store.get("cart.items") || []
-
-  const total = items.reduce((sum,item)=>sum+item.price,0)
-
-  return Div(
-    { className:"page cart-page" },
-     
-        
-      Div({
-        className:"product-hero cart-hero"
-      },
-        Title({
-          level:1, 
-          className:"hero-title cart-hero-title",
-          text:"Your cart"
-        })
-      ),
- 
-    ProductGrid(items),
     Div(
-      { className:"cart-summary" },
-
-      Text({className:"price"}, `Total: ₦${total}`),
-
-      Button(
-        {
-          onClick: () => alert("Checkout coming soon")
-        },
-        "Proceed to Checkout"
-      )
-
+      { className: "cart-content" },
+      CartList(),
+      CartSummary()
     )
-
-  )
-
+  );
 }

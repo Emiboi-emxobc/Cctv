@@ -56,7 +56,7 @@ export const products = [
     weightCapacity: "450 kg",
 
     images: [
-      "/images/sofas/f832e8796b847999ac705c07fda5d2cd.jpg",
+      "/images/2183c8282dfe954bdc6ed7574c716f20.jpg",
       "/images/sofas/73c29fb3ce8343f5b3f77dd727ede4f0.jpg",
       "/images/sofas/27bf5baa0a4c72a41fa7f26508b8eb7b.jpg"
     ],
@@ -130,7 +130,7 @@ export const products = [
     weightCapacity: "350 kg",
 
     images: [
-      "/images/sofas/ee1276105c54a29fdd60588ad1857b83.jpg"
+      "/images/fd005fcc9f8ae1237b24fa6357f9f5f1.jpg","/images/e29e234925c038cd10a66c2dedccf703.jpg"
     ],
 
     shipping: {
@@ -202,7 +202,7 @@ export const products = [
     weightCapacity: "100 kg",
 
     images: [
-      "/images/hero-bg3.jpg",
+      "/images/cae2689e0c74b2e4e0a180b6ad5d702b.jpg",
       "/images/desks/dinning2.png",
       "/images/desks/3.png"
     ],
@@ -276,7 +276,7 @@ export const products = [
     weightCapacity: "120 kg",
 
     images: [
-      "/images/sofas/cb72d3640098ca3cbde09ae9bc00107f.jpg"
+      "/images/c0e345cfd070c6bb0fdef7b5cdb3598d.jpg"
     ],
 
     shipping: {
@@ -348,7 +348,7 @@ export const products = [
     weightCapacity: "280 kg",
 
     images: [
-      "/images/sofas/7fbe1098a73c67db126e7a23c881fd4e.jpg"
+      "/images/a43e2c23a36a24779c4994b400d19537.jpg"
     ],
 
     shipping: {

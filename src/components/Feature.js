@@ -1,5 +1,5 @@
 import Section from './Section.js'
-import Title from './Title.js';
+import Title from './typography/Title.js';
 import Div from './Div.js'
 
 export default function Feature({

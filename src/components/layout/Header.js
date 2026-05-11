@@ -1,31 +1,31 @@
-import Div from "../Div.js"
-import {_$} from '../helpers/dom.js';
-import Logo from '../Logo.js';
-import Text from "../Text.js"
-import CategoryNav from "./CategoryNav.js"
+import Div from "../Div.js";
+
+import SearchBar from "./SearchBar.js";
+import CartIcon from '../cart/CartIcon.js';
+import Logo from "../Logo.js";
 import Icon from '../icons/Icon.js';
-import Navigation from "./Navigation.js"
-import CartIcon from "../cart/CartIcon.js"
+export default function Header() {
+  return Div(
+    { className: "site-header" },
 
-export default function Header(){
+    Div(
+      { className: "header-top" },
 
-  return _$("header"
-   , { className:"site-header" },
-      
-       Div({ className:"fr g4"},
-         Icon({name:"bars mr2",size:"lg"}),
-          Logo({})
-       ),
-       
-       Div({
-         
-       },
-      /*   Navigation()*/
-       ),
-       
-       Div({},
-         CartIcon()
-       )
-      
+      Div(
+        { className: "header-left" },
+        Icon({ name: "bars" }),
+        Logo()
+      ),
+
+      Div(
+        { className: "header-right" },
+        CartIcon()
+      )
+    ),
+
+    Div(
+      { className: "header-bottom" },
+      SearchBar()
     )
+  );
 }

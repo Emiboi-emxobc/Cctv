@@ -1,0 +1,4 @@
+.site-footer{
+  background: var(--secondary);
+  padding: var(--space-md);
+}

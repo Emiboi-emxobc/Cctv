@@ -1,26 +1,43 @@
-import Input from "../Input.js";
+import Div from "../Div.js";
+import Input from "../form/Input.js";
+
+import SearchSuggestion from "./SearchSuggestion.js";
+import { Store } from "../../store/index.js";
+
+import { getProducts } from "../../data/products/index.js";
+import { setQueryParams } from "../../helpers/query.js";
 
 export default function SearchBar() {
-  function handleSearch(e) {
-    
-    if (e.key !== "Enter") return;
-
+  function handleInput(e) {
     const query = e.target.value.trim();
 
+    Store.set("ui.searchQuery", query);
+
+    setQueryParams({ search: query });
+
     if (!query) {
-      window.router.navigate("/shop");
+      Store.set("ui.searchResults", []);
       return;
     }
 
-    window.router.navigate(
-      `/shop?search=${encodeURIComponent(query)}`
+    const results = getProducts().filter(product =>
+      product.name.toLowerCase().includes(
+        query.toLowerCase()
+      )
     );
+
+    Store.set("ui.searchResults", results.slice(0, 5));
   }
 
-  return Input({
-    type: "search",
-    placeholder: "Search furniture...",
-    className: "search-bar",
-    onKeyDown: handleSearch
-  });
+  return Div(
+    { className: "search-bar" },
+
+    Input({
+      placeholder: "Search products...",
+      onInput: handleInput,
+      className:"search-input"
+    }),
+
+    SearchSuggestion()
+  );
 }
