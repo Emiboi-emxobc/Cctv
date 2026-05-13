@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar.js";
 import CartIcon from '../cart/CartIcon.js';
 import Logo from "../Logo.js";
 import Icon from '../icons/Icon.js';
+import IconButton from '../icons/IconButton.js';
 export default function Header() {
   return Div(
     { className: "site-header" },
@@ -19,6 +20,8 @@ export default function Header() {
 
       Div(
         { className: "header-right" },
+        IconButton({route:"register",icon:"user"})
+        ,
         CartIcon()
       )
     ),

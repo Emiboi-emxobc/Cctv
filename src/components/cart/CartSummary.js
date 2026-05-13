@@ -1,63 +1,67 @@
-import Div from "../Div.js";
-import Text from "../typography/Text.js";
 import Title from "../typography/Title.js";
 import Card from "../card/Card.js";
 import Button from "../buttons/Button.js";
-import { reactive } from "../.././helpers/reactive.js";
-import { cart } from "../.././store/modules/cart.js";
-import { formatPrice } from "../.././helpers/formatPrice.js";
-import Price from '../typography/Price.js';
-export default function CartSummary(product) {
+import Price from "../typography/Price.js";
+import Detail from "../common/Detail.js";
+
+import { reactive } from "../../helpers/reactive.js";
+import { cart } from "../../store/modules/cart.js";
+
+export default function CartSummary() {
   return reactive("cart.items", () => {
     if (cart.isEmpty()) return null;
 
     const { total } = cart.getSummary();
+    const shipping = 20000;
 
     return Card(
       { className: "cart-summary" },
 
-      Card.Header({},
+      Card.Header(
+        {},
         Title({
-        level: 3,
-        text: "Order Summary"
-      }),
-
-      ),
-      Card.Body({},   Div(
-        { className: "summary-row" },
-        Text({}, "Subtotal"),
-        Text({}, formatPrice(total))
+          level: 3,
+          text: "Order Summary"
+        })
       ),
 
-      Div(
-        { className: "summary-row" },
-        Text({}, "Shipping"),
-        Text({}, Price({amount:20000}))
+      Card.Body(
+        {},
+
+        Detail({
+          label: "Subtotal",
+          value: Price({ amount: total })
+        }),
+
+        Detail({
+          label: "Shipping",
+          value: Price({ amount: shipping })
+        }),
+
+        Detail({
+          label: "Total",
+          value: Price({ amount: total + shipping }),
+          highlight: true
+        })
       ),
 
-      Div({ className: "divider" }),
+      Card.Footer(
+        {},
 
-      Div(
-        { className: "summary-total" },
-        Text({}, "Total"),
-        Text({}, formatPrice(total))
-      ),),
+        Button(
+          {
+            className: "btn-primary checkout-btn"
+          },
+          "Proceed to Checkout"
+        ),
 
-      Card.Footer({},Button(
-        {
-          className: "btn-primary checkout-btn",
-          onClick: () => window.router.navigate("/checkout")
-        },
-        "Proceed to Checkout"
-      ),
-
-      Button(
-        {
-          className: "btn-secondary",
-          onClick: () => window.router.navigate("/shop")
-        },
-        "Continue Shopping"
-      ))
+        Button(
+          {
+            className: "btn-secondary continue-btn"
+          },
+          "Continue Shopping"
+        )
+      )
     );
   });
 }

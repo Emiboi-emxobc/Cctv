@@ -1,11 +1,15 @@
 import Div from "../Div.js";
 import Button from "../buttons/Button.js";
+import SecondaryButton from "../buttons/SecondaryButton.js";
+
+import PrimaryButton from "../buttons/PrimaryButton.js";
 import { cart } from "../../store/modules/cart.js";
 import CartQtyText from "./CartQtyText.js";
 
 export default function CartQty({
   productId,
-  variant
+  variant,
+  className
 }) {
   function increase(e) {
     e?.stopPropagation();
@@ -18,11 +22,11 @@ export default function CartQty({
   }
 
   return Div(
-    { className: "qty-controls" },
+    { className: "qty-controls  "+className },
 
-    Button(
+    SecondaryButton(
       {
-        className: "qty-btn",
+        className: "qty-btn ",
         onClick: decrease
       },
       "−"
@@ -33,9 +37,9 @@ export default function CartQty({
       variant
     }),
 
-    Button(
+    PrimaryButton(
       {
-        className: "qty-btn",
+        className: "qty-btn ",
         onClick: increase
       },
       "+"

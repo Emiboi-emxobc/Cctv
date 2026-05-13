@@ -7,7 +7,7 @@ export default function Footer(){
     
     Div({ className: "footer-brand" },
       Paragraph({className :"brand"
-      }, "Mecus Ventures Furniture"),
+      }, "Marsdove"),
       Paragraph({}, "Quality handcrafted furniture for homes and offices.")
     ),
     

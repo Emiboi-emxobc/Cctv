@@ -1,0 +1,29 @@
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+
+  padding: 10px 0;
+}
+
+.detail-label {
+  color: var(--text-light);
+}
+
+.detail-value {
+  font-weight: var(--font-weight-medium);
+  color: var(--text);
+}
+
+.detail-highlight {
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.detail-highlight .detail-label,
+.detail-highlight .detail-value {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-lg);
+}

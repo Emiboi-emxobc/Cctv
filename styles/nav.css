@@ -1,0 +1,20 @@
+.shop-categories {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.shop-category-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+.shop-category-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}

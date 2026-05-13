@@ -6,8 +6,7 @@ import { Store } from "../../store/store.js";
 import { reactive } from "../../helpers/reactive.js";
 
 export default function IncreaseButton({
-  productId,
-  variant
+  productId, variant,className
 }) {
   function increase(e) {
     e?.stopPropagation();
@@ -30,7 +29,7 @@ export default function IncreaseButton({
 
       SecondaryButton(
         {
-          className: "decrease-btn",
+          className: "decrease-btn qty-btn",
           onClick: decrease,
           ariaLabel: "Decrease quantity"
         },
@@ -44,7 +43,7 @@ export default function IncreaseButton({
 
       PrimaryButton(
         {
-          className: "increase-btn-add",
+          className: "increase-btn-add qty-btn",
           onClick: increase,
           ariaLabel: "Increase quantity"
         },

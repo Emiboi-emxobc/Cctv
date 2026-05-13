@@ -6,59 +6,50 @@ import Price from "../typography/Price.js";
 import CartQty from "./CartQty.js";
 import CartRemoveButton from "./CartRemoveButton.js";
 
+import { truncate } from "../../helpers/truncate.js";
+
 export default function CartItem(item) {
   return Div(
     { className: "cart-item" },
 
-    // IMAGE
-    Div(
-      { className: "cart-item-image-wrap" },
-      Img({
-        src: item.images[0],
-        alt: item.name,
-        className: "cart-item-img"
-      })
-    ),
+    Img({
+      src: item.images?.[0] || item.image || "",
+      alt: item.name,
+      className: "cart-item-img"
+    }),
 
-    // CONTENT
     Div(
-      { className: "cart-item-body" },
+      { className: "cart-item-content" },
 
-      // TOP ROW: name + remove
       Div(
-        { className: "cart-item-top" },
+        { className: "cart-item-info" },
 
-        Div(
-          { className: "cart-item-title-wrap" },
-
-          Text(
-            { className: "cart-item-name" },
-            item.name
-          ),
-
-          item.variant &&
-            Text(
-              { className: "cart-item-variant" },
-              item.variant
-            )
+        Text(
+          { className: "cart-item-name" },
+          truncate(item.name, 22)
         ),
 
-        CartRemoveButton({
-          productId: item.id,
-          variant: item.variant
-        })
-      ),
-
-      // BOTTOM ROW: price + qty
-      Div(
-        { className: "cart-item-bottom" },
+        item.variant &&
+          Text(
+            { className: "cart-item-variant" },
+            item.variant
+          ),
 
         Price({
           amount: item.price,
           className: "cart-item-price"
-        }),
+        })
+      ),
+
+      Div(
+        { className: "cart-item-actions" },
 
         CartQty({
+          productId: item.id,
+          variant: item.variant
+        }),
+
+        CartRemoveButton({
           productId: item.id,
           variant: item.variant
         })

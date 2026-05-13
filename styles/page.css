@@ -1,20 +1,22 @@
-/* =========================
-   PAGE TITLE
-========================= */
-
-.page-title {
-  font-size: var(--font-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text);
-  line-height: var(--line-height-sm);
-  letter-spacing: -0.03em;
-  margin: 0;
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
 }
 
-.page-title-center {
-  text-align: center;
+.page-header-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.page-title-muted {
+.page-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page-subtitle {
   color: var(--text-light);
 }

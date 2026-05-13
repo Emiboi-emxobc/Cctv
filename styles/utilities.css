@@ -15,3 +15,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.w-full {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}

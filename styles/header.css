@@ -1,24 +1,16 @@
+/* =========================
+   SITE HEADER
+========================= */
+
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  
+
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(14px);
-  
+
   border-bottom: 1px solid var(--border);
-}
-
-/* =========================
-   BRAND
-========================= */
-
-.brand {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: -0.5px;
-  line-height: 1;
 }
 
 /* =========================
@@ -29,15 +21,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  padding: 0.9rem 1rem;
+
   min-height: 60px;
+  padding: 0.9rem 1rem;
 }
-.logo-con{
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+
+.header-bottom {
+  padding: 0 1rem 0.85rem;
+  background: transparent;
 }
+
+/* =========================
+   HEADER GROUPS
+========================= */
 
 .header-left,
 .header-right {
@@ -46,37 +42,42 @@
   gap: var(--space-md);
 }
 
+.logo-con {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* =========================
-   SEARCH WRAPPER
+   BRAND
 ========================= */
 
-.header-bottom {
-  padding: 0 1rem 0.85rem;
-  background: transparent;
+.brand {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+/* optional logo icon/svg */
+.logo {
+  width: 22px;
+  height: 22px;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 /* =========================
    ICON BUTTONS
+   (extends .icon-btn from buttons.css)
 ========================= */
 
 .site-header .icon-btn {
   position: relative;
-  
-  width: 42px;
-  height: 42px;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  
-  color: var(--text);
-  
+
   box-shadow: var(--shadow-sm);
-  transition: var(--transition-fast);
 }
 
 .site-header .icon-btn:hover {
@@ -85,43 +86,59 @@
   background: rgba(0, 0, 0, 0.04);
 }
 
-/* optional icon/logo svg */
-.site-header .logo {
-  width: 22px;
-  height: 22px;
-  color: var(--text);
-  cursor: pointer;
-}
-
 /* =========================
-   CART
+   CART BUTTON
 ========================= */
 
 .cart-btn {
   position: relative;
 }
 
+/* badge */
 .cart-badge {
   position: absolute;
   top: -6px;
   right: -6px;
-  
+
   min-width: 18px;
   height: 18px;
   padding: 0 5px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   border-radius: 999px;
-  
+
   background: var(--primary);
   color: white;
-  
+
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1;
-  
+
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .header-top {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .header-bottom {
+    padding: 0 0.9rem 0.75rem;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .site-header .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
 }

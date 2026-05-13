@@ -1,77 +1,110 @@
 import Div from "../Div.js";
 import Img from "../Img.js";
 import Text from "../typography/Text.js";
-import {cart} from '../.././store/modules/cart.js';
+import Card from "../card/Card.js";
+import Button from "../buttons/Button.js";
+
 import ProductName from "./ProductName.js";
 import PriceRow from "./PriceRow.js";
-import CartButton from "../buttons/CartButton.js";
-import Card from "../card/Card.js";
+import CartQty from "../cart/CartQty.js";
+
+import { cart } from "../../store/modules/cart.js";
+import { reactive } from "../../helpers/reactive.js";
 
 export default function ProductCard(product) {
-  const {
-    id,
-    name,
-    images,
-    stock
-  } = product;
+  return reactive("cart.items", () => {
+    const {
+      id,
+      name,
+      images,
+      stock = 0
+    } = product;
 
-  const image =
-    images?.[0] || "/placeholder.jpg";
+    const image = images?.[0] || "/placeholder.jpg";
+    const inStock = stock > 0;
 
-  const inStock = stock > 0;
+    const existing = cart.getItem(id);
 
-  function openProduct() {
-    window.router.navigate(`/product/${id}`);
-  }
+    function openProduct() {
+      window.router.navigate(`/product/${id}`);
+    }
 
-  function addToCart(e) {
-    e?.stopPropagation();
+    function addToCart(e) {
+      e?.stopPropagation();
+      if (!inStock) return;
+      cart.add(product);
+    }
 
-    if (!inStock) return;
+    function buyNow(e) {
+      e?.stopPropagation();
 
-    cart.add(product);
-  }
+      if (!inStock) return;
 
-  return Card(
-    {
-      className: `product-card ${
-        !inStock ? "out" : ""
-      }`,
-      onClick: openProduct
-    },
+      cart.add(product);
+      window.router.navigate("/checkout");
+    }
 
-    Div(
-      { className: "product-image-wrap" },
+    return Card(
+      {
+        className: `product-card ${
+          !inStock ? "out" : ""
+        }`,
+        onClick: openProduct
+      },
 
-      Img({
-        src: image,
-        className: "product-img",
-        alt: name
-      })
-    ),
+      Div(
+        { className: "product-image-wrap" },
 
-    Div(
-      { className: "card-content" },
+        Img({
+          src: image,
+          alt: name,
+          className: "product-img"
+        })
+      ),
 
-      ProductName(product),
+      Card.Body(
+        { className: "product-card-body" },
 
-      PriceRow({ product }),
+        ProductName(product),
 
-      !inStock &&
-        Text(
-          { className: "out-stock" },
-          "Out of stock"
+        PriceRow({ product }),
+
+        !inStock &&
+          Text(
+            {
+              className: "product-stock-status"
+            },
+            "Out of stock"
+          )
+      ),
+
+      inStock &&
+        Div(
+          { className: "product-actions" },
+
+          existing
+            ? CartQty({
+                productId: id,
+                compact: true
+              })
+            : [
+                Button(
+                  {
+                    className: "btn-primary",
+                    onClick: addToCart
+                  },
+                  "Add to Cart"
+                ),
+
+                Button(
+                  {
+                    className: "btn-secondary",
+                    onClick: buyNow
+                  },
+                  "Buy Now"
+                )
+              ]
         )
-    ),
-
-    Div(
-      { className: "product-actions" },
-
-      CartButton({
-        product,
-        disabled: !inStock,
-        onClick: addToCart
-      })
-    )
-  );
+    );
+  });
 }

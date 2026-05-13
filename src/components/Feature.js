@@ -3,7 +3,7 @@ import Title from './typography/Title.js';
 import Div from './Div.js'
 
 export default function Feature({
-   name= "",id
+   name= "",id,className,
 },...contents){
    
    return Section({

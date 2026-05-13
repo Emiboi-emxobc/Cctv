@@ -1,0 +1,115 @@
+/* =========================
+   BASE BUTTON
+========================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+
+  padding: var(--btn-padding-md);
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+/* variants */
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: var(--primary);
+}
+
+.btn-outline {
+  border: 1px solid var(--border);
+}
+
+/* =========================
+   ICON BUTTON
+========================= */
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   REMOVE BUTTON
+========================= */
+
+.remove-icon {
+  border: none;
+  background: var(--danger);
+  color: white;
+  font-size: .7rem;
+  padding: var(--btn-padding-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+/* =========================
+   QTY CONTROLS
+========================= */
+
+.qty-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.qty-text {
+  min-width: 26px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* compact variant */
+
+.qty-controls.compact {
+  padding: 2px;
+}
+
+.qty-controls.compact .qty-btn {
+  width: 28px;
+  height: 28px;
+}
+
+.qty-controls.compact .qty-text {
+  min-width: 18px;
+  font-size: var(--font-sm);
+}

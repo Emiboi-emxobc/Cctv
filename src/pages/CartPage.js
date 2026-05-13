@@ -7,7 +7,7 @@ import CartSummary from "../components/cart/CartSummary.js";
 export default function CartPage() {
   return Page(
     {
-      title: "Your Cart",
+      title: !cart.isEmpty()?  "Your Cart" : null,
       subtitle: "Review items before checkout",
       className: "cart-page",
       showHeader: !cart.isEmpty()

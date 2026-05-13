@@ -1,5 +1,5 @@
 /* =========================
-   TITLE SYSTEM
+   TITLES
 ========================= */
 
 .title {
@@ -10,49 +10,18 @@
   letter-spacing: -0.02em;
 }
 
-/* size variants */
-.title-1 {
-  font-size: var(--font-2xl);
-}
+.title-1 { font-size: var(--font-2xl); }
+.title-2 { font-size: var(--font-xl); }
+.title-3 { font-size: var(--font-lg); }
+.title-4 { font-size: var(--font-md); }
 
-.title-2 {
-  font-size: var(--font-xl);
-}
-
-.title-3 {
-  font-size: var(--font-lg);
-}
-
-.title-4 {
-  font-size: var(--font-md);
-}
-
-/* semantic variants */
-.page-title {
-  font-size: var(--font-2xl);
-}
-
-.card-title {
-  font-size: var(--font-lg);
-}
-
-.product-title {
-  font-size: var(--font-md);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-md);
-  
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.feature-title {
-  font-size: var(--font-lg);
-}
+/* semantic */
+.page-title { font-size: var(--font-2xl); }
+.card-title { font-size: var(--font-lg); }
+.feature-title { font-size: var(--font-lg); }
 
 /* =========================
-   TEXT SYSTEM
+   TEXT
 ========================= */
 
 .text {
@@ -62,37 +31,14 @@
   line-height: var(--line-height-md);
 }
 
-.text-sm {
-  font-size: var(--font-sm);
-}
+.text-sm { font-size: var(--font-sm); }
+.text-xs { font-size: var(--font-xs); }
 
-.text-xs {
-  font-size: var(--font-xs);
-}
-
-.text-muted {
-  color: var(--text-muted);
-}
-
-.text-light {
-  color: var(--text-light);
-}
-
-.text-inverse {
-  color: var(--text-inverse);
-}
-
-.text-primary {
-  color: var(--primary);
-}
-
-.text-danger {
-  color: var(--danger);
-}
-
-.text-success {
-  color: var(--success);
-}
+.text-muted { color: var(--text-muted); }
+.text-light { color: var(--text-light); }
+.text-primary { color: var(--primary); }
+.text-danger { color: var(--danger); }
+.text-success { color: var(--success); }
 
 /* =========================
    PARAGRAPH
@@ -105,16 +51,11 @@
   line-height: var(--line-height-lg);
 }
 
-.paragraph-sm {
-  font-size: var(--font-sm);
-}
-
-.paragraph-muted {
-  color: var(--text-muted);
-}
+.paragraph-sm { font-size: var(--font-sm); }
+.paragraph-muted { color: var(--text-muted); }
 
 /* =========================
-   PRICE SYSTEM
+   PRICE
 ========================= */
 
 .price {
@@ -140,18 +81,25 @@
   font-weight: var(--font-weight-normal);
 }
 
-.price-sale {
-  color: var(--danger);
-}
+/* =========================
+   LABEL
+========================= */
 
-.price-muted {
+.label {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
   color: var(--text);
 }
 
-/*Badge*/
+.label-required::after {
+  content: " *";
+  color: var(--danger);
+}
 
 /* =========================
-   BADGES
+   BADGE
 ========================= */
 
 .badge {
@@ -165,25 +113,11 @@
 
   font-size: var(--font-xs);
   font-weight: var(--font-weight-bold);
-  line-height: 1;
-  white-space: nowrap;
 }
 
-/* sizes */
-.badge-sm {
-  padding: 2px 6px;
-  font-size: 0.7rem;
-}
-
-.badge-lg {
-  padding: 6px 10px;
-  font-size: var(--font-sm);
-}
-
-/* variants */
 .badge-primary {
   background: var(--primary);
-  color: var(--text-inverse);
+  color: white;
 }
 
 .badge-secondary {
@@ -191,63 +125,7 @@
   color: var(--primary);
 }
 
-.badge-success {
-  background: rgba(22, 163, 74, 0.12);
-  color: var(--success);
-}
-
-.badge-warning {
-  background: rgba(245, 158, 11, 0.12);
-  color: var(--warning);
-}
-
 .badge-danger {
-  background: rgba(220, 38, 38, 0.12);
+  background: rgba(220,38,38,.12);
   color: var(--danger);
 }
-
-.badge-dark {
-  background: var(--badge);
-  color: var(--text-inverse);
-}
-
-.badge-outline {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-}
-/* =========================
-   LABELS
-========================= */
-
-.label {
-  display: inline-block;
-  margin-bottom: 6px;
-
-  font-size: var(--font-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text);
-
-  line-height: var(--line-height-sm);
-}
-
-/* variants */
-.label-required::after {
-  content: " *";
-  color: var(--danger);
-}
-
-.label-muted {
-  color: var(--text-light);
-}
-
-.label-lg {
-  font-size: var(--font-md);
-}
-
-.label-uppercase {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: var(--font-xs);
-}
-

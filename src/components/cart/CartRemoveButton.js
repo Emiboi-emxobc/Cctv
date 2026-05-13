@@ -15,10 +15,9 @@ export default function CartRemoveButton({
   return Button(
     {
       className: "remove-icon",
-      onClick: remove
+      onClick: remove,
+      
     },
-   Icon({
-     name:"times"
-   })
+   "Remove "
   );
 }
