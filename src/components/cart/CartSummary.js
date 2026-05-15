@@ -57,7 +57,7 @@ export default function CartSummary() {
 
         Button(
           {
-            className: "btn-secondary continue-btn"
+            className: "btn-secondary continue-btn",onClick:()=>Router.navigate("/shop")
           },
           "Continue Shopping"
         )

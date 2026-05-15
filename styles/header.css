@@ -13,6 +13,12 @@
   border-bottom: 1px solid var(--border);
 }
 
+.header{
+  background: var(--surface-alt);
+  backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid var(--border);
+}
 /* =========================
    HEADER LAYOUT
 ========================= */

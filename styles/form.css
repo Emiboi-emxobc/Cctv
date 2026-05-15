@@ -14,3 +14,8 @@
 .select:focus {
   border-color: var(--primary);
 }
+.shop-sort{
+    background: var(--secondary);
+  padding: var(--space-md);
+  
+}

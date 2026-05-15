@@ -1,5 +1,6 @@
 import Layout from "../components/layout/Layout.js";
 
+import HomePage from "../pages/HomePage.js";
 import ShopPage from "../pages/ShopPage.js";
 import CartPage from "../pages/CartPage.js";
 
@@ -9,39 +10,51 @@ export function registerRoutes() {
   Router.setConfig({
     appName: "Marsdove"
   });
-  
+
+  /* =========================
+     HOME
+  ========================= */
   Router.register(
     "/",
-    () => Layout(CartPage()),
+    () => Layout(HomePage()),
     {
-      title: "Home page"
+      title: "Home"
     }
   );
-  
-Router.register(
-    "/cart",
-    () => Layout(CartPage()),
-    {
-      title: "Your cart"
-    }
-  );
-  
-  
+
+  /* =========================
+     SHOP
+  ========================= */
   Router.register(
     "/shop",
-    (props) => Layout(
-      ShopPage(props)
-    ),
+    (props) =>
+      Layout(
+        ShopPage(props)
+      ),
     {
       title: "Shop"
     }
   );
-  
+
+  /* =========================
+     CART
+  ========================= */
   Router.register(
-    "/index.html",
+    "/cart",
     () => Layout(CartPage()),
     {
-      title: "Your cart"
+      title: "Your Cart"
+    }
+  );
+
+  /* =========================
+     INDEX FALLBACK
+  ========================= */
+  Router.register(
+    "/index.html",
+    () => Layout(HomePage()),
+    {
+      title: "Home"
     }
   );
 }

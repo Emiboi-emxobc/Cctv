@@ -1,6 +1,7 @@
 import Div from "../Div.js";
 import Button from "../buttons/Button.js";
 import { updateShopQuery } from "../../helpers/UpdateShopQuery.js";
+import { isActive } from "../../helpers/isActive.js";
 
 const categories = [
   "all",
@@ -22,14 +23,17 @@ export default function CategoryFilter({
     ...categories.map(category =>
       Button(
         {
-          className: `shop-category-btn ${
-            active === category ? "active" : ""
-          }`,
+          className: `shop-category-btn ${isActive(
+            category,
+            active
+          )}`,
           onClick: () =>
             updateShopQuery({
               ...query,
               category:
-                category === "all" ? "" : category
+                category === "all"
+                  ? ""
+                  : category
             })
         },
         category

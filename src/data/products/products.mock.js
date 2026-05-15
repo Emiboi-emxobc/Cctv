@@ -5,13 +5,14 @@ export const products = [
     slug: "emerald-cloud-modular-sectional-sofa",
 
     name: "Emerald Cloud Modular Sectional Sofa",
+
     shortDescription:
       "Luxury cloud-style sectional sofa with deep seating and premium upholstery.",
 
     description:
       "Beautiful modern cloud-style sectional sofa with deep seating and soft premium fabric. Designed with a unique bubble-tufted finish for a luxurious look and maximum comfort. Perfect for large living rooms, lounges, apartments, and family spaces.",
 
-    category: "sofa",
+    category: "sofas",
     subCategory: "sectional",
 
     brand: "Mecus Living",
@@ -25,8 +26,9 @@ export const products = [
 
     stock: 5,
     sold: 2,
+    views: 140,
+    likes: 24,
 
-    likes: 0,
     comments: [],
     reviews: 56,
     rating: 4.8,
@@ -74,18 +76,19 @@ export const products = [
   },
 
   {
-    id: "bed001",
+    id: "sofa002",
     sku: "MCV-SOF-002",
     slug: "royal-sapphire-chesterfield-sofa-set",
 
     name: "Royal Sapphire Chesterfield Sofa Set",
+
     shortDescription:
       "Luxury velvet sofa set with deep tufting, gold accents, and elegant detailing.",
 
     description:
-      "The Royal Sapphire Chesterfield Sofa Set is a luxury living room furniture set designed to make a statement. It features rich royal blue velvet upholstery, deep button tufting, curved armrests, gold trim accents, and elegant gold legs. The set gives off that clean hotel-lobby-meets-rich-living-room vibe.",
+      "Luxury velvet sofa set with rich royal blue finish, gold trim accents, and curved armrests.",
 
-    category: "sofa",
+    category: "sofas",
     subCategory: "chesterfield",
 
     brand: "Mecus Living",
@@ -99,8 +102,9 @@ export const products = [
 
     stock: 10,
     sold: 5,
+    views: 210,
+    likes: 42,
 
-    likes: 0,
     comments: [],
     reviews: 74,
     rating: 4.7,
@@ -130,7 +134,8 @@ export const products = [
     weightCapacity: "350 kg",
 
     images: [
-      "/images/fd005fcc9f8ae1237b24fa6357f9f5f1.jpg","/images/e29e234925c038cd10a66c2dedccf703.jpg"
+      "/images/fd005fcc9f8ae1237b24fa6357f9f5f1.jpg",
+      "/images/e29e234925c038cd10a66c2dedccf703.jpg"
     ],
 
     shipping: {
@@ -151,13 +156,14 @@ export const products = [
     slug: "executive-office-desk",
 
     name: "Executive Office Desk",
+
     shortDescription:
       "Large executive workspace desk for offices and professional setups.",
 
     description:
       "Large executive workspace desk suitable for offices, remote work setups, and professional studios.",
 
-    category: "desk",
+    category: "desks",
     subCategory: "office-desk",
 
     brand: "Mecus Living",
@@ -166,13 +172,14 @@ export const products = [
     finish: "Matte wood grain",
 
     price: 1700000,
-    promo: 1900000,
+    promo: 1500000,
     currency: "NGN",
 
     stock: 10,
     sold: 3,
+    views: 90,
+    likes: 12,
 
-    likes: 0,
     comments: [],
     reviews: 18,
     rating: 4.4,
@@ -220,18 +227,19 @@ export const products = [
   },
 
   {
-    id: "chair008",
-    sku: "MCV-CHR-008",
+    id: "chair001",
+    sku: "MCV-CHR-001",
     slug: "cloud-nest-accent-chair",
 
     name: "Cloud Nest Accent Chair",
+
     shortDescription:
       "Soft sculptural boucle accent chair with rounded bubble design.",
 
     description:
-      "A soft sculptural lounge chair with a rounded bubble design that turns any room into a luxury corner.",
+      "Soft sculptural lounge chair with rounded bubble design perfect for modern interiors.",
 
-    category: "chair",
+    category: "chairs",
     subCategory: "accent-chair",
 
     brand: "Mecus Living",
@@ -245,8 +253,9 @@ export const products = [
 
     stock: 14,
     sold: 7,
+    views: 320,
+    likes: 61,
 
-    likes: 0,
     comments: [],
     reviews: 128,
     rating: 4.8,
@@ -255,8 +264,7 @@ export const products = [
       "modern-chair",
       "boucle-chair",
       "accent-chair",
-      "luxury-furniture",
-      "bubble-chair"
+      "luxury-furniture"
     ],
 
     features: [
@@ -292,24 +300,25 @@ export const products = [
   },
 
   {
-    id: "sofa012",
-    sku: "MCV-SOF-012",
-    slug: "sunset-curve-boucle-sofa",
+    id: "bed001",
+    sku: "MCV-BED-001",
+    slug: "sunset-curve-bed-frame",
 
-    name: "Sunset Curve Boucle Sofa",
+    name: "Sunset Curve Bed Frame",
+
     shortDescription:
-      "Curved boucle sofa with a sculptural silhouette and warm rust-orange finish.",
+      "Luxury curved bed frame with premium upholstery.",
 
     description:
-      "A bold curved sofa with rich boucle fabric and a sculptural silhouette designed to make your living room feel like a luxury showroom.",
+      "Modern sculptural luxury bed frame designed for elegant bedroom interiors.",
 
-    category: "sofa",
-    subCategory: "curved-sofa",
+    category: "beds",
+    subCategory: "luxury-bed",
 
     brand: "Mecus Living",
     color: "Rust Orange",
-    material: "Boucle fabric, foam, wood frame",
-    finish: "Textured boucle",
+    material: "Wood, premium upholstery",
+    finish: "Textured fabric",
 
     price: 950000,
     promo: 799999,
@@ -317,26 +326,24 @@ export const products = [
 
     stock: 8,
     sold: 4,
+    views: 170,
+    likes: 31,
 
-    likes: 0,
     comments: [],
     reviews: 94,
     rating: 4.9,
 
     tags: [
-      "curved-sofa",
-      "boucle-sofa",
-      "orange-sofa",
-      "luxury-sofa",
+      "bedroom",
+      "luxury-bed",
       "modern-furniture"
     ],
 
     features: [
       "Curved silhouette",
-      "Premium boucle fabric",
-      "Spacious seating area",
-      "Decorative accent pillows",
-      "Strong wooden frame"
+      "Premium upholstery",
+      "Strong wooden frame",
+      "Spacious design"
     ],
 
     dimensions: {

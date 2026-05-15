@@ -1,4 +1,4 @@
-import Button from "../buttons/Button.js";
+import GhostButton from "../buttons/GhostButton.js";
 import Icon from "./Icon.js";
 
 export default function IconButton({
@@ -6,7 +6,7 @@ export default function IconButton({
   route = "/",
   className = ""
 } = {}, ...children) {
-  return Button(
+  return GhostButton(
     {
       className:
         "primary-text icon-btn " +

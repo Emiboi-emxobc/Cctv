@@ -30,7 +30,34 @@
 .btn-outline {
   border: 1px solid var(--border);
 }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 
+  padding: 8px 12px;
+
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  color: var(--text);
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-ghost:hover {
+  background: var(--surface-alt);
+  border-color: var(--primary-light);
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
+}
 /* =========================
    ICON BUTTON
 ========================= */
@@ -44,10 +71,7 @@
   justify-content: center;
 
   border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--surface);
-
-  box-shadow: var(--shadow-sm);
+  
 }
 
 /* =========================
@@ -111,5 +135,9 @@
 
 .qty-controls.compact .qty-text {
   min-width: 18px;
+  font-size: var(--font-sm);
+}
+.btn-sm{
+  padding: var(--btn-padding-sm);
   font-size: var(--font-sm);
 }

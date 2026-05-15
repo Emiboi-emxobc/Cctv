@@ -10,11 +10,11 @@ export default function FeatureHeader({
 } = {}) {
   return Div(
     {
-      className: `feature-header ${className}`.trim()
+      className: `header feature-header ${className}`.trim()
     },
 
     Div(
-      { className: "feature-header-text" },
+      { className: " feature-header-text" },
 
       title &&
         Title(

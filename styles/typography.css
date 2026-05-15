@@ -16,7 +16,10 @@
 .title-4 { font-size: var(--font-md); }
 
 /* semantic */
-.page-title { font-size: var(--font-2xl); }
+.page-title { 
+  font-size: var(--font-xl);
+  font-weight: 900;
+}
 .card-title { font-size: var(--font-lg); }
 .feature-title { font-size: var(--font-lg); }
 
@@ -57,13 +60,19 @@
 /* =========================
    PRICE
 ========================= */
-
 .price {
   margin: 0;
   font-size: var(--font-md);
   font-weight: var(--font-weight-bold);
   color: var(--primary);
   line-height: 1.2;
+
+  /* money UX upgrades */
+  font-family: Inter, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: baseline;
 }
 
 .price-sm {

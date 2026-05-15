@@ -19,7 +19,7 @@ export default function CartEmpty() {
     Button(
       {
         className: "btn-primary",
-        onClick: () => window.router.navigate("/shop")
+        onClick: () => Router.navigate("/shop")
       },
       "Start Shopping"
     )

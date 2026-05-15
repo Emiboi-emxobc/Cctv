@@ -2,7 +2,7 @@
 @import "./reset.css";
 @import "./layout.css";
 @import "./utilities.css";
-
+@import "./pages/home.css";
 @import "./typography.css";
 @import "./forms.css";
 
@@ -15,7 +15,8 @@
 @import "./footer.css";
 @import "./nav.css";
 @import "./search.css";
-
+@import "./common.css";
 @import "./product.css";
 @import "./cart.css";
 @import "./page.css";
+@import "./media.css"

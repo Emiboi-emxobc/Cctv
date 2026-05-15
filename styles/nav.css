@@ -4,17 +4,41 @@
   overflow-x: auto;
   padding-bottom: 4px;
 }
+.shop-controls{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+@media(min-width:768px){
+  .shop-controls{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
 
 .shop-category-btn {
-  padding: 8px 14px;
+  padding: var(--btn-padding-sm);
   border-radius: var(--radius-pill);
+  font-size:0.8rem;
+  color: var(--text);
   border: 1px solid var(--border);
   background: var(--surface);
   white-space: nowrap;
 }
 
 .shop-category-btn.active {
-  background: var(--primary);
-  color: white;
+  background: transparent;
+  color: var(--text);
   border-color: var(--primary);
+  background: var(--secondary);
+  color: var(--primary);
+}
+.shop-sort{
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  
 }

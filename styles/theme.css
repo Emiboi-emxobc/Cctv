@@ -1,43 +1,69 @@
 :root {
-  --primary: #FB431F;
-  --primary-dark: #B01A17;
-  --secondary: #FBE9E8;
+  /* =========================
+     BRAND COLORS
+  ========================= */
+  --primary: #0f766e;
+  --primary-dark: #115e59;
+  --primary-light: #ccfbf1;
+
+  --secondary: #f3f4f6;
   --accent: #d4a373;
 
-  --bg: #f7f7f7;
+  /* =========================
+     SURFACES
+  ========================= */
+  --bg: #f8fafc;
   --surface: #ffffff;
   --surface-alt: #f9fafb;
   --border: #e5e7eb;
 
-  --text: #1f2937;
+  /* =========================
+     TEXT
+  ========================= */
+  --text: #111827;
   --text-light: #6b7280;
   --text-muted: #9ca3af;
   --text-inverse: #ffffff;
 
+  /* =========================
+     STATUS
+  ========================= */
   --success: #16a34a;
   --warning: #f59e0b;
   --danger: #dc2626;
   --info: #2563eb;
   --badge: #111827;
 
-  --shadow-sm: 0 2px 8px rgba(0,0,0,.05);
-  --shadow-md: 0 6px 18px rgba(0,0,0,.08);
-  --shadow-lg: 0 10px 28px rgba(0,0,0,.12);
+  /* =========================
+     SHADOWS
+  ========================= */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.12);
 
+  /* =========================
+     RADIUS
+  ========================= */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  --space-xs: .4rem;
-  --space-sm: .75rem;
+  /* =========================
+     SPACING
+  ========================= */
+  --space-xs: 0.4rem;
+  --space-sm: 0.75rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
 
-  --font-xs: .75rem;
-  --font-sm: .875rem;
+  /* =========================
+     TYPOGRAPHY
+  ========================= */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
   --font-md: 1rem;
   --font-lg: 1.25rem;
   --font-xl: 1.8rem;
@@ -51,13 +77,22 @@
   --line-height-md: 1.5;
   --line-height-lg: 1.7;
 
+  /* =========================
+     BUTTONS
+  ========================= */
   --btn-padding-xs: 2px 4px;
-  --btn-padding-sm: 6px 10px;
+  --btn-padding-sm: 4px 9px;
   --btn-padding-md: 10px 16px;
   --btn-padding-lg: 14px 20px;
 
-  --transition-fast: .15s ease;
-  --transition-normal: .25s ease;
+  /* =========================
+     MOTION
+  ========================= */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
 
+  /* =========================
+     LAYOUT
+  ========================= */
   --container-width: 1200px;
 }

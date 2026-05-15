@@ -1,50 +1,75 @@
+import Page from "../components/page/Page.js";
 import Div from "../components/Div.js";
-import Feature from '../components/Feature.js';
-import ProductGrid from '../components/ProductGrid.js';
-import Paragraph from "../components/Paragraph.js";
-import Button from "../components/Button.js";
-import Title from "../components/Title.js";
-import Img from "../components/Img.js";
-import Icon from "../components/icons/Icon.js"
-import ProductCard from "../components/ProductCard.js";
+import Feature from "../components/feature/Feature.js";
+import ProductGrid from "../components/product/ProductGrid.js";
+
+import HeroCard from "../components/card/HeroCard.js";
+import CategoryCard from "../components/card/CategoryCard.js";
+
 import { getProducts } from "../data/products/index.js";
+import { groupProducts } from "../helpers/groupProduct.js";
 
 export default function HomePage() {
-  const products = getProducts().slice(0, 4);
+  const products = getProducts();
 
-  return Div(
-    { className: "page home-page" },
+  const featured = products
+    .filter(product => product.featured)
+    .slice(0, 4);
 
-    // Hero Section
-    Div(
-      { className: " hero-section" },
-      /* Img({
-        src: "images/hero.png",
-        className: "hero-image"
-      }), */
+  const categories = Object.entries(
+    groupProducts(products, "category")
+  );
 
-      Title(
-        { className: "hero-title",text:"Shop Premium Furniture" }
-      ),
+  return Page(
+    {
+      className: "home-page"
+    },
 
-      Paragraph({text:"Discover quality handcrafted furniture built for comfort, durability, and modern living.",
-        className:"hero-tagline"
-      }),
+    /* =========================
+       HERO
+    ========================= */
+    HeroCard({
+      title: "Premium Furniture For Modern Living",
+      subtitle:
+        "Discover handcrafted furniture designed for comfort, beauty, and timeless spaces.",
+      buttonText: "Shop Now",
+      href: "/shop"
+    }),
 
-      Button(
-        { 
-          className: "btn-primary", 
-          onClick: () => Router.navigate("/shop") 
-        }, 
-        Icon({name:"shopping-cart"}),
-        "Start shopping"
+    /* =========================
+       CATEGORIES
+    ========================= */
+    Feature(
+      {
+        title: "Browse Categories"
+      },
+
+      Div(
+        {
+          className: "category-grid"
+        },
+
+        ...categories.map(([name, items]) =>
+          CategoryCard({
+            name,
+            image:
+              items?.[0]?.images?.[0] ||
+              "/placeholder.jpg",
+            href: "/shop"
+          })
+        )
       )
     ),
 
-    // Featured Products Section
-    Feature({
-      name:"Featured products",
-      id:"featured-products"
-    },ProductGrid(products))
+    /* =========================
+       FEATURED PRODUCTS
+    ========================= */
+    Feature(
+      {
+        title: "Featured Products"
+      },
+
+      ProductGrid(featured)
+    )
   );
 }

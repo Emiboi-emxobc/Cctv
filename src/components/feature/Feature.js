@@ -1,7 +1,8 @@
-import Section from "./Section.js";
-import Div from "./Div.js";
+import Section from "../Section.js";
+import Div from "../Div.js";
 
-import FeatureHeader from "./feature/FeatureHeader.js";
+import FeatureHeader from "./FeatureHeader.js";
+
 
 export default function Feature(
   {
