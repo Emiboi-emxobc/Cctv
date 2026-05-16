@@ -1,41 +1,76 @@
 import Div from "../Div.js";
 import Img from "../Img.js";
-import { reactive } from "../helpers/reactive.js";
-import { Store } from "../../store/store.js";
 
-export default function ProductGallery(product) {
+import { reactive } from "../../helpers/reactive.js";
+import { ui } from "../../store/modules/ui.js";
 
-  const mainImage = product.images?.[0];
+export default function ProductGallery(
+  product
+) {
+  if (!product) return null;
 
-  return reactive("ui.previewImage", () => {
+  const images =
+    product.images || [];
 
-    const preview =
-      Store.get("ui.previewImage") || mainImage;
+  const mainImage =
+    images[0];
 
-    return Div(
-      { className: "product-gallery" },
+  const key =
+    product.id;
 
+  return Div(
+    {
+      className:
+        "product-gallery"
+    },
+
+    Div(
+      {
+        className:
+          "product-preview"
+      },
+
+      reactive(
+        `ui.previewImage.${key}`,
+        () =>
+          Img({
+            src:
+              ui.getPreviewImage(
+                key
+              ) || mainImage,
+
+            className:
+              "product-main-image",
+
+            alt:
+              product.name
+          })
+      )
+    ),
+
+    images.length > 1 &&
       Div(
-        { className: "product-preview" },
+        {
+          className:
+            "product-thumbnails"
+        },
 
-        Img({
-          src: preview,
-          className: "product-main-image"
-        })
-      ),
-
-      Div(
-        { className: "product-thumbnails" },
-
-        ...product.images.map(src =>
+        ...images.map(src =>
           Img({
             src,
-            className: "product-thumb",
+            className:
+              "product-thumb",
+
+            alt:
+              product.name,
+
             onClick: () =>
-              Store.set("ui.previewImage", src)
+              ui.previewImage(
+                key,
+                src
+              )
           })
         )
       )
-    );
-  });
+  );
 }

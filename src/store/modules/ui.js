@@ -1,9 +1,9 @@
 import { get, set } from "../helpers.js";
 
 export const ui = {
-  // =====================
-  // MENU
-  // =====================
+  /* =====================
+     MENU
+  ===================== */
   openMenu() {
     set("ui.menuOpen", true);
   },
@@ -13,56 +13,105 @@ export const ui = {
   },
   
   toggleMenu() {
-    set("ui.menuOpen", !get("ui.menuOpen"));
+    set(
+      "ui.menuOpen",
+      !get("ui.menuOpen")
+    );
   },
   
-  // =====================
-  // LOADING
-  // =====================
-  setLoading(status = false) {
-    set("ui.loading", status);
+  /* =====================
+     LOADING
+  ===================== */
+  setLoading(
+    status = false
+  ) {
+    set(
+      "ui.loading",
+      status
+    );
   },
   
   isLoading() {
-    return get("ui.loading");
+    return get(
+      "ui.loading"
+    );
   },
   
-  // =====================
-  // SEARCH
-  // =====================
-  setSearchQuery(query = "") {
-    set("ui.searchQuery", query);
+  /* =====================
+     SEARCH
+  ===================== */
+  setSearchQuery(
+    query = ""
+  ) {
+    set(
+      "ui.searchQuery",
+      query
+    );
   },
   
   getSearchQuery() {
-    return get("ui.searchQuery") || "";
+    return (
+      get(
+        "ui.searchQuery"
+      ) || ""
+    );
   },
   
-  setSearchResults(results = []) {
-    set("ui.searchResults", results);
+  setSearchResults(
+    results = []
+  ) {
+    set(
+      "ui.searchResults",
+      results
+    );
   },
   
   getSearchResults() {
-    return get("ui.searchResults") || [];
+    return (
+      get(
+        "ui.searchResults"
+      ) || []
+    );
   },
   
   clearSearch() {
-    set("ui.searchQuery", "");
-    set("ui.searchResults", []);
+    set(
+      "ui.searchQuery",
+      ""
+    );
+    set(
+      "ui.searchResults",
+      []
+    );
   },
   
-  // =====================
-  // IMAGE PREVIEW
-  // =====================
-  previewImage(src = null) {
-    set("ui.previewImage", src);
+  /* =====================
+     IMAGE PREVIEW
+  ===================== */
+  previewImage(
+    key,
+    src = null
+  ) {
+    set(
+      `ui.previewImage.${key}`,
+      src
+    );
   },
   
-  clearPreviewImage() {
-    set("ui.previewImage", null);
+  clearPreviewImage(
+    key
+  ) {
+    set(
+      `ui.previewImage.${key}`,
+      null
+    );
   },
   
-  getPreviewImage() {
-    return get("ui.previewImage");
+  getPreviewImage(
+    key
+  ) {
+    return get(
+      `ui.previewImage.${key}`
+    );
   }
 };

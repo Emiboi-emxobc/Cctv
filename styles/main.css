@@ -1,12 +1,14 @@
 @import "./theme.css";
 @import "./reset.css";
+@import "./typography.css";
 @import "./layout.css";
 @import "./utilities.css";
+@import "./buttons.css";
 @import "./pages/home.css";
-@import "./typography.css";
+
 @import "./forms.css";
 
-@import "./buttons.css";
+
 @import "./card.css";
 @import "./details.css";
 @import "./feature.css";

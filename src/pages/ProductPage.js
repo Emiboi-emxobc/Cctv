@@ -1,135 +1,311 @@
+import Page from "../components/page/Page.js";
 import Div from "../components/Div.js";
-import Text from "../components/Text.js";
-import Ul from '../components/Ul.js';
-import Feature from "../components/Feature.js";
+import Ul from "../components/Ul.js";
+
+import Feature from "../components/feature/Feature.js";
+
 import ProductGallery from "../components/product/ProductGallery.js";
 import ProductInfo from "../components/product/ProductInfo.js";
-import ProductGrid from "../components/ProductGrid.js";
-import Paragraph from '../components/Paragraph.js';
-import { getProductById, getProducts } from "../data/products/index.js";
+import ProductGrid from "../components/product/ProductGrid.js";
 
-// Load CSS once
-if (!document.querySelector('link[href="/src/styles/product.css"]')) {
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "/src/styles/product.css";
-  document.head.appendChild(link);
-}
+import DetailCard from "../components/card/DetailCard.js";
 
-function DetailCard(label, value) {
-  if (!value) return null;
-  return Div(
-    { className: "product-details-card" },
-    Text({ className: "product-details-title" }, `${label}: `),
-    Text({ className: "product-details-text" }, value)
-  );
-}
+import Paragraph from "../components/typography/Paragraph.js";
+import Text from "../components/typography/Text.js";
 
-export default function ProductPage(params) {
+import {
+  getProductById,
+  getProducts
+} from "../data/products/index.js";
+
+export default function ProductPage({
+  params = {}
+}) {
   const products = getProducts();
-  const product = getProductById(params.params.id);
+
+  const product = getProductById(
+    params.id
+  );
 
   if (!product) {
-    return Div(
-      { className: "product-not-found" },
-      Text({}, "Product not found")
+    return Page(
+      {
+        className: "product-page"
+      },
+
+      Div(
+        {
+          className:
+            "empty-state"
+        },
+
+        Text(
+          {},
+          "Product not found"
+        )
+      )
     );
   }
 
-  // Related products: same category OR shared tags, sorted by tag overlap
-  const relatedProducts = products
-    .filter(item => item.id !== product.id && (
-      item.category === product.category || 
-      item.tags?.some(tag => product.tags?.includes(tag))
-    ))
-    .sort((a, b) => {
-      const aShared = a.tags?.filter(tag => product.tags?.includes(tag)).length || 0;
-      const bShared = b.tags?.filter(tag => product.tags?.includes(tag)).length || 0;
-      return bShared - aShared;
-    })
-    .slice(0, 4);
+  const similarProducts =
+    getSimilarProducts(
+      products,
+      product
+    );
 
-  // Similar products: same subcategory
-  const similarProducts = products
-    .filter(item => item.id !== product.id && item.subCategory === product.subCategory)
-    .slice(0, 4);
+  const relatedProducts =
+    getRelatedProducts(
+      products,
+      product
+    );
 
-  const dimensions = product.dimensions 
-    ? `${product.dimensions.width} W × ${product.dimensions.height} H × ${product.dimensions.depth} D`
-    : null;
+  return Page(
+    {
+      className:
+        "product-page"
+    },
 
-  return Div(
-    { className: "page product-page" },
-
-    // Main Product Section
+    /* ======================
+       MAIN PRODUCT
+    ====================== */
     Div(
-      { className: "product-main-section" },
+      {
+        className:
+          "product-main-section"
+      },
+
       ProductGallery(product),
       ProductInfo(product)
     ),
 
-    // Product Details Section
+    /* ======================
+       PRODUCT DETAILS
+    ====================== */
     Feature(
-      { name: "Product Details", id: "product-details-section" },
+      {
+        title:
+          "Product Details"
+      },
+
       Div(
-        { className: "product-details-grid" },
-        DetailCard("Brand", product.brand || "Mecus Living"),
-        DetailCard("Material", product.material),
-        DetailCard("Color", product.color),
-        DetailCard("Category", product.category),
-        DetailCard("Dimensions", dimensions),
-        DetailCard("Weight Capacity", product.weightCapacity)
+        {
+          className:
+            "product-details-grid"
+        },
+
+        DetailCard({
+          label: "Brand",
+          value:
+            product.brand ||
+            "Mecus Living"
+        }),
+
+        DetailCard({
+          label:
+            "Material",
+          value:
+            product.material
+        }),
+
+        DetailCard({
+          label: "Color",
+          value:
+            product.color
+        }),
+
+        DetailCard({
+          label:
+            "Category",
+          value:
+            product.category
+        }),
+
+        DetailCard({
+          label:
+            "Dimensions",
+          value:
+            formatDimensions(
+              product.dimensions
+            )
+        }),
+
+        DetailCard({
+          label:
+            "Weight Capacity",
+          value:
+            product.weightCapacity
+        })
       )
     ),
 
-    // Features Section - now works with fixed Ul
+    /* ======================
+       FEATURES
+    ====================== */
     product.features?.length > 0 &&
       Feature(
-        { name: "Features", id: "product-features-section" },
+        {
+          title: "Features"
+        },
+
         Ul(
-          { className: "product-features-list" },
-          ...product.features.map(feature => 
-            Div({ className: "product-feature-item" }, Paragraph({}, feature))
+          {
+            className:
+              "product-features-list"
+          },
+
+          ...product.features.map(
+            feature =>
+              Paragraph(
+                {
+                  className:
+                    "product-feature-item"
+                },
+                feature
+              )
           )
         )
       ),
 
-    // Shipping Section
+    /* ======================
+       SHIPPING
+    ====================== */
     product.shipping &&
       Feature(
-        { name: "Shipping Information", id: "shipping-section" },
+        {
+          title:
+            "Shipping Information"
+        },
+
         Div(
-          { className: "shipping-card" },
-          Div(
-            { className: "shipping-item" },
-            Paragraph({ className: "shipping-label" }, "Delivery Time"),
-            Text({ className: "shipping-value" }, product.shipping.time)
-          ),
-          Div(
-            { className: "shipping-item" },
-            Paragraph({ className: "shipping-label" }, "Delivery Fee"),
-            Text(
-              { className: "shipping-value" },
-              product.shipping.freeShipping
+          {
+            className:
+              "product-details-grid"
+          },
+
+          DetailCard({
+            label:
+              "Delivery Time",
+            value:
+              product.shipping.time
+          }),
+
+          DetailCard({
+            label:
+              "Delivery Fee",
+            value:
+              product.shipping
+                .freeShipping
                 ? "Free Shipping"
                 : `₦${product.shipping.fee.toLocaleString()}`
+          })
+        )
+      ),
+
+    /* ======================
+       SIMILAR PRODUCTS
+    ====================== */
+    similarProducts.length >
+      0 &&
+      Feature(
+        {
+          title:
+            "Similar Products"
+        },
+
+        ProductGrid(
+          similarProducts
+        )
+      ),
+
+    /* ======================
+       RELATED PRODUCTS
+    ====================== */
+    relatedProducts.length >
+      0 &&
+      Feature(
+        {
+          title:
+            "You May Also Like"
+        },
+
+        ProductGrid(
+          relatedProducts
+        )
+      )
+  );
+}
+
+/* ======================
+   HELPERS
+====================== */
+
+function formatDimensions(
+  dimensions
+) {
+  if (!dimensions)
+    return null;
+
+  return `${dimensions.width} W × ${dimensions.height} H × ${dimensions.depth} D`;
+}
+
+function getSimilarProducts(
+  products,
+  product
+) {
+  return products
+    .filter(
+      item =>
+        item.id !==
+          product.id &&
+        item.subCategory ===
+          product.subCategory
+    )
+    .slice(0, 4);
+}
+
+function getRelatedProducts(
+  products,
+  product
+) {
+  return products
+    .filter(
+      item =>
+        item.id !==
+          product.id &&
+        (
+          item.category ===
+            product.category ||
+          item.tags?.some(tag =>
+            product.tags?.includes(
+              tag
             )
           )
         )
-      ),
+    )
+    .sort((a, b) => {
+      return (
+        getTagOverlap(
+          b,
+          product
+        ) -
+        getTagOverlap(
+          a,
+          product
+        )
+      );
+    })
+    .slice(0, 4);
+}
 
-    // Similar Products
-    similarProducts.length > 0 &&
-      Feature(
-        { name: "Similar Products", id: "similar-products-section" },
-        ProductGrid(similarProducts)
-      ),
-
-    // Related Products
-    relatedProducts.length > 0 &&
-      Feature(
-        { name: "You may also like", id: "related-products-section" },
-        ProductGrid(relatedProducts)
+function getTagOverlap(
+  item,
+  product
+) {
+  return (
+    item.tags?.filter(tag =>
+      product.tags?.includes(
+        tag
       )
+    ).length || 0
   );
 }

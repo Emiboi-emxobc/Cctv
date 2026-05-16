@@ -5,11 +5,11 @@ import { isActive } from "../../helpers/isActive.js";
 
 const categories = [
   "all",
-  "sofa",
-  "chair",
-  "desk",
-  "bed",
-  "table"
+  "sofas",
+  "chairs",
+  "desks",
+  "beds",
+  "tables"
 ];
 
 export default function CategoryFilter({

@@ -23,3 +23,25 @@
 .card-footer {
   border-top: 1px solid var(--border);
 }
+
+
+/* =========================
+   DETAIL CARD
+========================= */
+
+.detail-card {
+  min-height: 100%;
+}
+
+.detail-card-title {
+  margin: 0;
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+}
+
+.detail-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

@@ -1,63 +1,150 @@
-import Div from "../Div.js"
-import Text from "../Text.js"
-import CartButton from '../CartButton.js'
-import { Store } from "../../store/store.js"
-import PriceRow from '../PriceRow.js';
+import Div from "../Div.js";
+import Text from "../typography/Text.js";
+import CartButton from "../buttons/CartButton.js";
+import PriceRow from "./PriceRow.js";
 
-export default function ProductInfo(product){
+import Detail from "../common/Detail.js";
 
-  const inStock = product.stock > 0;
-  const hasDiscount = product.promo && product.promo < product.price;
+import { cart } from "../../store/modules/cart.js";
 
-  function addToCart(){
+export default function ProductInfo(
+  product
+) {
+  const inStock =
+    product.stock > 0;
+
+  const price =
+    product.promo &&
+    product.promo < product.price
+      ? product.promo
+      : product.price;
+
+  function addToCart() {
     if (!inStock) return;
 
-    Store.update("cart.items", items => {
-      const existing = items.find(i => i.id === product.id);
-      if (existing) {
-        return items.map(i =>
-          i.id === product.id? {...i, qty: (i.qty || 1) + 1 } : i
-        );
-      }
-      return [
-     ...items,
-        {
-          id: product.id,
-          name: product.name,
-          price: hasDiscount? product.promo : product.price,
-          image: product.images?.[0],
-          qty: 1
-        }
-      ];
+    cart.add({
+      id: product.id,
+      name: product.name,
+      price,
+      image: product.images?.[0],
+      variant:
+        product.variant || null
     });
   }
 
   return Div(
-    { className:"product-info" },
+    {
+      className: "product-info"
+    },
 
-    Text({ className:"product-title" }, product.name),
-
-    // Use PriceRow now - replaces the whole Div block
-    PriceRow({ product, className: "product-price-block" }),
-
+    /* ======================
+       TITLE
+    ====================== */
     Text(
-      { className: `product-stock ${inStock? 'in-stock' : 'out-stock'}` },
-      inStock? `In Stock • ${product.stock} available` : "Out of Stock"
+      {
+        className:
+          "product-title"
+      },
+      product.name
     ),
 
+    /* ======================
+       PRICE
+    ====================== */
+    PriceRow({
+      product,
+      className:
+        "product-price-block"
+    }),
+
+    /* ======================
+       STOCK
+    ====================== */
+    Text(
+      {
+        className: `
+          product-stock
+          ${
+            inStock
+              ? "in-stock"
+              : "out-stock"
+          }
+        `.trim()
+      },
+      inStock
+        ? `In Stock • ${product.stock} available`
+        : "Out of Stock"
+    ),
+
+    /* ======================
+       META DETAILS
+    ====================== */
+    Div(
+      {
+        className:
+          "product-meta"
+      },
+
+      Detail({
+        label: "Brand",
+        value:
+          product.brand ||
+          "Mecus Living"
+      }),
+
+      Detail({
+        label: "Category",
+        value:
+          product.category
+      }),
+
+      Detail({
+        label: "Material",
+        value:
+          product.material
+      }),
+
+      product.color &&
+        Detail({
+          label: "Color",
+          value:
+            product.color
+        })
+    ),
+
+    /* ======================
+       SHIPPING
+    ====================== */
     product.shipping?.time &&
       Text(
-        { className:"product-shipping" },
+        {
+          className:
+            "product-shipping"
+        },
         `Delivery: ${product.shipping.time}`
       ),
 
-    product.shipping?.freeShipping &&
-      Text({ className:"product-free-shipping" }, "✓ Free shipping available"),
+    product.shipping
+      ?.freeShipping &&
+      Text(
+        {
+          className:
+            "product-free-shipping"
+        },
+        "✓ Free shipping available"
+      ),
 
+    /* ======================
+       ACTION
+    ====================== */
     CartButton({
-      productId: product.id, // was missing
+      productId:
+        product.id,
+      variant:
+        product.variant,
       onClick: addToCart,
-      disabled:!inStock
+      disabled:
+        !inStock
     })
-  )
+  );
 }

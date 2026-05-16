@@ -1,5 +1,22 @@
 import { state } from "./state.js";
 import { listeners } from "./listeners.js";
+import { storage } from "../helpers/storage.js";
+
+const STORAGE_KEY = "marsdove-store";
+
+/* ======================
+   INIT / HYDRATE
+====================== */
+
+Object.assign(
+  state,
+  storage.get(STORAGE_KEY, {})
+);
+
+
+/* ======================
+   HELPERS
+====================== */
 
 export function clone(value) {
   return structuredClone(value);
@@ -28,6 +45,7 @@ export function set(path, value) {
   
   target[keys.at(-1)] = value;
   
+  persist();
   notify(path, value);
 }
 
@@ -61,6 +79,22 @@ export function subscribe(path, callback) {
   return () => {
     const index = listeners.indexOf(listener);
     
-    if (index > -1) listeners.splice(index, 1);
+    if (index > -1) {
+      listeners.splice(index, 1);
+    }
   };
+}
+
+
+/* ======================
+   PERSIST
+====================== */
+
+function persist() {
+  storage.set(STORAGE_KEY, state);
+}
+
+export function clearStore() {
+  storage.remove(STORAGE_KEY);
+  location.reload();
 }

@@ -3,58 +3,71 @@ import Layout from "../components/layout/Layout.js";
 import HomePage from "../pages/HomePage.js";
 import ShopPage from "../pages/ShopPage.js";
 import CartPage from "../pages/CartPage.js";
-
-import { authGuard } from "../guards/authGuard.js";
+import ProductPage from "../pages/ProductPage.js";
 
 export function registerRoutes() {
   Router.setConfig({
     appName: "Marsdove"
   });
-
+  
   /* =========================
      HOME
   ========================= */
   Router.register(
     "/",
-    () => Layout(HomePage()),
+    HomePage,
     {
-      title: "Home"
+      title: "Home",
+      layout: Layout
     }
   );
-
+  
   /* =========================
      SHOP
   ========================= */
   Router.register(
     "/shop",
-    (props) =>
-      Layout(
-        ShopPage(props)
-      ),
+    ShopPage,
     {
-      title: "Shop"
+      title: "Shop",
+      layout: Layout
     }
   );
-
+  
+  /* =========================
+     PRODUCT DETAILS
+  ========================= */
+  Router.register(
+    "/product/:id",
+    ProductPage,
+    {
+      title: ({ params }) =>
+        `Product ${params.id}`,
+      layout: Layout
+    }
+  );
+  
   /* =========================
      CART
   ========================= */
   Router.register(
     "/cart",
-    () => Layout(CartPage()),
+    CartPage,
     {
-      title: "Your Cart"
+      title: "Your Cart",
+      layout: Layout
     }
   );
-
+  
   /* =========================
      INDEX FALLBACK
   ========================= */
   Router.register(
     "/index.html",
-    () => Layout(HomePage()),
+    HomePage,
     {
-      title: "Home"
+      title: "Home",
+      layout: Layout
     }
   );
 }

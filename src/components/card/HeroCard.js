@@ -18,12 +18,14 @@ export default function HeroCard({
       Title({
         level: 1,
         className: "hero-title",
+        id:"hero-h",
         text: title
       }),
 
       Paragraph({
         className: "hero-tagline",
-        text: subtitle
+        text: subtitle,
+        id:"hero-t"
       }),
 
       PrimaryButton(
